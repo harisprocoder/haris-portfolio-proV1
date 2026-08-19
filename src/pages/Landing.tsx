@@ -39,9 +39,9 @@ export default function Landing() {
         <CodeShowcase />
         <Projects />
         <Services />
-        <div className="py-24 md:py-32">
-          <div className="max-w-[1200px] mx-auto px-6 flex flex-col items-center gap-8">
-            <PricingCalculator />
+        <PricingCalculator />
+        <div className="py-16" style={{ background: "#0d1117" }}>
+          <div className="max-w-[800px] mx-auto px-6">
             <CostBreakdown />
           </div>
         </div>

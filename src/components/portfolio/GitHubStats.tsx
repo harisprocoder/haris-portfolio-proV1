@@ -2,7 +2,7 @@ export default function GitHubStats() {
   return (
     <section className="py-24 md:py-32" style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
+        <div>
           <span className="section-label">
             <i className="fab fa-github" aria-hidden="true" /> GITHUB STATS
           </span>

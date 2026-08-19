@@ -44,6 +44,9 @@ export default function InteractiveTimeline() {
             entry.target.querySelectorAll(".timeline-item").forEach((el, i) => {
               setTimeout(() => el.classList.add("visible"), i * 200);
             });
+            entry.target.querySelectorAll(".scroll-reveal-left").forEach((el) => {
+              el.classList.add("visible");
+            });
           }
         });
       },

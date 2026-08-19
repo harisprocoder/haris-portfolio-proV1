@@ -45,7 +45,7 @@ export default function PricingCalculator() {
   return (
     <section className="py-24 md:py-32">
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
+        <div>
           <span className="section-label">
             <i className="fas fa-calculator" aria-hidden="true" /> PRICING
           </span>

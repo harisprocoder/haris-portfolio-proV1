@@ -177,10 +177,7 @@ html {
   scroll-padding-top: 80px;
 }
 
-/* Content containment for offscreen sections */
-section {
-  contain: layout style;
-}
+
 
 /* GPU-accelerated animation utilities */
 .gpu-accel {

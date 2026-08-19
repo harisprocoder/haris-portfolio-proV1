@@ -3,28 +3,80 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="M. Haris - Professional Web Developer from Karachi, Pakistan. Specializing in responsive design, modern web interfaces, and UI/UX." />
-  <meta name="keywords" content="web developer, frontend developer, portfolio, freelance, karachi, pakistan, react, tailwind, javascript" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- SEO Meta Tags -->
+  <title>M. Haris | Professional Web Developer — Karachi, Pakistan</title>
+  <meta name="description" content="M. Haris - Professional Web Developer from Karachi, Pakistan. Crafting modern, responsive websites with 2+ years of experience. Specializing in HTML5, CSS3, JavaScript, and Tailwind CSS." />
+  <meta name="keywords" content="web developer, frontend developer, portfolio, freelance, karachi, pakistan, html, css, javascript, tailwind, react, UI/UX" />
   <meta name="author" content="M. Haris" />
-  <meta property="og:title" content="M. Haris | Web Developer Portfolio" />
-  <meta property="og:description" content="Crafting modern, clean, and user-focused web interfaces." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://mharis.dev/" />
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:title" content="M. Haris | Professional Web Developer Portfolio" />
+  <meta property="og:description" content="Crafting modern, clean, and user-focused web interfaces from Karachi, Pakistan." />
   <meta property="og:type" content="website" />
-  <title>M. Haris | Web Developer Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta property="og:url" content="https://mharis.dev/" />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:site_name" content="M. Haris Portfolio" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="M. Haris | Web Developer Portfolio" />
+  <meta name="twitter:description" content="Professional web developer from Karachi, Pakistan. Crafting modern digital experiences." />
+  <meta name="twitter:image" content="/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="apple-touch-icon" href="/logo.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+
+  <!-- Performance: Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+  <!-- Font Loading with display=swap for FOUT prevention -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <script type="module" crossorigin src="/assets/index-bjv4S_Cu.js"></script>
+
+  <!-- Structured Data (JSON-LD) for Person schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "M. Haris",
+    "jobTitle": "Web Developer",
+    "url": "https://mharis.dev",
+    "email": "harisshuja05@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Karachi",
+      "addressCountry": "Pakistan"
+    },
+    "knowsAbout": ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "UI/UX Design", "Web Development"],
+    "sameAs": ["https://github.com/harisprocoder"]
+  }
+  </script>
+  <script type="module" crossorigin src="/assets/index-kf1iUG6f.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/framer-motion-BS74gQnS.js">
   <link rel="modulepreload" crossorigin href="/assets/react-vendor-Besii7ZM.js">
   <link rel="modulepreload" crossorigin href="/assets/radix-ui-99clpfcy.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-DV7BEAtN.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-BRvpYWVx.css">
 </head>
 
 <body>
+  <!-- Skip to main content for accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold" style="background: #6366f1; color: white;">
+    Skip to main content
+  </a>
   <div id="root"></div>
 </body>
 
