@@ -1,18 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
-];
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [active, setActive] = useState("#home");
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -22,39 +13,37 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Track active section
-  useEffect(() => {
-    const sections = navItems.map((n) => n.href.replace("#", ""));
-    function observe() {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActive(`#${entry.target.id}`);
-            }
-          });
-        },
-        { rootMargin: "-40% 0px -55% 0px" },
-      );
-      sections.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
-      });
-      return observer;
-    }
-    const obs = observe();
-    return () => obs.disconnect();
-  }, []);
-
-  const handleNav = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleScrollTop = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      setMobileOpen(false);
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [],
   );
+
+  const email = "harisshuja05@gmail.com";
+
+  const copyEmail = useCallback(() => {
+    navigator.clipboard.writeText(email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [email]);
+
+  // Close modal on Escape
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setEmailOpen(false);
+    }
+    if (emailOpen) {
+      document.addEventListener("keydown", onKey);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [emailOpen]);
 
   return (
     <>
@@ -62,65 +51,114 @@ export default function Navbar() {
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
           <a
             href="#home"
-            onClick={(e) => handleNav(e, "#home")}
+            onClick={handleScrollTop}
             className="font-['Space_Grotesk'] text-2xl font-extrabold gradient-text"
           >
-            MH
+            M. Haris
           </a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleNav(e, item.href)}
-                className={`nav-link ${active === item.href ? "active" : ""}`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-
-          <a
-            href="#contact"
-            onClick={(e) => handleNav(e, "#contact")}
-            className="hidden md:inline-flex glow-btn text-sm py-2.5 px-6"
+          <button
+            onClick={() => setEmailOpen(true)}
+            className="glow-btn text-sm py-2.5 px-6"
           >
             Get In Touch
-          </a>
-
-          {/* Hamburger */}
-          <div
-            className={`hamburger md:hidden ${mobileOpen ? "open" : ""}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <span />
-            <span />
-            <span />
-          </div>
+          </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
-        {navItems.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            onClick={(e) => handleNav(e, item.href)}
-          >
-            {item.label}
-          </a>
-        ))}
-        <a
-          href="#contact"
-          onClick={(e) => handleNav(e, "#contact")}
-          className="glow-btn mt-4"
+      {/* Email Modal */}
+      {emailOpen && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+          style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)" }}
+          onClick={() => setEmailOpen(false)}
         >
-          Get In Touch
-        </a>
-      </div>
+          <div
+            className="glass-card p-8 max-w-md w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setEmailOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+              style={{ background: "rgba(255,255,255,0.06)", color: "#94a3b8" }}
+            >
+              <i className="fas fa-times text-sm" />
+            </button>
+
+            <div className="text-center mb-6">
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ background: "rgba(99,102,241,0.15)" }}
+              >
+                <i className="fas fa-envelope text-xl" style={{ color: "#6366f1" }} />
+              </div>
+              <h3
+                className="font-['Space_Grotesk'] text-xl font-bold mb-1"
+                style={{ color: "#f1f5f9" }}
+              >
+                Let's Work Together
+              </h3>
+              <p className="text-sm" style={{ color: "#94a3b8" }}>
+                Feel free to reach out anytime
+              </p>
+            </div>
+
+            {/* Email display */}
+            <div
+              className="flex items-center justify-between gap-3 p-4 rounded-xl mb-6"
+              style={{
+                background: "rgba(99,102,241,0.08)",
+                border: "1px solid rgba(99,102,241,0.2)",
+              }}
+            >
+              <span
+                className="text-sm font-medium break-all"
+                style={{ color: "#f1f5f9" }}
+              >
+                {email}
+              </span>
+              <button
+                onClick={copyEmail}
+                className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                style={{
+                  background: copied
+                    ? "rgba(34,197,94,0.15)"
+                    : "rgba(99,102,241,0.15)",
+                  color: copied ? "#22c55e" : "#6366f1",
+                  border: `1px solid ${copied ? "rgba(34,197,94,0.3)" : "rgba(99,102,241,0.3)"}`,
+                }}
+              >
+                {copied ? (
+                  <>
+                    <i className="fas fa-check mr-1" /> Copied
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-copy mr-1" /> Copy
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex gap-3">
+              <a
+                href={`mailto:${email}`}
+                className="glow-btn flex-1 text-center text-sm py-3 inline-flex items-center justify-center gap-2"
+              >
+                <i className="fas fa-paper-plane" /> Send Email
+              </a>
+              <a
+                href={`mailto:${email}?subject=Project Inquiry&body=Hi Haris, I'd like to discuss a project.`}
+                className="outline-btn flex-1 text-center text-sm py-3 inline-flex items-center justify-center gap-2"
+              >
+                <i className="fas fa-bolt" /> Quick Inquiry
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
