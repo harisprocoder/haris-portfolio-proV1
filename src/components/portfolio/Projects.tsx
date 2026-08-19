@@ -28,12 +28,25 @@ const projects = [
     features: ["Conversion Optimized", "Lead Capture", "Product Showcase"],
     gradient: "linear-gradient(135deg, #0c4a6e, #0d1117)",
   },
+  {
+    id: 4,
+    title: "A Plus Hairs - Bridal Salon Website",
+    category: "Business",
+    tagColor: "#f43f5e",
+    tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+    features: ["Service Showcase", "Elegant Design", "Mobile Friendly"],
+    description: "A elegant and modern bridal salon website featuring a luxurious design with service showcases, gallery sections, and appointment booking information. Built for a real client in Karachi, Pakistan.",
+    gradient: "linear-gradient(135deg, #4c1d3a, #0d1117)",
+    liveUrl: "https://aplushairs.netlify.app/",
+    codeUrl: "https://github.com/harisprocoder",
+    isRealClient: true,
+  },
 ];
 
 const filters = ["All", "Business", "Portfolio", "Landing Page"];
 
 const projectStats = [
-  { value: "8", label: "Business Sites" },
+  { value: "9", label: "Business Sites" },
   { value: "12", label: "Portfolios" },
   { value: "15", label: "Landing Pages" },
 ];
@@ -57,6 +70,10 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
   }, []);
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
+
+  const liveUrl = (project as { liveUrl?: string }).liveUrl;
+  const codeUrl = (project as { codeUrl?: string }).codeUrl;
+  const isRealClient = (project as { isRealClient?: boolean }).isRealClient;
 
   return (
     <div
@@ -82,8 +99,8 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
             backgroundSize: "30px 30px",
           }}
         />
-        {/* Category tag */}
-        <div className="absolute top-4 left-4">
+        {/* Category tag + Live badge */}
+        <div className="absolute top-4 left-4 flex items-center gap-2">
           <span
             className="project-tag"
             style={{
@@ -94,31 +111,56 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           >
             {project.category}
           </span>
+          {isRealClient && (
+            <span
+              className="project-tag"
+              style={{
+                background: "rgba(34,197,94,0.15)",
+                color: "#22c55e",
+                border: "1px solid rgba(34,197,94,0.4)",
+              }}
+            >
+              Live ✓
+            </span>
+          )}
         </div>
         {/* Hover overlay */}
         <div className="project-card-overlay">
-          <a
-            href="#"
-            className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-all"
-          >
-            <i className="fas fa-external-link-alt text-white" />
-          </a>
-          <a
-            href="#"
-            className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-all"
-          >
-            <i className="fab fa-github text-white" />
-          </a>
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-all"
+            >
+              <i className="fas fa-external-link-alt text-white" />
+            </a>
+          )}
+          {codeUrl && (
+            <a
+              href={codeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-all"
+            >
+              <i className="fab fa-github text-white" />
+            </a>
+          )}
         </div>
       </div>
 
       {/* Card body */}
       <div className="p-6">
         <h3
-          className="font-['Space_Grotesk'] font-bold text-lg mb-3"
+          className="font-['Space_Grotesk'] font-bold text-lg mb-2"
           style={{ color: "#f1f5f9" }}
         >
           {project.title}
+          {isRealClient && (
+            <span className="ml-2 text-xs font-normal" style={{ color: "#22c55e" }}>
+              ★ Real Client
+            </span>
+          )}
         </h3>
         <div className="flex flex-wrap gap-2 mb-3">
           {project.tags.map((tag) => (
@@ -126,18 +168,55 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
               key={tag}
               className="text-xs px-3 py-1 rounded-full"
               style={{
-                background: "rgba(99,102,241,0.1)",
-                color: "#6366f1",
-                border: "1px solid rgba(99,102,241,0.2)",
+                background: `${project.tagColor}12`,
+                color: project.tagColor,
+                border: `1px solid ${project.tagColor}25`,
               }}
             >
               {tag}
             </span>
           ))}
         </div>
-        <p className="text-sm" style={{ color: "#94a3b8" }}>
+        {'description' in project && (
+          <p className="text-sm mb-2" style={{ color: "#94a3b8" }}>
+            {(project as { description?: string }).description}
+          </p>
+        )}
+        <p className="text-sm mb-4" style={{ color: "#94a3b8" }}>
           {project.features.join(" • ")}
         </p>
+        {/* Action buttons */}
+        <div className="flex gap-3">
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                color: "white",
+              }}
+            >
+              <i className="fas fa-external-link-alt" /> View Live
+            </a>
+          )}
+          {codeUrl && (
+            <a
+              href={codeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                color: "#94a3b8",
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
+            >
+              <i className="fab fa-github" /> Code
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -201,7 +280,7 @@ export default function Projects() {
         </div>
 
         {/* Project grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           {filtered.map((p, i) => (
             <div
               key={p.id}
