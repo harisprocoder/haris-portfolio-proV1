@@ -129,7 +129,7 @@ export default function CodeShowcase() {
   };
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32" style={{ background: "#0d1117" }}>
+    <section ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
         {/* Heading */}
         <div>

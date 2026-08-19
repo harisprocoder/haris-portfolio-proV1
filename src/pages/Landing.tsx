@@ -11,17 +11,12 @@ import Testimonials from "@/components/portfolio/Testimonials";
 import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
 import BackToTop from "@/components/portfolio/BackToTop";
-// New premium features
-import GitHubStats from "@/components/portfolio/GitHubStats";
-import PricingCalculator from "@/components/portfolio/PricingCalculator";
 import InteractiveTimeline from "@/components/portfolio/InteractiveTimeline";
 import CodeShowcase from "@/components/portfolio/CodeShowcase";
-import ClientTicker from "@/components/portfolio/ClientTicker";
-import CostBreakdown from "@/components/portfolio/CostBreakdown";
+import GitHubStats from "@/components/portfolio/GitHubStats";
+import PricingCalculator from "@/components/portfolio/PricingCalculator";
 import Chatbot from "@/components/portfolio/Chatbot";
 import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
-import ProjectStatus from "@/components/portfolio/ProjectStatus";
-import EmojiReactions from "@/components/portfolio/EmojiReactions";
 
 export default function Landing() {
   return (
@@ -32,7 +27,6 @@ export default function Landing() {
       <Navbar />
       <main id="main-content">
         <Hero />
-        <ClientTicker />
         <About />
         <InteractiveTimeline />
         <Skills />
@@ -40,19 +34,8 @@ export default function Landing() {
         <Projects />
         <Services />
         <PricingCalculator />
-        <div className="py-16" style={{ background: "#0d1117" }}>
-          <div className="max-w-[800px] mx-auto px-6">
-            <CostBreakdown />
-          </div>
-        </div>
         <GitHubStats />
         <Testimonials />
-        <div className="py-12 flex justify-center" style={{ background: "#0d1117" }}>
-          <EmojiReactions />
-        </div>
-        <div className="py-8 flex justify-center" style={{ background: "#0d1117" }}>
-          <ProjectStatus />
-        </div>
         <Contact />
       </main>
       <Footer />

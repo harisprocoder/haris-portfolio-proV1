@@ -6,9 +6,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="portfolio-footer py-16" role="contentinfo" aria-label="Site footer">
+    <footer className="portfolio-footer py-10" role="contentinfo" aria-label="Site footer">
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+        <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Logo + tagline */}
           <div>
             <p className="font-['Space_Grotesk'] text-3xl font-extrabold gradient-text mb-3">

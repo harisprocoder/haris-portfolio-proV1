@@ -53,14 +53,14 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-24 md:py-32">
+    <section id="about" ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
             <i className="fas fa-user" aria-hidden="true" /> ABOUT ME
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-6 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-6"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             Passionate web developer with a vision for{" "}
@@ -70,7 +70,7 @@ export default function About() {
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 mt-12">
+        <div className="grid lg:grid-cols-2 gap-10 mt-8">
           {/* Left: Text + Features */}
           <div>
             <div className="scroll-reveal stagger-1">

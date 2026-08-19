@@ -43,7 +43,7 @@ export default function PricingCalculator() {
   };
 
   return (
-    <section className="py-24 md:py-32">
+    <section>
       <div className="max-w-[1200px] mx-auto px-6">
         <div>
           <span className="section-label">

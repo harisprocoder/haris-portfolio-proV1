@@ -82,14 +82,14 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="py-24 md:py-32" style={{ background: "#0d1117" }}>
+    <section id="services" ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
             <i className="fas fa-concierge-bell" aria-hidden="true" /> MY SERVICES
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             Professional services{" "}
@@ -98,7 +98,7 @@ export default function Services() {
         </div>
 
         {/* Service cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-20">
+        <div className="grid md:grid-cols-2 gap-5 mb-12">
           {services.map((s, i) => (
             <div
               key={s.title}

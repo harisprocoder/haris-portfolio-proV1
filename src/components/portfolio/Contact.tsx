@@ -75,14 +75,14 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 md:py-32" style={{ background: "#0d1117" }}>
+    <section id="contact" ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
             <i className="fas fa-paper-plane" aria-hidden="true" /> GET IN TOUCH
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             Let's create something{" "}
@@ -90,7 +90,7 @@ export default function Contact() {
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-10">
           {/* Left: Info */}
           <div className="scroll-reveal stagger-1">
             <div className="flex flex-col gap-4 mb-8">

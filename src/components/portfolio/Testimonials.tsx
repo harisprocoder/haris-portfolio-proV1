@@ -75,14 +75,14 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-24 md:py-32">
+    <section id="testimonials" ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal">
           <span className="section-label">
-            <i className="fas fa-star" /> CLIENT TESTIMONIALS
+            <i className="fas fa-star" aria-hidden="true" /> CLIENT TESTIMONIALS
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             What my <span className="gradient-text">clients say</span>
@@ -116,19 +116,19 @@ export default function Testimonials() {
                   </div>
                   <div>
                     <p
-                      className="font-semibold"
+                      className="font-semibold text-base"
                       style={{ color: "#f1f5f9" }}
                     >
                       {t.name}
                     </p>
                     <p className="text-sm" style={{ color: "#94a3b8" }}>
-                      {t.role} | {t.project} • {t.date}
+                      {t.role} · {t.project}
                     </p>
                   </div>
                 </div>
                 <p
-                  className="text-base leading-relaxed mb-4 italic"
-                  style={{ color: "#94a3b8" }}
+                  className="text-lg leading-relaxed mb-5 italic"
+                  style={{ color: "#c8d6e5" }}
                 >
                   "{t.text}"
                 </p>

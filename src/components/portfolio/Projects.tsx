@@ -57,14 +57,14 @@ export default function Projects() {
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 md:py-32">
+    <section id="projects" ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
             <i className="fas fa-folder-open" aria-hidden="true" /> FEATURED PROJECT
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-6 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-6"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             A showcase of my{" "}

@@ -1,91 +1,49 @@
 import { useEffect, useRef, useState } from "react";
 
-const frontendSkills = [
-  { name: "HTML5", pct: 95 },
-  { name: "CSS3", pct: 95 },
-  { name: "Tailwind CSS", pct: 90 },
-  { name: "JavaScript", pct: 80 },
+const skills = [
+  { name: "HTML5", pct: 95, icon: "fab fa-html5", color: "#e34f26" },
+  { name: "CSS3 / Tailwind", pct: 93, icon: "fab fa-css3-alt", color: "#1572b6" },
+  { name: "JavaScript", pct: 80, icon: "fab fa-js", color: "#f7df1e" },
+  { name: "React", pct: 70, icon: "fab fa-react", color: "#61dafb" },
+  { name: "Git / GitHub", pct: 70, icon: "fab fa-git-alt", color: "#f05032" },
+  { name: "Figma", pct: 65, icon: "fab fa-figma", color: "#f24e1e" },
 ];
 
-const toolSkills = [
-  { name: "Git & GitHub", pct: 70 },
-  { name: "VS Code", pct: 95 },
-  { name: "Figma", pct: 65 },
-  { name: "Responsive Design", pct: 95 },
-];
-
-const coreCompetencies = [
+const competencies = [
   "UI/UX Design",
-  "Performance Optimization",
-  "Cross-browser Compatibility",
-  "SEO Optimization",
-  "Mobile-First Design",
+  "Performance",
+  "Cross-browser",
+  "SEO",
+  "Mobile-First",
   "Accessibility",
 ];
 
-const techStack = [
-  { name: "HTML5", icon: "fab fa-html5", color: "#e34f26" },
-  { name: "CSS3", icon: "fab fa-css3-alt", color: "#1572b6" },
-  { name: "JavaScript", icon: "fab fa-js", color: "#f7df1e" },
-  { name: "Tailwind", icon: "fas fa-wind", color: "#06b6d4" },
-  { name: "Git", icon: "fab fa-git-alt", color: "#f05032" },
-  { name: "GitHub", icon: "fab fa-github", color: "#f1f5f9" },
-  { name: "Figma", icon: "fab fa-figma", color: "#f24e1e" },
-  { name: "Canva", icon: "fas fa-palette", color: "#00c4cc" },
-];
-
-const stats = [
-  { value: 2000, suffix: "+", label: "Coding Hours" },
-  { value: 11, suffix: "", label: "GitHub Repos" },
-  { value: 100, suffix: "%", label: "Client Satisfaction" },
-];
-
-function SkillBar({ name, pct, visible }: { name: string; pct: number; visible: boolean }) {
+function SkillBar({ name, pct, icon, color, visible, delay }: {
+  name: string; pct: number; icon: string; color: string; visible: boolean; delay: number;
+}) {
   return (
-    <div className="skill-bar-container">
-      <div className="skill-bar-header">
-        <span style={{ color: "#f1f5f9" }}>{name}</span>
-        <span className="gradient-text font-semibold">{pct}%</span>
+    <div className="mb-3">
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="flex items-center gap-2">
+          <i className={`${icon} text-sm`} style={{ color }} aria-hidden="true" />
+          <span className="text-sm font-medium" style={{ color: "#e2e8f0" }}>{name}</span>
+        </div>
+        <span className="text-xs font-semibold" style={{ color }}>{pct}%</span>
       </div>
-      <div className="skill-bar-track">
+      <div
+        className="h-1.5 rounded-full overflow-hidden"
+        style={{ background: "rgba(255,255,255,0.06)" }}
+      >
         <div
-          className="skill-fill"
-          style={{ width: visible ? `${pct}%` : "0%" }}
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{
+            width: visible ? `${pct}%` : "0%",
+            background: `linear-gradient(90deg, ${color}, ${color}88)`,
+            transitionDelay: `${delay}s`,
+          }}
         />
       </div>
     </div>
-  );
-}
-
-function CountUp({ target, suffix, visible }: { target: number; suffix: string; visible: boolean }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!visible) return;
-    let start = 0;
-    const duration = 2000;
-    const startTime = performance.now();
-
-    function easeOutExpo(t: number) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    }
-
-    function tick(now: number) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      start = Math.round(easeOutExpo(progress) * target);
-      setCount(start);
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-
-    requestAnimationFrame(tick);
-  }, [visible, target]);
-
-  return (
-    <span>
-      {count}
-      {suffix}
-    </span>
   );
 }
 
@@ -98,30 +56,23 @@ export default function Skills() {
     if (!section) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            entry.target.querySelectorAll(".scroll-reveal, .scroll-reveal-left").forEach((el) => {
-              el.classList.add("visible");
-            });
-          }
-        });
+        if (entries[0].isIntersecting) setVisible(true);
       },
-      { threshold: 0.1 },
+      { threshold: 0.15 },
     );
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24 md:py-32" style={{ background: "#0d1117" }}>
+    <section ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
+        <div>
           <span className="section-label">
             <i className="fas fa-code" aria-hidden="true" /> TECHNICAL SKILLS
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             Specialized expertise in{" "}
@@ -129,83 +80,89 @@ export default function Skills() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 mb-16">
-          {/* Frontend */}
-          <div className="scroll-reveal stagger-1">
+        <div className="grid md:grid-cols-2 gap-10 mb-10">
+          {/* All skills in one clean grid */}
+          <div className="space-y-1">
             <h3
-              className="font-['Space_Grotesk'] text-lg font-bold mb-6"
-              style={{ color: "#f1f5f9" }}
+              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#64748b" }}
             >
-              <i className="fas fa-laptop-code mr-2 gradient-text" aria-hidden="true" />
-              Frontend Development
+              Frontend & Tools
             </h3>
-            {frontendSkills.map((s) => (
-              <SkillBar key={s.name} {...s} visible={visible} />
+            {skills.map((s, i) => (
+              <SkillBar key={s.name} {...s} visible={visible} delay={i * 0.1} />
             ))}
           </div>
 
-          {/* Tools */}
-          <div className="scroll-reveal stagger-2">
+          {/* Competencies + Tech icons */}
+          <div>
             <h3
-              className="font-['Space_Grotesk'] text-lg font-bold mb-6"
-              style={{ color: "#f1f5f9" }}
+              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#64748b" }}
             >
-              <i className="fas fa-tools mr-2 gradient-text" aria-hidden="true" />
-              Tools & Technologies
+              Core Competencies
             </h3>
-            {toolSkills.map((s) => (
-              <SkillBar key={s.name} {...s} visible={visible} />
-            ))}
-          </div>
-        </div>
-
-        {/* Core Competencies */}
-        <div className="scroll-reveal stagger-3 mb-16">
-          <h3
-            className="font-['Space_Grotesk'] text-lg font-bold mb-6"
-            style={{ color: "#f1f5f9" }}
-          >
-            Core Competencies
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {coreCompetencies.map((c) => (
-              <span
-                key={c}
-                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
-                style={{
-                  background: "rgba(99,102,241,0.1)",
-                  border: "1px solid rgba(99,102,241,0.3)",
-                  color: "#6366f1",
-                }}
-              >
-                {c}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Tech Stack Icons */}
-        <div className="scroll-reveal stagger-4 mb-16">
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
-            {techStack.map((t) => (
-              <div key={t.name} className="tech-stack-icon">
-                <i className={`${t.icon} text-2xl`} style={{ color: t.color }} aria-hidden="true" />
-                <span className="text-xs" style={{ color: "#94a3b8" }}>
-                  {t.name}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {competencies.map((c) => (
+                <span
+                  key={c}
+                  className="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 hover:scale-105"
+                  style={{
+                    background: "rgba(99,102,241,0.08)",
+                    border: "1px solid rgba(99,102,241,0.2)",
+                    color: "#818cf8",
+                  }}
+                >
+                  {c}
                 </span>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <h3
+              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#64748b" }}
+            >
+              Tech Stack
+            </h3>
+            <div className="grid grid-cols-4 gap-3">
+              {skills.map((t) => (
+                <div
+                  key={t.name}
+                  className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: "rgba(17,24,39,0.6)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <i className={`${t.icon} text-xl`} style={{ color: t.color }} aria-hidden="true" />
+                  <span className="text-[10px]" style={{ color: "#94a3b8" }}>
+                    {t.name.split(" ")[0]}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Bottom stats */}
-        <div className="grid grid-cols-3 gap-4 scroll-reveal stagger-5">
-          {stats.map((s) => (
-            <div key={s.label} className="stat-item">
-              <p className="text-2xl md:text-3xl font-bold font-['Space_Grotesk'] gradient-text">
-                <CountUp target={s.value} suffix={s.suffix} visible={visible} />
+        {/* Stats row */}
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { value: "2000+", label: "Coding Hours" },
+            { value: "11", label: "GitHub Repos" },
+            { value: "100%", label: "Client Satisfaction" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="text-center p-4 rounded-xl"
+              style={{
+                background: "rgba(17,24,39,0.6)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <p className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] gradient-text">
+                {s.value}
               </p>
-              <p className="text-sm mt-1" style={{ color: "#94a3b8" }}>
+              <p className="text-xs mt-1" style={{ color: "#64748b" }}>
                 {s.label}
               </p>
             </div>
