@@ -6,7 +6,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="portfolio-footer py-16">
+    <footer className="portfolio-footer py-16" role="contentinfo" aria-label="Site footer">
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Logo + tagline */}
@@ -63,7 +63,7 @@ export default function Footer() {
                 className="text-sm flex items-center gap-2 hover:translate-x-1 transition-transform"
                 style={{ color: "#94a3b8" }}
               >
-                <i className="fas fa-envelope" style={{ color: "#6366f1" }} />
+                <i className="fas fa-envelope" style={{ color: "#6366f1" }} aria-hidden="true" />
                 harisshuja05@gmail.com
               </a>
               <a
@@ -73,7 +73,7 @@ export default function Footer() {
                 className="text-sm flex items-center gap-2 hover:translate-x-1 transition-transform"
                 style={{ color: "#94a3b8" }}
               >
-                <i className="fab fa-github" style={{ color: "#6366f1" }} />
+                <i className="fab fa-github" style={{ color: "#6366f1" }} aria-hidden="true" />
                 github.com/harisprocoder
               </a>
             </div>

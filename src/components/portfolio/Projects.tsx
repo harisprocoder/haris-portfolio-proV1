@@ -61,7 +61,7 @@ export default function Projects() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
-            <i className="fas fa-folder-open" /> FEATURED PROJECT
+            <i className="fas fa-folder-open" aria-hidden="true" /> FEATURED PROJECT
           </span>
           <h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-6 section-heading"
@@ -118,7 +118,7 @@ export default function Projects() {
                     border: "1px solid rgba(34,197,94,0.4)",
                   }}
                 >
-                  <i className="fas fa-check-circle mr-1" /> Live Project
+                  <i className="fas fa-check-circle mr-1" aria-hidden="true" /> Live Project
                 </span>
               </div>
 
@@ -130,7 +130,7 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="px-8 py-3 rounded-full bg-white/20 backdrop-blur-sm flex items-center gap-2 hover:bg-white/30 transition-all text-white font-semibold text-sm"
                 >
-                  <i className="fas fa-external-link-alt" /> Visit Website
+                  <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit Website
                 </a>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="glow-btn text-sm py-3 px-8 inline-flex items-center gap-2"
                 >
-                  <i className="fas fa-external-link-alt" /> Visit Website
+                  <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit Website
                 </a>
                 <a
                   href={project.codeUrl}
@@ -194,7 +194,7 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="outline-btn text-sm py-3 px-8 inline-flex items-center gap-2"
                 >
-                  <i className="fab fa-github" /> View Code
+                  <i className="fab fa-github" aria-hidden="true" /> View Code
                 </a>
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function Projects() {
             className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:underline"
             style={{ color: "#94a3b8" }}
           >
-            <i className="fab fa-github" /> View more on GitHub
+            <i className="fab fa-github" aria-hidden="true" /> View more on GitHub
           </a>
         </div>
       </div>

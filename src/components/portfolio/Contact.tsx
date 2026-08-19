@@ -73,7 +73,7 @@ export default function Contact() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
-            <i className="fas fa-paper-plane" /> GET IN TOUCH
+            <i className="fas fa-paper-plane" aria-hidden="true" /> GET IN TOUCH
           </span>
           <h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
@@ -93,6 +93,7 @@ export default function Contact() {
                   <i
                     className={`${item.icon} text-lg`}
                     style={{ color: "#6366f1", width: "24px", textAlign: "center" }}
+                    aria-hidden="true"
                   />
                   <div>
                     <p className="text-xs" style={{ color: "#475569" }}>
@@ -142,7 +143,7 @@ export default function Contact() {
                   href="mailto:harisshuja05@gmail.com"
                   className="glow-btn text-sm py-2.5 px-6 inline-flex items-center gap-2"
                 >
-                  <i className="fas fa-envelope" /> Send Email
+                  <i className="fas fa-envelope" aria-hidden="true" /> Send Email
                 </a>
                 <a
                   href="https://github.com/harisprocoder"
@@ -150,7 +151,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="outline-btn text-sm py-2.5 px-6 inline-flex items-center gap-2"
                 >
-                  <i className="fab fa-github" /> View GitHub
+                  <i className="fab fa-github" aria-hidden="true" /> View GitHub
                 </a>
               </div>
             </div>
@@ -169,7 +170,7 @@ export default function Contact() {
 
           {/* Right: Form */}
           <div className="scroll-reveal-right stagger-2">
-            <form onSubmit={handleSubmit} className="glass-card p-8">
+            <form onSubmit={handleSubmit} className="glass-card p-8" aria-label="Contact form">
               <div className="contact-input-group">
                 <input
                   type="text"
@@ -226,14 +227,15 @@ export default function Contact() {
               <button
                 type="submit"
                 className="glow-btn shimmer-btn w-full text-base"
+                aria-label="Send message"
               >
                 {submitted ? (
                   <span className="flex items-center justify-center gap-2">
-                    <i className="fas fa-check" /> Message Sent!
+                    <i className="fas fa-check" aria-hidden="true" /> Message Sent!
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <i className="fas fa-paper-plane" /> Send Message
+                    <i className="fas fa-paper-plane" aria-hidden="true" /> Send Message
                   </span>
                 )}
               </button>

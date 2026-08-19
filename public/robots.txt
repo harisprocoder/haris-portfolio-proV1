@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mharis.dev/sitemap.xml

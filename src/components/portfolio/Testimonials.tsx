@@ -106,7 +106,7 @@ export default function Testimonials() {
                 key={t.name}
                 className="testimonial-card min-w-full"
               >
-                <div className="testimonial-quote">"</div>
+                <div className="testimonial-quote" aria-hidden="true">"</div>
                 <div className="flex items-start gap-4 mb-6">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold text-white text-sm"

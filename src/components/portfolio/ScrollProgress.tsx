@@ -12,5 +12,5 @@ export default function ScrollProgress() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return <div className="scroll-progress-bar" style={{ width: `${progress}%` }} />;
+  return <div className="scroll-progress-bar" style={{ width: `${progress}%` }} role="progressbar" aria-hidden="true" />;
 }

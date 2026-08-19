@@ -118,7 +118,7 @@ export default function Skills() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
-            <i className="fas fa-code" /> TECHNICAL SKILLS
+            <i className="fas fa-code" aria-hidden="true" /> TECHNICAL SKILLS
           </span>
           <h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
@@ -136,7 +136,7 @@ export default function Skills() {
               className="font-['Space_Grotesk'] text-lg font-bold mb-6"
               style={{ color: "#f1f5f9" }}
             >
-              <i className="fas fa-laptop-code mr-2 gradient-text" />
+              <i className="fas fa-laptop-code mr-2 gradient-text" aria-hidden="true" />
               Frontend Development
             </h3>
             {frontendSkills.map((s) => (
@@ -150,7 +150,7 @@ export default function Skills() {
               className="font-['Space_Grotesk'] text-lg font-bold mb-6"
               style={{ color: "#f1f5f9" }}
             >
-              <i className="fas fa-tools mr-2 gradient-text" />
+              <i className="fas fa-tools mr-2 gradient-text" aria-hidden="true" />
               Tools & Technologies
             </h3>
             {toolSkills.map((s) => (
@@ -189,7 +189,7 @@ export default function Skills() {
           <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
             {techStack.map((t) => (
               <div key={t.name} className="tech-stack-icon">
-                <i className={`${t.icon} text-2xl`} style={{ color: t.color }} />
+                <i className={`${t.icon} text-2xl`} style={{ color: t.color }} aria-hidden="true" />
                 <span className="text-xs" style={{ color: "#94a3b8" }}>
                   {t.name}
                 </span>

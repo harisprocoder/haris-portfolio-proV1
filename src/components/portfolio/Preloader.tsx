@@ -16,8 +16,8 @@ export default function Preloader() {
   if (done) return null;
 
   return (
-    <div className={`preloader ${hidden ? "hidden" : ""}`}>
-      <div className="preloader-logo">MH</div>
+    <div className={`preloader ${hidden ? "hidden" : ""}`} role="status" aria-live="polite" aria-label="Loading portfolio">
+      <div className="preloader-logo" aria-hidden="true">MH</div>
     </div>
   );
 }

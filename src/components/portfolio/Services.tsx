@@ -86,7 +86,7 @@ export default function Services() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
-            <i className="fas fa-concierge-bell" /> MY SERVICES
+            <i className="fas fa-concierge-bell" aria-hidden="true" /> MY SERVICES
           </span>
           <h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-12 section-heading"
@@ -145,6 +145,7 @@ export default function Services() {
                       <i
                         className="fas fa-check-circle text-xs"
                         style={{ color: "#6366f1" }}
+                        aria-hidden="true"
                       />
                       {d}
                     </li>

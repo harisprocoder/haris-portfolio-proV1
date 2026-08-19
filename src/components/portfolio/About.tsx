@@ -57,7 +57,7 @@ export default function About() {
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="scroll-reveal-left">
           <span className="section-label">
-            <i className="fas fa-user" /> ABOUT ME
+            <i className="fas fa-user" aria-hidden="true" /> ABOUT ME
           </span>
           <h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-6 section-heading"
@@ -95,7 +95,7 @@ export default function About() {
                   key={f.title}
                   className={`about-feature-box scroll-reveal stagger-${i + 2}`}
                 >
-                  <div className="text-2xl mb-3">{f.icon}</div>
+                  <div className="text-2xl mb-3" aria-hidden="true">{f.icon}</div>
                   <h3
                     className="font-['Space_Grotesk'] font-bold text-sm mb-1"
                     style={{ color: "#f1f5f9" }}
@@ -114,7 +114,7 @@ export default function About() {
           <div className="flex flex-col gap-4 scroll-reveal-right stagger-2">
             {infoItems.map((item) => (
               <div key={item.label} className="info-pill">
-                <span className="text-xl">{item.icon}</span>
+                <span className="text-xl" aria-hidden="true">{item.icon}</span>
                 <div>
                   <p className="text-xs" style={{ color: "#475569" }}>
                     {item.label}

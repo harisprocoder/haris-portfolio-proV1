@@ -47,7 +47,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <nav className={`navbar ${scrolled ? "scrolled" : ""}`} role="navigation" aria-label="Main navigation">
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
           <a
             href="#home"
@@ -83,7 +83,7 @@ export default function Navbar() {
               className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
               style={{ background: "rgba(255,255,255,0.06)", color: "#94a3b8" }}
             >
-              <i className="fas fa-times text-sm" />
+              <i className="fas fa-times text-sm" aria-hidden="true" />
             </button>
 
             <div className="text-center mb-6">
@@ -91,7 +91,7 @@ export default function Navbar() {
                 className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ background: "rgba(99,102,241,0.15)" }}
               >
-                <i className="fas fa-envelope text-xl" style={{ color: "#6366f1" }} />
+                <i className="fas fa-envelope text-xl" style={{ color: "#6366f1" }} aria-hidden="true" />
               </div>
               <h3
                 className="font-['Space_Grotesk'] text-xl font-bold mb-1"
@@ -147,13 +147,13 @@ export default function Navbar() {
                 href={`mailto:${email}`}
                 className="glow-btn flex-1 text-center text-sm py-3 inline-flex items-center justify-center gap-2"
               >
-                <i className="fas fa-paper-plane" /> Send Email
+                <i className="fas fa-paper-plane" aria-hidden="true" /> Send Email
               </a>
               <a
                 href={`mailto:${email}?subject=Project Inquiry&body=Hi Haris, I'd like to discuss a project.`}
                 className="outline-btn flex-1 text-center text-sm py-3 inline-flex items-center justify-center gap-2"
               >
-                <i className="fas fa-bolt" /> Quick Inquiry
+                <i className="fas fa-bolt" aria-hidden="true" /> Quick Inquiry
               </a>
             </div>
           </div>

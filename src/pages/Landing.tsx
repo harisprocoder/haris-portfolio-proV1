@@ -19,7 +19,7 @@ export default function Landing() {
       <CursorGlow />
       <ScrollProgress />
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <About />
         <Skills />

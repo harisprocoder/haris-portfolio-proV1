@@ -62,6 +62,7 @@ export default function Hero() {
     <section
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden pt-20"
+      aria-label="Hero section"
     >
       {/* Background grid */}
       <div className="hero-grid-bg" />
@@ -72,9 +73,9 @@ export default function Hero() {
       <div className="floating-orb floating-orb-3" />
 
       {/* Floating brackets */}
-      <div className="floating-bracket">{"{ }"}</div>
-      <div className="floating-bracket">{"< />"}</div>
-      <div className="floating-bracket">{"[ ]"}</div>
+      <div className="floating-bracket" aria-hidden="true">{"{ }"}</div>
+      <div className="floating-bracket" aria-hidden="true">{"< />"}</div>
+      <div className="floating-bracket" aria-hidden="true">{"[ ]"}</div>
 
       <div className="max-w-[1200px] mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
         {/* Left content */}
@@ -88,7 +89,7 @@ export default function Hero() {
               color: "#6366f1",
             }}
           >
-            <span>✦</span>
+            <span aria-hidden="true">✦</span>
             <span>Available for Freelance Projects</span>
           </div>
 
@@ -149,7 +150,7 @@ export default function Hero() {
               className="glow-btn inline-flex items-center gap-2"
             >
               View My Work
-              <i className="fas fa-arrow-down text-sm" />
+              <i className="fas fa-arrow-down text-sm" aria-hidden="true" />
             </a>
             <a
               href="#contact"
@@ -157,7 +158,7 @@ export default function Hero() {
               className="outline-btn inline-flex items-center gap-2"
             >
               Contact Me
-              <i className="fas fa-envelope text-sm" />
+              <i className="fas fa-envelope text-sm" aria-hidden="true" />
             </a>
           </div>
 

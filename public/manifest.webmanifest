@@ -1,16 +1,17 @@
 {
-  "name": "freebuff.com application",
-  "short_name": "freebuff.com",
-  "description": "freebuff.com application",
+  "name": "M. Haris — Web Developer Portfolio",
+  "short_name": "MH Portfolio",
+  "description": "Professional web developer portfolio of M. Haris from Karachi, Pakistan",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#0a0a0f",
+  "theme_color": "#6366f1",
+  "orientation": "any",
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/logo.svg",
       "sizes": "any",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]

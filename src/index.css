@@ -124,15 +124,47 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    touch-action: manipulation;
   }
+  /* Ensure interactive elements have minimum 44x44px touch targets */
   button:not([disabled]),
+  a,
   [role="button"]:not([disabled]) {
     cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* Screen reader only utility for skip link */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  .sr-only:focus {
+    position: fixed;
+    width: auto;
+    height: auto;
+    padding: 16px 24px;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    z-index: 10000;
   }
 }
 
@@ -143,6 +175,18 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+}
+
+/* Content containment for offscreen sections */
+section {
+  contain: layout style;
+}
+
+/* GPU-accelerated animation utilities */
+.gpu-accel {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Gradient text utility */
@@ -986,6 +1030,7 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 
   .scroll-reveal,
@@ -993,15 +1038,25 @@ html {
   .scroll-reveal-right {
     opacity: 1;
     transform: none;
+    transition: none;
   }
 
   .hero-name-reveal {
     clip-path: inset(0);
     transform: none;
+    transition: none;
   }
 
   .cursor-glow {
     display: none;
+  }
+
+  .skill-fill {
+    transition: none;
+  }
+
+  .back-to-top {
+    animation: none;
   }
 }
 
@@ -1016,6 +1071,28 @@ html {
 
   .section-heading {
     font-size: 32px !important;
+  }
+
+  /* Reduce animation complexity on mobile for performance */
+  .floating-orb {
+    filter: blur(40px);
+  }
+
+  .floating-bracket {
+    display: none;
+  }
+
+  .hero-grid-bg {
+    animation: none;
+  }
+
+  /* Reduce blur on glass effects for mobile GPU */
+  .navbar.scrolled {
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(8px);
   }
 
   .mobile-menu {
