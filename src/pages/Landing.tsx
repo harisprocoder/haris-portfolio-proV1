@@ -13,7 +13,6 @@ import Footer from "@/components/portfolio/Footer";
 import BackToTop from "@/components/portfolio/BackToTop";
 import InteractiveTimeline from "@/components/portfolio/InteractiveTimeline";
 import CodeShowcase from "@/components/portfolio/CodeShowcase";
-import GitHubStats from "@/components/portfolio/GitHubStats";
 import PricingCalculator from "@/components/portfolio/PricingCalculator";
 import Chatbot from "@/components/portfolio/Chatbot";
 import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
@@ -34,7 +33,6 @@ export default function Landing() {
         <Projects />
         <Services />
         <PricingCalculator />
-        <GitHubStats />
         <Testimonials />
         <Contact />
       </main>
