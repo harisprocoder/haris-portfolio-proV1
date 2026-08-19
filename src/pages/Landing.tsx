@@ -11,6 +11,17 @@ import Testimonials from "@/components/portfolio/Testimonials";
 import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
 import BackToTop from "@/components/portfolio/BackToTop";
+// New premium features
+import GitHubStats from "@/components/portfolio/GitHubStats";
+import PricingCalculator from "@/components/portfolio/PricingCalculator";
+import InteractiveTimeline from "@/components/portfolio/InteractiveTimeline";
+import CodeShowcase from "@/components/portfolio/CodeShowcase";
+import ClientTicker from "@/components/portfolio/ClientTicker";
+import CostBreakdown from "@/components/portfolio/CostBreakdown";
+import Chatbot from "@/components/portfolio/Chatbot";
+import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
+import ProjectStatus from "@/components/portfolio/ProjectStatus";
+import EmojiReactions from "@/components/portfolio/EmojiReactions";
 
 export default function Landing() {
   return (
@@ -21,15 +32,33 @@ export default function Landing() {
       <Navbar />
       <main id="main-content">
         <Hero />
+        <ClientTicker />
         <About />
+        <InteractiveTimeline />
         <Skills />
+        <CodeShowcase />
         <Projects />
         <Services />
+        <div className="py-24 md:py-32">
+          <div className="max-w-[1200px] mx-auto px-6 flex flex-col items-center gap-8">
+            <PricingCalculator />
+            <CostBreakdown />
+          </div>
+        </div>
+        <GitHubStats />
         <Testimonials />
+        <div className="py-12 flex justify-center" style={{ background: "#0d1117" }}>
+          <EmojiReactions />
+        </div>
+        <div className="py-8 flex justify-center" style={{ background: "#0d1117" }}>
+          <ProjectStatus />
+        </div>
         <Contact />
       </main>
       <Footer />
       <BackToTop />
+      <Chatbot />
+      <KeyboardShortcuts />
     </div>
   );
 }

@@ -27,14 +27,16 @@ const contactInfo = [
   },
 ];
 
+const FORM_STORAGE_KEY = "mh-contact-form";
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+  const [formData, setFormData] = useState(() => {
+    try {
+      const saved = localStorage.getItem(FORM_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : { name: "", email: "", subject: "", message: "" };
+    } catch { return { name: "", email: "", subject: "", message: "" }; }
   });
 
   useEffect(() => {
@@ -59,13 +61,17 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    localStorage.removeItem(FORM_STORAGE_KEY);
+    setFormData({ name: "", email: "", subject: "", message: "" });
     setTimeout(() => setSubmitted(false), 3000);
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const updated = { ...formData, [e.target.name]: e.target.value };
+    setFormData(updated);
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(updated));
   };
 
   return (
