@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 
 const contactInfo = [
   {
@@ -27,17 +28,9 @@ const contactInfo = [
   },
 ];
 
-const FORM_STORAGE_KEY = "mh-contact-form";
-
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState(() => {
-    try {
-      const saved = localStorage.getItem(FORM_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : { name: "", email: "", subject: "", message: "" };
-    } catch { return { name: "", email: "", subject: "", message: "" }; }
-  });
+  const [state, handleSubmit] = useForm("xkjwpagy");
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -57,22 +50,6 @@ export default function Contact() {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    localStorage.removeItem(FORM_STORAGE_KEY);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const updated = { ...formData, [e.target.name]: e.target.value };
-    setFormData(updated);
-    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(updated));
-  };
 
   return (
     <section id="contact" ref={sectionRef} style={{ background: "#0d1117" }}>
@@ -176,76 +153,155 @@ export default function Contact() {
 
           {/* Right: Form */}
           <div className="scroll-reveal-right stagger-2">
-            <form onSubmit={handleSubmit} className="glass-card p-8" aria-label="Contact form">
-              <div className="contact-input-group">
-                <input
-                  type="text"
-                  name="name"
-                  className="contact-input"
-                  placeholder=" "
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="contact-label">Full Name</label>
-              </div>
-
-              <div className="contact-input-group">
-                <input
-                  type="email"
-                  name="email"
-                  className="contact-input"
-                  placeholder=" "
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="contact-label">Email Address</label>
-              </div>
-
-              <div className="contact-input-group">
-                <input
-                  type="text"
-                  name="subject"
-                  className="contact-input"
-                  placeholder=" "
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="contact-label">Subject</label>
-              </div>
-
-              <div className="contact-input-group">
-                <textarea
-                  name="message"
-                  className="contact-input"
-                  placeholder=" "
-                  rows={5}
-                  style={{ resize: "vertical", minHeight: "120px" }}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
-                <label className="contact-label">Message</label>
-              </div>
-
-              <button
-                type="submit"
-                className="glow-btn shimmer-btn w-full text-base"
-                aria-label="Send message"
+            {state.succeeded ? (
+              <div
+                className="glass-card p-8 flex flex-col items-center justify-center text-center"
+                style={{ minHeight: "400px" }}
               >
-                {submitted ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <i className="fas fa-check" aria-hidden="true" /> Message Sent!
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    <i className="fas fa-paper-plane" aria-hidden="true" /> Send Message
-                  </span>
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                  style={{
+                    background: "rgba(16,185,129,0.15)",
+                    border: "1px solid rgba(16,185,129,0.3)",
+                  }}
+                >
+                  <i className="fas fa-check text-2xl" style={{ color: "#10b981" }} aria-hidden="true" />
+                </div>
+                <h3
+                  className="font-['Space_Grotesk'] font-bold text-xl mb-3"
+                  style={{ color: "#f1f5f9" }}
+                >
+                  Message sent successfully
+                </h3>
+                <p className="text-sm mb-6" style={{ color: "#94a3b8", maxWidth: "360px" }}>
+                  Thanks for reaching out. I'll get back to you as soon as possible.
+                </p>
+                <button
+                  type="button"
+                  className="glow-btn text-sm py-2.5 px-6"
+                  onClick={() => window.location.reload()}
+                >
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="glass-card p-8"
+                aria-label="Contact form"
+              >
+                {/* General submission error */}
+                {state.errors && (
+                  <div
+                    className="mb-6 p-4 rounded-lg text-sm flex items-center gap-3"
+                    style={{
+                      background: "rgba(239,68,68,0.1)",
+                      border: "1px solid rgba(239,68,68,0.3)",
+                      color: "#ef4444",
+                    }}
+                    role="alert"
+                  >
+                    <i className="fas fa-exclamation-circle" aria-hidden="true" />
+                    <span>Something went wrong. Please check your details and try again.</span>
+                  </div>
                 )}
-              </button>
-            </form>
+
+                <div className="contact-input-group">
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    className="contact-input"
+                    placeholder=" "
+                    required
+                  />
+                  <label className="contact-label" htmlFor="contact-name">Full Name</label>
+                  <ValidationError
+                    field="name"
+                    prefix="Name"
+                    errors={state.errors}
+                    className="text-xs mt-1"
+                    style={{ color: "#ef4444" }}
+                  />
+                </div>
+
+                <div className="contact-input-group">
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    className="contact-input"
+                    placeholder=" "
+                    required
+                  />
+                  <label className="contact-label" htmlFor="contact-email">Email Address</label>
+                  <ValidationError
+                    field="email"
+                    prefix="Email"
+                    errors={state.errors}
+                    className="text-xs mt-1"
+                    style={{ color: "#ef4444" }}
+                  />
+                </div>
+
+                <div className="contact-input-group">
+                  <input
+                    type="text"
+                    id="contact-subject"
+                    name="subject"
+                    className="contact-input"
+                    placeholder=" "
+                    required
+                  />
+                  <label className="contact-label" htmlFor="contact-subject">Subject</label>
+                  <ValidationError
+                    field="subject"
+                    prefix="Subject"
+                    errors={state.errors}
+                    className="text-xs mt-1"
+                    style={{ color: "#ef4444" }}
+                  />
+                </div>
+
+                <div className="contact-input-group">
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    className="contact-input"
+                    placeholder=" "
+                    rows={5}
+                    style={{ resize: "vertical", minHeight: "120px" }}
+                    required
+                  />
+                  <label className="contact-label" htmlFor="contact-message">Message</label>
+                  <ValidationError
+                    field="message"
+                    prefix="Message"
+                    errors={state.errors}
+                    className="text-xs mt-1"
+                    style={{ color: "#ef4444" }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="glow-btn shimmer-btn w-full text-base"
+                  aria-label="Send message"
+                  disabled={state.submitting}
+                  style={state.submitting ? { opacity: 0.7, cursor: "not-allowed" } : undefined}
+                >
+                  {state.submitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <i className="fas fa-spinner fa-spin" aria-hidden="true" /> Sending...
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <i className="fas fa-paper-plane" aria-hidden="true" /> Send Message
+                    </span>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
