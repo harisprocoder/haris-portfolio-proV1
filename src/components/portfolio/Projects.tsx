@@ -11,6 +11,8 @@ const projects = [
     description:
       "A elegant and modern bridal salon website featuring a luxurious design with service showcases, gallery sections, and appointment booking information. Built for a real client in Karachi, Pakistan.",
     gradient: "linear-gradient(135deg, #4c1d3a, #0d1117)",
+    previewImage: "/projects/aplushairs.png",
+
     liveUrl: "https://aplushairs.netlify.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -18,12 +20,14 @@ const projects = [
     id: 2,
     title: "Nimra Beauty — Salon Website",
     category: "Business",
-    tagColor: "#f59e0b",
+    tagColor: "#d4a0a0",
     tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
     features: ["Service Showcase", "Gallery Section", "Mobile Optimized"],
     description:
       "A sophisticated beauty salon website with elegant styling, service presentations, and a client-focused layout designed for maximum visual impact.",
-    gradient: "linear-gradient(135deg, #78350f, #0d1117)",
+    gradient: "linear-gradient(135deg, #8b6f6f, #0d1117)",
+    previewImage: "/projects/nimrabeauty.gif",
+
     liveUrl: "https://nimra-beauty-saloon.vercel.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -37,6 +41,8 @@ const projects = [
     description:
       "A premium e-commerce store featuring a refined shopping experience with product showcases, smooth navigation, and a visually elevated brand aesthetic.",
     gradient: "linear-gradient(135deg, #3b0764, #0d1117)",
+    previewImage: "/projects/lumaelevate.gif",
+
     liveUrl: "https://luma-elevate-store.vercel.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -50,6 +56,8 @@ const projects = [
     description:
       "A clean and modern educational platform designed for students to manage their learning experience with an intuitive interface and organized onboarding flow.",
     gradient: "linear-gradient(135deg, #064e3b, #0d1117)",
+    previewImage: "/projects/studentos.gif",
+
     liveUrl: "https://student-os-green-ten.vercel.app/onboarding",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -64,6 +72,7 @@ function ProjectCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const card = cardRef.current;
@@ -82,7 +91,9 @@ function ProjectCard({
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
   return (
-    <div className={`scroll-reveal stagger-${(index % 4) + 1} max-w-4xl mx-auto`}>
+    <div
+      className={`scroll-reveal stagger-${(index % 4) + 1} max-w-4xl mx-auto`}
+    >
       <div
         ref={cardRef}
         className="project-card relative overflow-hidden"
@@ -93,22 +104,49 @@ function ProjectCard({
           transition: "transform 0.15s ease-out",
         }}
       >
-        {/* Card header */}
+        {/* Card header with preview image */}
         <div
           className="h-64 md:h-80 relative overflow-hidden"
           style={{ background: proj.gradient }}
         >
-          <div
-            className="absolute inset-0 opacity-20"
+          {/* Preview screenshot */}
+          <img
+            src={proj.previewImage}
+            alt={`${proj.title} preview`}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgLoaded(false)}
+            className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500"
             style={{
-              backgroundImage:
-                "linear-gradient(rgba(99,102,241,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.1) 1px, transparent 1px)",
-              backgroundSize: "30px 30px",
+              opacity: imgLoaded ? 1 : 0,
+              objectPosition: "center top",
+            }}
+          />
+
+          {/* Fallback grid pattern (shown when image hasn't loaded) */}
+          {!imgLoaded && (
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(99,102,241,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.1) 1px, transparent 1px)",
+                backgroundSize: "30px 30px",
+              }}
+            />
+          )}
+
+          {/* Bottom gradient fade */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(17,24,39,0.95) 0%, transparent 100%)",
             }}
           />
 
           {/* Badges */}
-          <div className="absolute top-5 left-5 flex items-center gap-2 flex-wrap">
+          <div className="absolute top-5 left-5 flex items-center gap-2 flex-wrap z-10">
             <span
               className="project-tag"
               style={{
@@ -181,7 +219,10 @@ function ProjectCard({
             ))}
           </div>
 
-          <p className="text-sm leading-relaxed mb-3" style={{ color: "#94a3b8" }}>
+          <p
+            className="text-sm leading-relaxed mb-3"
+            style={{ color: "#94a3b8" }}
+          >
             {proj.description}
           </p>
 
