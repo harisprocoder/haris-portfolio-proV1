@@ -65,22 +65,22 @@ export default function InteractiveTimeline() {
         </div>
 
         <div className="relative">
-          {/* Vertical line */}
+          {/* Vertical line — mobile: left side, desktop: center */}
           <div
-            className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+            className="absolute left-[19px] md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
             style={{ background: "linear-gradient(to bottom, #6366f1, #06b6d4, transparent)" }}
           />
 
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {milestones.map((m, i) => (
               <div
                 key={m.year}
-                className={`timeline-item relative flex items-start opacity-0 translate-y-6 transition-all duration-500 ${
+                className={`timeline-item relative opacity-0 translate-y-6 transition-all duration-500 flex items-start gap-4 md:gap-0 ${
                   i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 }`}
               >
                 {/* Dot */}
-                <div className="absolute left-5 md:left-1/2 -translate-x-1/2 z-10">
+                <div className="relative z-10 shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                   <div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-base"
                     style={{
@@ -94,8 +94,10 @@ export default function InteractiveTimeline() {
 
                 {/* Content */}
                 <div
-                  className={`ml-12 md:ml-0 md:w-[calc(50%-32px)] ${
-                    i % 2 === 0 ? "md:text-right md:pr-10" : "md:text-left md:pl-10"
+                  className={`flex-1 md:w-[calc(50%-32px)] ${
+                    i % 2 === 0
+                      ? "md:text-right md:pr-10 md:flex-none"
+                      : "md:text-left md:pl-10 md:flex-none"
                   }`}
                 >
                   <div className="glass-card p-5">
@@ -114,8 +116,8 @@ export default function InteractiveTimeline() {
                   </div>
                 </div>
 
-                {/* Spacer */}
-                <div className="hidden md:block md:w-[calc(50%-32px)]" />
+                {/* Spacer — desktop only for alternating layout */}
+                <div className="hidden md:block md:w-[calc(50%-32px)] md:flex-none" />
               </div>
             ))}
           </div>
