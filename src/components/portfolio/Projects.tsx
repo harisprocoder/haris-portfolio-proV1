@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 const projects = [
   {
     id: 1,
-    title: "A Plus Hairs — Bridal Salon",
+    title: "A Plus Hairs — Bridal Salon Website",
     category: "Business",
     tagColor: "#f43f5e",
     tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
@@ -16,15 +16,15 @@ const projects = [
   },
   {
     id: 2,
-    title: "Student OS — Education Platform",
-    category: "Web App",
-    tagColor: "#22c55e",
-    tags: ["HTML5", "Tailwind CSS", "JavaScript", "React"],
-    features: ["Student Dashboard", "Responsive UI", "Interactive Learning"],
+    title: "Nimra Beauty — Salon Website",
+    category: "Business",
+    tagColor: "#f59e0b",
+    tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+    features: ["Service Showcase", "Gallery Section", "Mobile Optimized"],
     description:
-      "A clean and modern educational platform designed for students to manage their learning experience with an intuitive interface and organized dashboard.",
-    gradient: "linear-gradient(135deg, #064e3b, #0d1117)",
-    liveUrl: "https://student-os-green-ten.vercel.app/",
+      "A sophisticated beauty salon website with elegant styling, service presentations, and a client-focused layout designed for maximum visual impact.",
+    gradient: "linear-gradient(135deg, #78350f, #0d1117)",
+    liveUrl: "https://nimra-beauty-saloon.vercel.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
   {
@@ -42,15 +42,15 @@ const projects = [
   },
   {
     id: 4,
-    title: "Nimra Beauty — Salon Website",
-    category: "Business",
-    tagColor: "#f59e0b",
-    tags: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
-    features: ["Service Showcase", "Gallery Section", "Mobile Optimized"],
+    title: "Student OS — Education Platform",
+    category: "Web App",
+    tagColor: "#22c55e",
+    tags: ["HTML5", "Tailwind CSS", "JavaScript", "React"],
+    features: ["Student Dashboard", "Responsive UI", "Interactive Onboarding"],
     description:
-      "A sophisticated beauty salon website with elegant styling, service presentations, and a client-focused layout designed for maximum visual impact.",
-    gradient: "linear-gradient(135deg, #78350f, #0d1117)",
-    liveUrl: "https://nimra-beauty-saloon.vercel.app/",
+      "A clean and modern educational platform designed for students to manage their learning experience with an intuitive interface and organized onboarding flow.",
+    gradient: "linear-gradient(135deg, #064e3b, #0d1117)",
+    liveUrl: "https://student-os-green-ten.vercel.app/onboarding",
     codeUrl: "https://github.com/harisprocoder",
   },
 ];
@@ -74,20 +74,18 @@ function ProjectCard({
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     setTilt({
-      x: ((y - centerY) / centerY) * -8,
-      y: ((x - centerX) / centerX) * 8,
+      x: ((y - centerY) / centerY) * -10,
+      y: ((x - centerX) / centerX) * 10,
     });
   }, []);
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
   return (
-    <div
-      className={`scroll-reveal stagger-${index + 1}`}
-    >
+    <div className={`scroll-reveal stagger-${(index % 4) + 1} max-w-4xl mx-auto`}>
       <div
         ref={cardRef}
-        className="project-card relative overflow-hidden h-full flex flex-col"
+        className="project-card relative overflow-hidden"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
@@ -97,7 +95,7 @@ function ProjectCard({
       >
         {/* Card header */}
         <div
-          className="h-48 md:h-56 relative overflow-hidden shrink-0"
+          className="h-64 md:h-80 relative overflow-hidden"
           style={{ background: proj.gradient }}
         >
           <div
@@ -110,7 +108,7 @@ function ProjectCard({
           />
 
           {/* Badges */}
-          <div className="absolute top-4 left-4 flex items-center gap-2 flex-wrap">
+          <div className="absolute top-5 left-5 flex items-center gap-2 flex-wrap">
             <span
               className="project-tag"
               style={{
@@ -130,6 +128,7 @@ function ProjectCard({
               }}
             >
               <i className="fas fa-check-circle mr-1" aria-hidden="true" /> Live
+              Project
             </span>
           </div>
 
@@ -139,7 +138,7 @@ function ProjectCard({
               href={proj.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-2.5 rounded-full bg-white/20 backdrop-blur-sm flex items-center gap-2 hover:bg-white/30 transition-all text-white font-semibold text-sm"
+              className="px-8 py-3 rounded-full bg-white/20 backdrop-blur-sm flex items-center gap-2 hover:bg-white/30 transition-all text-white font-semibold text-sm"
             >
               <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit
               Website
@@ -148,19 +147,29 @@ function ProjectCard({
         </div>
 
         {/* Card body */}
-        <div className="p-6 flex flex-col flex-1">
-          <h3
-            className="font-['Space_Grotesk'] font-bold text-lg mb-2"
-            style={{ color: "#f1f5f9" }}
-          >
-            {proj.title}
-          </h3>
+        <div className="p-8">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <h3
+                className="font-['Space_Grotesk'] font-bold text-xl md:text-2xl mb-1"
+                style={{ color: "#f1f5f9" }}
+              >
+                {proj.title}
+              </h3>
+              <span
+                className="text-xs font-semibold"
+                style={{ color: "#22c55e" }}
+              >
+                ★ Real Client Project
+              </span>
+            </div>
+          </div>
 
-          <div className="flex flex-wrap gap-1.5 mb-3">
+          <div className="flex flex-wrap gap-2 mb-4">
             {proj.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[11px] px-2.5 py-0.5 rounded-full"
+                className="text-xs px-3 py-1 rounded-full"
                 style={{
                   background: `${proj.tagColor}12`,
                   color: proj.tagColor,
@@ -172,35 +181,32 @@ function ProjectCard({
             ))}
           </div>
 
-          <p
-            className="text-sm leading-relaxed mb-3 flex-1"
-            style={{ color: "#94a3b8" }}
-          >
+          <p className="text-sm leading-relaxed mb-3" style={{ color: "#94a3b8" }}>
             {proj.description}
           </p>
 
-          <p className="text-xs mb-5" style={{ color: "#64748b" }}>
+          <p className="text-sm mb-6" style={{ color: "#94a3b8" }}>
             {proj.features.join(" • ")}
           </p>
 
           {/* Action buttons */}
-          <div className="flex gap-3 mt-auto">
+          <div className="flex flex-wrap gap-3">
             <a
               href={proj.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="glow-btn text-sm py-2.5 px-6 inline-flex items-center gap-2"
+              className="glow-btn text-sm py-3 px-8 inline-flex items-center gap-2"
             >
-              <i className="fas fa-external-link-alt" aria-hidden="true" /> Live
-              Demo
+              <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit
+              Website
             </a>
             <a
               href={proj.codeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="outline-btn text-sm py-2.5 px-6 inline-flex items-center gap-2"
+              className="outline-btn text-sm py-3 px-8 inline-flex items-center gap-2"
             >
-              <i className="fab fa-github" aria-hidden="true" /> Code
+              <i className="fab fa-github" aria-hidden="true" /> View Code
             </a>
           </div>
         </div>
@@ -253,8 +259,8 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Project grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Premium project cards — stacked full-width */}
+        <div className="space-y-8">
           {projects.map((proj, i) => (
             <ProjectCard key={proj.id} project={proj} index={i} />
           ))}
