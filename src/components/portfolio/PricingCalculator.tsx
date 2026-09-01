@@ -1,4 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { staggerContainer, staggerChild, sectionLabelVariants, textMaskReveal } from "@/hooks/useScrollReveal";
 
 type Region = "pk" | "uk";
 
@@ -52,7 +54,6 @@ const optionalFeatures = {
 const maintenancePrice = { pk: 5000, uk: 75 };
 
 function formatPrice(price: number, region: Region) {
-  const r = regions[region];
   if (region === "uk") return `£${price.toLocaleString()}`;
   return `PKR ${price.toLocaleString()}`;
 }
@@ -71,7 +72,7 @@ function AnimatedPrice({ value, region }: { value: number; region: Region }) {
 
     function tick(now: number) {
       const t = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      const ease = 1 - Math.pow(1 - t, 3);
       setDisplay(Math.round(from + (to - from) * ease));
       if (t < 1) rafRef.current = requestAnimationFrame(tick);
       else prevRef.current = to;
@@ -89,6 +90,8 @@ export default function PricingCalculator() {
   const [selectedPkg, setSelectedPkg] = useState<string>("business");
   const [selectedFeatures, setSelectedFeatures] = useState<Set<string>>(new Set());
   const [maintenance, setMaintenance] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
   const toggleFeature = useCallback((id: string) => {
     setSelectedFeatures((prev) => {
@@ -111,7 +114,6 @@ export default function PricingCalculator() {
   const maintTotal = maintenance ? maintenancePrice[region] : 0;
   const total = basePrice + featuresTotal + maintTotal;
 
-  // Reset selections when region changes
   useEffect(() => {
     setSelectedFeatures(new Set());
     setMaintenance(false);
@@ -131,29 +133,39 @@ export default function PricingCalculator() {
   };
 
   return (
-    <section>
+    <section ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
         {/* Header */}
-        <div>
-          <span className="section-label">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.span className="section-label" variants={sectionLabelVariants}>
             <i className="fas fa-calculator" aria-hidden="true" /> PRICING
-          </span>
-          <h2
+          </motion.span>
+          <motion.h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-3"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            variants={textMaskReveal}
           >
             Interactive{" "}
             <span className="gradient-text">cost calculator</span>
-          </h2>
-          <p className="text-sm mb-8 max-w-lg" style={{ color: "#94a3b8" }}>
+          </motion.h2>
+          <motion.p className="text-sm mb-8 max-w-lg" style={{ color: "#94a3b8" }} variants={staggerChild}>
             Select features to get an instant estimate. Every project starts with a base package.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Region Selector */}
-        <div className="flex gap-2 mb-8">
+        <motion.div
+          className="flex gap-2 mb-8"
+          initial={{ opacity: 0, y: 15 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
           {(Object.keys(regions) as Region[]).map((key) => (
-            <button
+            <motion.button
               key={key}
               onClick={() => setRegion(key)}
               className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
@@ -162,12 +174,14 @@ export default function PricingCalculator() {
                 border: `1px solid ${region === key ? "rgba(99,102,241,0.4)" : "rgba(255,255,255,0.08)"}`,
                 color: region === key ? "#818cf8" : "#94a3b8",
               }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <span className="mr-1.5" aria-hidden="true">{r.flag}</span>
               {regions[key].label}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-6">
           {/* Left: Packages + Features */}
@@ -189,7 +203,7 @@ export default function PricingCalculator() {
               </h3>
               <div className="space-y-2">
                 {pkgs.map((pkg) => (
-                  <button
+                  <motion.button
                     key={pkg.id}
                     onClick={() => setSelectedPkg(pkg.id)}
                     className="w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-200 text-left"
@@ -201,6 +215,8 @@ export default function PricingCalculator() {
                         ? "rgba(99,102,241,0.4)"
                         : "rgba(255,255,255,0.06)",
                     }}
+                    whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
+                    whileTap={{ scale: 0.99 }}
                   >
                     <div className="flex-1 min-w-0">
                       <p
@@ -221,7 +237,7 @@ export default function PricingCalculator() {
                         {formatPrice(pkg.price, region)}
                       </p>
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -243,7 +259,7 @@ export default function PricingCalculator() {
               </h3>
               <div className="grid sm:grid-cols-2 gap-2">
                 {features.map((f) => (
-                  <button
+                  <motion.button
                     key={f.id}
                     onClick={() => toggleFeature(f.id)}
                     className="flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 text-left"
@@ -255,19 +271,31 @@ export default function PricingCalculator() {
                         ? "rgba(6,182,212,0.3)"
                         : "rgba(255,255,255,0.05)",
                     }}
+                    whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {/* Checkbox */}
-                    <div
-                      className="w-4 h-4 rounded shrink-0 flex items-center justify-center transition-all duration-200"
-                      style={{
+                    <motion.div
+                      className="w-4 h-4 rounded shrink-0 flex items-center justify-center"
+                      animate={{
                         background: selectedFeatures.has(f.id) ? "#06b6d4" : "transparent",
-                        border: `1.5px solid ${selectedFeatures.has(f.id) ? "#06b6d4" : "rgba(255,255,255,0.2)"}`,
+                        borderColor: selectedFeatures.has(f.id) ? "#06b6d4" : "rgba(255,255,255,0.2)",
                       }}
+                      style={{ border: "1.5px solid" }}
+                      transition={{ duration: 0.2 }}
                     >
-                      {selectedFeatures.has(f.id) && (
-                        <i className="fas fa-check text-[8px] text-white" aria-hidden="true" />
-                      )}
-                    </div>
+                      <AnimatePresence>
+                        {selectedFeatures.has(f.id) && (
+                          <motion.i
+                            className="fas fa-check text-[8px] text-white"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            aria-hidden="true"
+                          />
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium" style={{ color: "#e2e8f0" }}>
                         {f.name}
@@ -279,19 +307,23 @@ export default function PricingCalculator() {
                     >
                       +{formatPrice(f.price, region)}
                     </span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
 
             {/* Maintenance toggle */}
-            <div
+            <motion.div
               className="rounded-xl p-4 flex items-center justify-between"
               style={{
                 background: "rgba(17,24,39,0.8)",
                 border: `1px solid ${maintenance ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.08)"}`,
                 backdropFilter: "blur(10px)",
               }}
+              animate={{
+                borderColor: maintenance ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.08)",
+              }}
+              transition={{ duration: 0.3 }}
             >
               <div>
                 <p className="text-sm font-medium" style={{ color: "#f1f5f9" }}>
@@ -311,32 +343,42 @@ export default function PricingCalculator() {
                 aria-checked={maintenance}
                 aria-label="Toggle monthly maintenance"
               >
-                <div
-                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all duration-200"
-                  style={{ left: maintenance ? "22px" : "2px" }}
+                <motion.div
+                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white"
+                  animate={{ left: maintenance ? 22 : 2 }}
+                  transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                 />
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right: Estimate Summary */}
           <div className="lg:col-span-2">
-            <div
+            <motion.div
               className="rounded-xl p-6 sticky top-24"
               style={{
                 background: "rgba(17,24,39,0.9)",
                 border: "1px solid rgba(99,102,241,0.15)",
                 backdropFilter: "blur(10px)",
               }}
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.4, duration: 0.6 }}
             >
               {/* Large total */}
               <div className="text-center mb-6">
                 <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748b" }}>
                   Estimated Project Cost
                 </p>
-                <p className="font-['Space_Grotesk'] font-extrabold text-4xl gradient-text leading-none">
+                <motion.p
+                  className="font-['Space_Grotesk'] font-extrabold text-4xl gradient-text leading-none"
+                  key={total}
+                  initial={{ scale: 0.95, opacity: 0.7 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <AnimatedPrice value={total} region={region} />
-                </p>
+                </motion.p>
               </div>
 
               {/* Breakdown */}
@@ -353,14 +395,22 @@ export default function PricingCalculator() {
                     {formatPrice(featuresTotal, region)}
                   </span>
                 </div>
-                {maintenance && (
-                  <div className="flex justify-between text-sm">
-                    <span style={{ color: "#94a3b8" }}>Monthly Maintenance</span>
-                    <span className="font-medium" style={{ color: "#f59e0b" }}>
-                      {formatPrice(maintenancePrice[region], region)}/mo
-                    </span>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {maintenance && (
+                    <motion.div
+                      className="flex justify-between text-sm"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span style={{ color: "#94a3b8" }}>Monthly Maintenance</span>
+                      <span className="font-medium" style={{ color: "#f59e0b" }}>
+                        {formatPrice(maintenancePrice[region], region)}/mo
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div
@@ -382,19 +432,21 @@ export default function PricingCalculator() {
                 Indicative estimate based on selected services. Final pricing may vary depending on project scope and requirements.
               </p>
 
-              <button
+              <motion.button
                 onClick={handleRequestQuote}
-                className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:scale-[1.02]"
+                className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
                   background: "linear-gradient(135deg, #6366f1, #06b6d4)",
                   color: "white",
                   boxShadow: "0 4px 20px rgba(99,102,241,0.3)",
                 }}
+                whileHover={{ scale: 1.02, boxShadow: "0 6px 30px rgba(99,102,241,0.4)" }}
+                whileTap={{ scale: 0.98 }}
               >
                 <i className="fas fa-paper-plane mr-2" aria-hidden="true" />
                 Request Quote via Email
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           </div>
         </div>
       </div>

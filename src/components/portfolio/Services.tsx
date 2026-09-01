@@ -1,4 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  staggerContainer,
+  staggerChild,
+  sectionLabelVariants,
+  textMaskReveal,
+} from "@/hooks/useScrollReveal";
 
 const services = [
   {
@@ -61,53 +68,60 @@ const processSteps = [
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".scroll-reveal, .scroll-reveal-left").forEach((el) => {
-              el.classList.add("visible");
-            });
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
   return (
     <section id="services" ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
-          <span className="section-label">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.span className="section-label" variants={sectionLabelVariants}>
             <i className="fas fa-concierge-bell" aria-hidden="true" /> MY SERVICES
-          </span>
-          <h2
+          </motion.span>
+          <motion.h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            variants={textMaskReveal}
           >
             Professional services{" "}
             <span className="gradient-text">tailored to your needs</span>
-          </h2>
-        </div>
+          </motion.h2>
+        </motion.div>
 
         {/* Service cards */}
-        <div className="grid md:grid-cols-2 gap-5 mb-12">
-          {services.map((s, i) => (
-            <div
+        <motion.div
+          className="grid md:grid-cols-2 gap-5 mb-12"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          {services.map((s) => (
+            <motion.div
               key={s.title}
-              className={`service-card scroll-reveal stagger-${i + 1}`}
+              className="service-card"
+              variants={staggerChild}
+              whileHover={{
+                y: -6,
+                borderColor: "rgba(99,102,241,0.3)",
+                boxShadow: "0 0 40px rgba(99,102,241,0.1)",
+                transition: { duration: 0.3 },
+              }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="service-card-icon shrink-0">
+                <motion.div
+                  className="service-card-icon shrink-0"
+                  whileHover={{
+                    background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                    borderColor: "transparent",
+                    boxShadow: "0 0 20px rgba(99,102,241,0.4)",
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   <span>{s.icon}</span>
-                </div>
+                </motion.div>
                 <div>
                   <h3
                     className="font-['Space_Grotesk'] font-bold text-lg mb-1"
@@ -152,36 +166,57 @@ export default function Services() {
                   ))}
                 </ul>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Work Process Timeline */}
-        <div className="scroll-reveal">
-          <h3
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.h3
             className="font-['Space_Grotesk'] text-2xl font-bold mb-8 text-center"
             style={{ color: "#f1f5f9" }}
+            variants={staggerChild}
           >
             Work Process
-          </h3>
+          </motion.h3>
 
           <div className="timeline-container">
             <div className="timeline-line">
-              <div className="timeline-line-fill" style={{ width: "100%" }} />
+              <motion.div
+                className="timeline-line-fill"
+                initial={{ width: 0 }}
+                animate={isInView ? { width: "100%" } : { width: 0 }}
+                transition={{ duration: 1.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              />
             </div>
-            {processSteps.map((step) => (
-              <div key={step.num} className="timeline-step">
-                <div className="timeline-dot active">{step.num}</div>
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={step.num}
+                className="timeline-step"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.4 + i * 0.2, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <motion.div
+                  className="timeline-dot active"
+                  whileHover={{ scale: 1.15 }}
+                >
+                  {step.num}
+                </motion.div>
                 <span
                   className="text-sm font-medium hidden sm:block"
                   style={{ color: "#94a3b8" }}
                 >
                   {step.label}
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

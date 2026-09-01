@@ -1,5 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { useForm, ValidationError } from "@formspree/react";
+import {
+  staggerContainer,
+  staggerChild,
+  fadeLeft,
+  fadeRight,
+  sectionLabelVariants,
+  textMaskReveal,
+} from "@/hooks/useScrollReveal";
 
 const contactInfo = [
   {
@@ -31,48 +40,53 @@ const contactInfo = [
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const [state, handleSubmit] = useForm("xkjwpagy");
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right").forEach((el) => {
-              el.classList.add("visible");
-            });
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
   return (
     <section id="contact" ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
-          <span className="section-label">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.span className="section-label" variants={sectionLabelVariants}>
             <i className="fas fa-paper-plane" aria-hidden="true" /> GET IN TOUCH
-          </span>
-          <h2
+          </motion.span>
+          <motion.h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            variants={textMaskReveal}
           >
             Let's create something{" "}
             <span className="gradient-text">amazing together</span>
-          </h2>
-        </div>
+          </motion.h2>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-10">
           {/* Left: Info */}
-          <div className="scroll-reveal stagger-1">
-            <div className="flex flex-col gap-4 mb-8">
+          <motion.div
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeLeft}
+          >
+            <motion.div
+              className="flex flex-col gap-4 mb-8"
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={staggerContainer}
+            >
               {contactInfo.map((item) => (
-                <div key={item.label} className="info-pill">
+                <motion.div
+                  key={item.label}
+                  className="info-pill"
+                  variants={staggerChild}
+                  whileHover={{
+                    x: 4,
+                    borderColor: "rgba(99,102,241,0.4)",
+                    transition: { duration: 0.2 },
+                  }}
+                >
                   <i
                     className={`${item.icon} text-lg`}
                     style={{ color: "#6366f1", width: "24px", textAlign: "center" }}
@@ -98,18 +112,21 @@ export default function Contact() {
                       </p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Ready to Start box */}
-            <div
+            <motion.div
               className="p-6 rounded-xl mb-6"
               style={{
                 background: "rgba(17,24,39,0.6)",
                 border: "1px solid transparent",
                 borderImage: "linear-gradient(135deg, #6366f1, #06b6d4) 1",
               }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.5, duration: 0.6 }}
             >
               <h3
                 className="font-['Space_Grotesk'] font-bold text-lg mb-2"
@@ -124,7 +141,7 @@ export default function Contact() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="mailto:harisshuja05@gmail.com"
-                  className="glow-btn text-sm py-2.5 px-6 inline-flex items-center gap-2"
+                  className="glow-btn text-sm py-2.5 px-6 inline-flex items-center gap-2 shimmer-btn"
                 >
                   <i className="fas fa-envelope" aria-hidden="true" /> Send Email
                 </a>
@@ -137,36 +154,49 @@ export default function Contact() {
                   <i className="fab fa-github" aria-hidden="true" /> View GitHub
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div
+            <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
               style={{
                 background: "rgba(16,185,129,0.1)",
                 border: "1px solid rgba(16,185,129,0.3)",
                 color: "#10b981",
               }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.7, duration: 0.5 }}
             >
               ⚡ Within 24 hours response time
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right: Form */}
-          <div className="scroll-reveal-right stagger-2">
+          <motion.div
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={fadeRight}
+          >
             {state.succeeded ? (
-              <div
+              <motion.div
                 className="glass-card p-8 flex flex-col items-center justify-center text-center"
                 style={{ minHeight: "400px" }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                <div
+                <motion.div
                   className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
                   style={{
                     background: "rgba(16,185,129,0.15)",
                     border: "1px solid rgba(16,185,129,0.3)",
                   }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                 >
                   <i className="fas fa-check text-2xl" style={{ color: "#10b981" }} aria-hidden="true" />
-                </div>
+                </motion.div>
                 <h3
                   className="font-['Space_Grotesk'] font-bold text-xl mb-3"
                   style={{ color: "#f1f5f9" }}
@@ -183,7 +213,7 @@ export default function Contact() {
                 >
                   Send Another Message
                 </button>
-              </div>
+              </motion.div>
             ) : (
               <form
                 onSubmit={handleSubmit}
@@ -192,7 +222,7 @@ export default function Contact() {
               >
                 {/* General submission error */}
                 {state.errors && (
-                  <div
+                  <motion.div
                     className="mb-6 p-4 rounded-lg text-sm flex items-center gap-3"
                     style={{
                       background: "rgba(239,68,68,0.1)",
@@ -200,13 +230,20 @@ export default function Contact() {
                       color: "#ef4444",
                     }}
                     role="alert"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
                   >
                     <i className="fas fa-exclamation-circle" aria-hidden="true" />
                     <span>Something went wrong. Please check your details and try again.</span>
-                  </div>
+                  </motion.div>
                 )}
 
-                <div className="contact-input-group">
+                <motion.div
+                  className="contact-input-group"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
                   <input
                     type="text"
                     id="contact-name"
@@ -223,9 +260,14 @@ export default function Contact() {
                     className="text-xs mt-1"
                     style={{ color: "#ef4444" }}
                   />
-                </div>
+                </motion.div>
 
-                <div className="contact-input-group">
+                <motion.div
+                  className="contact-input-group"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
                   <input
                     type="email"
                     id="contact-email"
@@ -242,9 +284,14 @@ export default function Contact() {
                     className="text-xs mt-1"
                     style={{ color: "#ef4444" }}
                   />
-                </div>
+                </motion.div>
 
-                <div className="contact-input-group">
+                <motion.div
+                  className="contact-input-group"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                >
                   <input
                     type="text"
                     id="contact-subject"
@@ -261,9 +308,14 @@ export default function Contact() {
                     className="text-xs mt-1"
                     style={{ color: "#ef4444" }}
                   />
-                </div>
+                </motion.div>
 
-                <div className="contact-input-group">
+                <motion.div
+                  className="contact-input-group"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
                   <textarea
                     id="contact-message"
                     name="message"
@@ -281,14 +333,17 @@ export default function Contact() {
                     className="text-xs mt-1"
                     style={{ color: "#ef4444" }}
                   />
-                </div>
+                </motion.div>
 
-                <button
+                <motion.button
                   type="submit"
                   className="glow-btn shimmer-btn w-full text-base"
                   aria-label="Send message"
                   disabled={state.submitting}
                   style={state.submitting ? { opacity: 0.7, cursor: "not-allowed" } : undefined}
+                  whileHover={!state.submitting ? { scale: 1.02, boxShadow: "0 0 40px rgba(99,102,241,0.5)" } : {}}
+                  whileTap={!state.submitting ? { scale: 0.98 } : {}}
+                  transition={{ duration: 0.2 }}
                 >
                   {state.submitting ? (
                     <span className="flex items-center justify-center gap-2">
@@ -299,10 +354,10 @@ export default function Contact() {
                       <i className="fas fa-paper-plane" aria-hidden="true" /> Send Message
                     </span>
                   )}
-                </button>
+                </motion.button>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
