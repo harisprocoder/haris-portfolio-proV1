@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  staggerContainer,
+  staggerChild,
+  sectionLabelVariants,
+  textMaskReveal,
+} from "@/hooks/useScrollReveal";
 
 const projects = [
   {
@@ -12,7 +19,6 @@ const projects = [
       "A elegant and modern bridal salon website featuring a luxurious design with service showcases, gallery sections, and appointment booking information. Built for a real client in Karachi, Pakistan.",
     gradient: "linear-gradient(135deg, #4c1d3a, #0d1117)",
     previewImage: "/projects/aplushairs.png",
-
     liveUrl: "https://aplushairs.netlify.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -27,7 +33,6 @@ const projects = [
       "A sophisticated beauty salon website with elegant styling, service presentations, and a client-focused layout designed for maximum visual impact.",
     gradient: "linear-gradient(135deg, #8b6f6f, #0d1117)",
     previewImage: "/projects/nimrabeauty.gif",
-
     liveUrl: "https://nimra-beauty-saloon.vercel.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -42,7 +47,6 @@ const projects = [
       "A premium e-commerce store featuring a refined shopping experience with product showcases, smooth navigation, and a visually elevated brand aesthetic.",
     gradient: "linear-gradient(135deg, #3b0764, #0d1117)",
     previewImage: "/projects/lumaelevate.gif",
-
     liveUrl: "https://luma-elevate-store.vercel.app/",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -57,7 +61,6 @@ const projects = [
       "A clean and modern educational platform designed for students to manage their learning experience with an intuitive interface and organized onboarding flow.",
     gradient: "linear-gradient(135deg, #064e3b, #0d1117)",
     previewImage: "/projects/studentos.gif",
-
     liveUrl: "https://student-os-green-ten.vercel.app/onboarding",
     codeUrl: "https://github.com/harisprocoder",
   },
@@ -66,42 +69,36 @@ const projects = [
 function ProjectCard({
   project: proj,
   index,
+  isInView,
 }: {
   project: (typeof projects)[0];
   index: number;
+  isInView: boolean;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [imgLoaded, setImgLoaded] = useState(false);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    setTilt({
-      x: ((y - centerY) / centerY) * -10,
-      y: ((x - centerX) / centerX) * 10,
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className={`scroll-reveal stagger-${(index % 4) + 1} max-w-4xl mx-auto`}
+    <motion.div
+      className="max-w-4xl mx-auto"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.15,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
     >
-      <div
+      <motion.div
         ref={cardRef}
         className="project-card relative overflow-hidden"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-          transition: "transform 0.15s ease-out",
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        whileHover={{
+          scale: 1.015,
+          boxShadow: "0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(99,102,241,0.15)",
+          borderColor: "rgba(99,102,241,0.25)",
+          transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
         }}
       >
         {/* Card header with preview image */}
@@ -109,32 +106,19 @@ function ProjectCard({
           className="h-64 md:h-80 relative overflow-hidden"
           style={{ background: proj.gradient }}
         >
-          {/* Preview screenshot */}
-          <img
+          {/* Preview screenshot with parallax on hover */}
+          <motion.img
             src={proj.previewImage}
             alt={`${proj.title} preview`}
             loading="lazy"
             decoding="async"
-            onLoad={() => setImgLoaded(true)}
-            onError={() => setImgLoaded(false)}
-            className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500"
-            style={{
-              opacity: imgLoaded ? 1 : 0,
-              objectPosition: "center top",
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            animate={{
+              scale: isHovered ? 1.05 : 1,
             }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ objectPosition: "center top" }}
           />
-
-          {/* Fallback grid pattern (shown when image hasn't loaded) */}
-          {!imgLoaded && (
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(99,102,241,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.1) 1px, transparent 1px)",
-                backgroundSize: "30px 30px",
-              }}
-            />
-          )}
 
           {/* Bottom gradient fade */}
           <div
@@ -147,8 +131,11 @@ function ProjectCard({
 
           {/* Badges */}
           <div className="absolute top-5 left-5 flex items-center gap-2 flex-wrap z-10">
-            <span
+            <motion.span
               className="project-tag"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: index * 0.15 + 0.3, duration: 0.4 }}
               style={{
                 background: `${proj.tagColor}20`,
                 color: proj.tagColor,
@@ -156,9 +143,12 @@ function ProjectCard({
               }}
             >
               {proj.category}
-            </span>
-            <span
+            </motion.span>
+            <motion.span
               className="project-tag"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: index * 0.15 + 0.4, duration: 0.4 }}
               style={{
                 background: "rgba(34,197,94,0.15)",
                 color: "#22c55e",
@@ -167,11 +157,15 @@ function ProjectCard({
             >
               <i className="fas fa-check-circle mr-1" aria-hidden="true" /> Live
               Project
-            </span>
+            </motion.span>
           </div>
 
           {/* Hover overlay */}
-          <div className="project-card-overlay">
+          <motion.div
+            className="project-card-overlay"
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <a
               href={proj.liveUrl}
               target="_blank"
@@ -181,7 +175,7 @@ function ProjectCard({
               <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit
               Website
             </a>
-          </div>
+          </motion.div>
         </div>
 
         {/* Card body */}
@@ -203,11 +197,18 @@ function ProjectCard({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-4">
+          <motion.div
+            className="flex flex-wrap gap-2 mb-4"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
             {proj.tags.map((tag) => (
-              <span
+              <motion.span
                 key={tag}
                 className="text-xs px-3 py-1 rounded-full"
+                variants={staggerChild}
+                whileHover={{ scale: 1.05, transition: { duration: 0.15 } }}
                 style={{
                   background: `${proj.tagColor}12`,
                   color: proj.tagColor,
@@ -215,9 +216,9 @@ function ProjectCard({
                 }}
               >
                 {tag}
-              </span>
+              </motion.span>
             ))}
-          </div>
+          </motion.div>
 
           <p
             className="text-sm leading-relaxed mb-3"
@@ -236,7 +237,7 @@ function ProjectCard({
               href={proj.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="glow-btn text-sm py-3 px-8 inline-flex items-center gap-2"
+              className="glow-btn text-sm py-3 px-8 inline-flex items-center gap-2 shimmer-btn"
             >
               <i className="fas fa-external-link-alt" aria-hidden="true" /> Visit
               Website
@@ -251,64 +252,54 @@ function ProjectCard({
             </a>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target
-              .querySelectorAll(".scroll-reveal, .scroll-reveal-left")
-              .forEach((el) => {
-                el.classList.add("visible");
-              });
-          }
-        });
-      },
-      { threshold: 0.05 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+  const isInView = useInView(sectionRef, { once: true, margin: "-5% 0px" });
 
   return (
     <section id="projects" ref={sectionRef}>
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="scroll-reveal-left">
-          <span className="section-label">
+        <motion.div
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
+          <motion.span className="section-label" variants={sectionLabelVariants}>
             <i className="fas fa-folder-open" aria-hidden="true" /> FEATURED
             PROJECTS
-          </span>
-          <h2
+          </motion.span>
+          <motion.h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-4"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            variants={textMaskReveal}
           >
             A showcase of my{" "}
             <span className="gradient-text">recent work</span>
-          </h2>
-          <p className="text-base mb-10" style={{ color: "#94a3b8" }}>
+          </motion.h2>
+          <motion.p className="text-base mb-10" style={{ color: "#94a3b8" }} variants={staggerChild}>
             Real projects built for real clients and personal exploration.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Premium project cards — stacked full-width */}
         <div className="space-y-8">
           {projects.map((proj, i) => (
-            <ProjectCard key={proj.id} project={proj} index={i} />
+            <ProjectCard key={proj.id} project={proj} index={i} isInView={isInView} />
           ))}
         </div>
 
         {/* GitHub link */}
-        <div className="text-center mt-10 scroll-reveal stagger-2">
+        <motion.div
+          className="text-center mt-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.5 }}
+        >
           <a
             href="https://github.com/harisprocoder"
             target="_blank"
@@ -319,7 +310,7 @@ export default function Projects() {
             <i className="fab fa-github" aria-hidden="true" /> View more on
             GitHub
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

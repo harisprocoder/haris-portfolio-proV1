@@ -1,21 +1,109 @@
 import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { EASE_OUT } from "@/hooks/useScrollReveal";
 
 const typingWords = ["Web Developer", "UI/UX Designer", "Problem Solver"];
+
+const nameWords = ["M.", "Haris"];
+
+const heroContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
+  },
+};
+
+const badgeVariants = {
+  hidden: { opacity: 0, scale: 0.8, y: 15 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT },
+  },
+};
+
+const greetingVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT },
+  },
+};
+
+const nameWordVariants = {
+  hidden: { opacity: 0, y: 40, clipPath: "inset(100% 0 0 0)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    clipPath: "inset(0% 0 0 0)",
+    transition: { duration: 0.8, ease: EASE_OUT },
+  },
+};
+
+const descVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: 0.2, ease: EASE_OUT },
+  },
+};
+
+const buttonsVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT },
+  },
+};
+
+const statsVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.4 },
+  },
+};
+
+const statChildVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: EASE_OUT },
+  },
+};
+
+const codeBlockVariants = {
+  hidden: { opacity: 0, x: 60, rotateY: -8 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    rotateY: 0,
+    transition: { duration: 1, delay: 0.8, ease: EASE_OUT },
+  },
+};
 
 export default function Hero() {
   const [typedText, setTypedText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [revealed, setRevealed] = useState(false);
-  const [helloVisible, setHelloVisible] = useState(false);
-  const [buttonsVisible, setButtonsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const t1 = setTimeout(() => setHelloVisible(true), 1800);
-    const t2 = setTimeout(() => setRevealed(true), 2200);
-    const t3 = setTimeout(() => setButtonsVisible(true), 2800);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, []);
+  // Scroll-linked parallax for background orbs
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const orb3Y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const codeBlockY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   const typeTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -53,91 +141,116 @@ export default function Hero() {
   return (
     <section
       id="home"
+      ref={sectionRef}
       className="relative min-h-screen flex items-center overflow-hidden"
       aria-label="Hero section"
     >
       {/* Background grid */}
       <div className="hero-grid-bg" />
 
-      {/* Floating orbs */}
-      <div className="floating-orb floating-orb-1" />
-      <div className="floating-orb floating-orb-2" />
-      <div className="floating-orb floating-orb-3" />
+      {/* Floating orbs with parallax */}
+      <motion.div
+        className="floating-orb floating-orb-1"
+        style={{ y: orb1Y }}
+      />
+      <motion.div
+        className="floating-orb floating-orb-2"
+        style={{ y: orb2Y }}
+      />
+      <motion.div
+        className="floating-orb floating-orb-3"
+        style={{ y: orb3Y }}
+      />
+
+      {/* Ambient gradient pulse */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 60% 50% at 70% 50%, rgba(99,102,241,0.06) 0%, transparent 60%)",
+          animation: "ambientPulse 8s ease-in-out infinite alternate",
+        }}
+      />
 
       <div className="max-w-[1200px] mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
         {/* Left content */}
-        <div>
+        <motion.div
+          variants={heroContainerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Badge */}
-          <div
+          <motion.div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide mb-6"
             style={{
               border: "1px solid rgba(99,102,241,0.3)",
               background: "rgba(99,102,241,0.08)",
               color: "#818cf8",
             }}
+            variants={badgeVariants}
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
             </span>
             Available for Freelance Projects
-          </div>
+          </motion.div>
 
           {/* Hello line */}
-          <p
-            className="text-lg md:text-xl mb-1 transition-all duration-700"
-            style={{
-              color: "#94a3b8",
-              opacity: helloVisible ? 1 : 0,
-              transform: `translateY(${helloVisible ? 0 : 10}px)`,
-            }}
+          <motion.p
+            className="text-lg md:text-xl mb-1"
+            style={{ color: "#94a3b8" }}
+            variants={greetingVariants}
           >
             Hello, I'm
-          </p>
+          </motion.p>
 
-          {/* Name */}
-          <h1
-            className={`hero-name-reveal ${revealed ? "revealed" : ""} hero-name font-['Space_Grotesk'] font-extrabold mb-3 gradient-text`}
+          {/* Name — word-by-word reveal */}
+          <div
+            className="flex flex-wrap gap-x-3 md:gap-x-4 hero-name mb-3"
             style={{ fontSize: "clamp(42px, 8vw, 80px)", letterSpacing: "-0.03em", lineHeight: 1.1 }}
           >
-            M. Haris
-          </h1>
+            {nameWords.map((word, i) => (
+              <motion.span
+                key={word}
+                className="font-['Space_Grotesk'] font-extrabold gradient-text inline-block"
+                variants={nameWordVariants}
+                style={{ perspective: 600 }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
 
           {/* Typing subtitle */}
-          <h2
+          <motion.h2
             className="font-['Space_Grotesk'] text-xl md:text-2xl font-semibold mb-5"
             style={{ color: "#e2e8f0", minHeight: "36px" }}
+            variants={greetingVariants}
           >
             {typedText}
             <span className="typing-cursor" />
-          </h2>
+          </motion.h2>
 
           {/* Description */}
-          <p
-            className="text-sm md:text-base leading-relaxed mb-8 max-w-md transition-all duration-700 delay-700"
-            style={{
-              color: "#94a3b8",
-              opacity: helloVisible ? 1 : 0,
-              transform: `translateY(${helloVisible ? 0 : 10}px)`,
-            }}
+          <motion.p
+            className="text-sm md:text-base leading-relaxed mb-8 max-w-md"
+            style={{ color: "#94a3b8" }}
+            variants={descVariants}
           >
             Crafting modern, clean, and user-focused web interfaces from
             Karachi, Pakistan. Specializing in responsive design with 2+ years
             of experience.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div
-            className="flex flex-wrap gap-3 mb-8 transition-all duration-700"
-            style={{
-              opacity: buttonsVisible ? 1 : 0,
-              transform: `translateY(${buttonsVisible ? 0 : 20}px)`,
-            }}
+          <motion.div
+            className="flex flex-wrap gap-3 mb-8"
+            variants={buttonsVariants}
           >
             <a
               href="#projects"
               onClick={(e) => handleNav(e, "#projects")}
-              className="glow-btn inline-flex items-center gap-2 text-sm"
+              className="glow-btn inline-flex items-center gap-2 text-sm shimmer-btn"
             >
               View My Work
               <i className="fas fa-arrow-down text-xs" aria-hidden="true" />
@@ -150,22 +263,23 @@ export default function Hero() {
               Contact Me
               <i className="fas fa-envelope text-xs" aria-hidden="true" />
             </a>
-          </div>
+          </motion.div>
 
           {/* Stats row */}
-          <div
-            className="flex flex-wrap gap-5 md:gap-8 transition-all duration-700 delay-300"
-            style={{
-              opacity: buttonsVisible ? 1 : 0,
-              transform: `translateY(${buttonsVisible ? 0 : 10}px)`,
-            }}
+          <motion.div
+            className="flex flex-wrap gap-5 md:gap-8"
+            variants={statsVariants}
           >
             {[
               { value: "35+", label: "Projects" },
               { value: "25+", label: "Happy Clients" },
               { value: "2+", label: "Years Experience" },
             ].map((stat, i) => (
-              <div key={stat.label} className="flex items-center gap-5 md:gap-8">
+              <motion.div
+                key={stat.label}
+                className="flex items-center gap-5 md:gap-8"
+                variants={statChildVariants}
+              >
                 <div className="text-center">
                   <p className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] gradient-text">
                     {stat.value}
@@ -177,13 +291,19 @@ export default function Hero() {
                 {i < 2 && (
                   <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.06)" }} />
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Right: Code visual */}
-        <div className="hidden lg:flex justify-center">
+        {/* Right: Code visual with parallax */}
+        <motion.div
+          className="hidden lg:flex justify-center"
+          variants={codeBlockVariants}
+          initial="hidden"
+          animate="visible"
+          style={{ y: codeBlockY, perspective: 1000 }}
+        >
           <div
             className="w-full max-w-md rounded-xl overflow-hidden"
             style={{
@@ -232,8 +352,25 @@ export default function Hero() {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2.5, duration: 0.6 }}
+      >
+        <span className="text-xs font-medium" style={{ color: "#475569" }}>Scroll to explore</span>
+        <motion.div
+          className="w-5 h-8 rounded-full border border-[rgba(255,255,255,0.2)] flex justify-center pt-1.5"
+          animate={{ y: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="w-1 h-1.5 rounded-full bg-[#6366f1]" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

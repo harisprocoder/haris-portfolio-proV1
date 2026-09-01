@@ -1,16 +1,56 @@
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { staggerContainer, staggerChild } from "@/hooks/useScrollReveal";
+
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(footerRef, { once: true, margin: "-5% 0px" });
+
   const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
+  const links = [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Projects", href: "#projects" },
+    { label: "Services", href: "#services" },
+    { label: "Contact", href: "#contact" },
+  ];
+
+  const socials = [
+    {
+      icon: "fas fa-envelope",
+      label: "Email",
+      value: "harisshuja05@gmail.com",
+      href: "mailto:harisshuja05@gmail.com",
+    },
+    {
+      icon: "fab fa-github",
+      label: "GitHub",
+      value: "github.com/harisprocoder",
+      href: "https://github.com/harisprocoder",
+    },
+  ];
+
   return (
-    <footer className="portfolio-footer py-10" role="contentinfo" aria-label="Site footer">
+    <footer
+      ref={footerRef}
+      className="portfolio-footer py-10"
+      role="contentinfo"
+      aria-label="Site footer"
+    >
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <motion.div
+          className="grid md:grid-cols-3 gap-8 mb-8"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={staggerContainer}
+        >
           {/* Logo + tagline */}
-          <div>
+          <motion.div variants={staggerChild}>
             <p className="font-['Space_Grotesk'] text-3xl font-extrabold gradient-text mb-3">
               MH
             </p>
@@ -18,10 +58,10 @@ export default function Footer() {
               Crafting modern, clean, and user-focused web interfaces from
               Karachi, Pakistan.
             </p>
-          </div>
+          </motion.div>
 
           {/* Quick links */}
-          <div>
+          <motion.div variants={staggerChild}>
             <h4
               className="font-['Space_Grotesk'] font-bold text-sm uppercase tracking-wider mb-4"
               style={{ color: "#f1f5f9" }}
@@ -29,28 +69,24 @@ export default function Footer() {
               Quick Links
             </h4>
             <div className="flex flex-col gap-2">
-              {[
-                { label: "Home", href: "#home" },
-                { label: "About", href: "#about" },
-                { label: "Projects", href: "#projects" },
-                { label: "Services", href: "#services" },
-                { label: "Contact", href: "#contact" },
-              ].map((link) => (
-                <a
+              {links.map((link) => (
+                <motion.a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNav(e, link.href)}
-                  className="text-sm hover:translate-x-1 transition-transform"
+                  className="text-sm inline-block"
                   style={{ color: "#94a3b8" }}
+                  whileHover={{ x: 4, color: "#f1f5f9" }}
+                  transition={{ duration: 0.2 }}
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Connect */}
-          <div>
+          <motion.div variants={staggerChild}>
             <h4
               className="font-['Space_Grotesk'] font-bold text-sm uppercase tracking-wider mb-4"
               style={{ color: "#f1f5f9" }}
@@ -58,27 +94,24 @@ export default function Footer() {
               Connect
             </h4>
             <div className="flex flex-col gap-2">
-              <a
-                href="mailto:harisshuja05@gmail.com"
-                className="text-sm flex items-center gap-2 hover:translate-x-1 transition-transform"
-                style={{ color: "#94a3b8" }}
-              >
-                <i className="fas fa-envelope" style={{ color: "#6366f1" }} aria-hidden="true" />
-                harisshuja05@gmail.com
-              </a>
-              <a
-                href="https://github.com/harisprocoder"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm flex items-center gap-2 hover:translate-x-1 transition-transform"
-                style={{ color: "#94a3b8" }}
-              >
-                <i className="fab fa-github" style={{ color: "#6366f1" }} aria-hidden="true" />
-                github.com/harisprocoder
-              </a>
+              {socials.map((s) => (
+                <motion.a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm flex items-center gap-2"
+                  style={{ color: "#94a3b8" }}
+                  whileHover={{ x: 4, color: "#f1f5f9" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <i className={s.icon} style={{ color: "#6366f1" }} aria-hidden="true" />
+                  {s.value}
+                </motion.a>
+              ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Bottom bar */}
         <div

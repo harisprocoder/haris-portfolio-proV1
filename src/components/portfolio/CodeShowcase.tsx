@@ -1,4 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { staggerContainer, staggerChild, sectionLabelVariants } from "@/hooks/useScrollReveal";
 
 const codeLines = [
   { text: '<!DOCTYPE html>', type: "tag" },
@@ -68,35 +70,25 @@ const fileTree = [
 export default function CodeShowcase() {
   const [visibleLines, setVisibleLines] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const startedRef = useRef(false);
+  const isInView = useInView(sectionRef, { once: true, margin: "-15% 0px" });
 
-  // IntersectionObserver to trigger typing animation
+  // Trigger typing animation once in view
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !startedRef.current) {
-          startedRef.current = true;
-          setInView(true);
-        }
-      },
-      { threshold: 0.2 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+    if (isInView && !startedRef.current) {
+      startedRef.current = true;
+    }
+  }, [isInView]);
 
   // Typing animation — reveal lines one by one
   useEffect(() => {
-    if (!inView || visibleLines >= codeLines.length) return;
+    if (!startedRef.current || visibleLines >= codeLines.length) return;
     const timeout = setTimeout(() => {
       setVisibleLines((v) => v + 1);
     }, codeLines[visibleLines].type === "blank" ? 30 : 50);
     return () => clearTimeout(timeout);
-  }, [inView, visibleLines]);
+  }, [visibleLines]);
 
   const fullCode = codeLines.map((l) => l.text).join("\n");
 
@@ -112,18 +104,22 @@ export default function CodeShowcase() {
     if (type === "comment") return <span style={{ color: syntaxColors.comment }}>{text}</span>;
     if (type === "string") return <span style={{ color: syntaxColors.string }}>{text}</span>;
 
-    // Highlight tags with nested spans
+    // Simple syntax highlighting without complex regex to avoid JSX parsing issues
+    const parts: { text: string; color: string }[] = [];
+    let remaining = text;
+    // Match tag starts/ends
+    const tagMatch = remaining.match(/^\s*\/?\w+/);
+    if (tagMatch) {
+      parts.push({ text: tagMatch[0], color: syntaxColors.tag });
+      remaining = remaining.slice(tagMatch[0].length);
+    }
+    if (remaining.length > 0) parts.push({ text: remaining, color: syntaxColors.tag });
+
     return (
       <span>
-        {text.split(/(<\/?[a-zA-Z][a-zA-Z0-9]*|class=|onclick=|lang=|charset=|href=|rel=|type=|"[^"]*")/g).map((part, i) => {
-          if (part.startsWith("<") || part.startsWith("</"))
-            return <span key={i} style={{ color: syntaxColors.tag }}>{part}</span>;
-          if (part.startsWith("class=") || part.startsWith("onclick=") || part.startsWith("lang=") || part.startsWith("charset=") || part.startsWith("href=") || part.startsWith("rel=") || part.startsWith("type="))
-            return <span key={i} style={{ color: syntaxColors.attribute }}>{part}</span>;
-          if (part.startsWith('"') && part.endsWith('"'))
-            return <span key={i} style={{ color: syntaxColors.string }}>{part}</span>;
-          return <span key={i}>{part}</span>;
-        })}
+        {parts.map((part, i) => (
+          <span key={i} style={{ color: part.color }}>{part.text}</span>
+        ))}
       </span>
     );
   };
@@ -132,7 +128,11 @@ export default function CodeShowcase() {
     <section ref={sectionRef} style={{ background: "#0d1117" }}>
       <div className="max-w-[1200px] mx-auto px-6">
         {/* Heading */}
-        <div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6 }}
+        >
           <span className="section-label">
             <i className="fas fa-code" aria-hidden="true" /> CODE SHOWCASE
           </span>
@@ -145,18 +145,21 @@ export default function CodeShowcase() {
           <p className="text-base mb-12 max-w-lg" style={{ color: "#94a3b8" }}>
             A peek at the code behind my projects — semantic, performant, and maintainable.
           </p>
-        </div>
+        </motion.div>
 
         {/* Main layout: Editor + Features */}
         <div className="grid lg:grid-cols-5 gap-8">
           {/* VS Code Editor Mockup */}
-          <div
+          <motion.div
             className="lg:col-span-3 rounded-2xl overflow-hidden"
             style={{
               background: "#1e1e2e",
               border: "1px solid rgba(99,102,241,0.2)",
               boxShadow: "0 25px 50px rgba(0,0,0,0.4), 0 0 40px rgba(99,102,241,0.08)",
             }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {/* Title bar */}
             <div
@@ -168,7 +171,6 @@ export default function CodeShowcase() {
                 <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
                 <div className="w-3 h-3 rounded-full bg-[#28c840]" />
               </div>
-              {/* File tab */}
               <div
                 className="flex items-center gap-2 px-3 py-1 rounded-md text-xs"
                 style={{ background: "#1e1e2e", color: "#cdd6f4" }}
@@ -176,7 +178,6 @@ export default function CodeShowcase() {
                 <i className="fab fa-html5" style={{ color: "#e34f26" }} aria-hidden="true" />
                 index.html
               </div>
-              {/* Copy button */}
               <button
                 onClick={copyCode}
                 className="ml-auto text-xs px-2.5 py-1 rounded-md transition-all"
@@ -236,14 +237,12 @@ export default function CodeShowcase() {
                         color: "#cdd6f4",
                       }}
                     >
-                      {/* Line number */}
                       <span
                         className="w-8 text-right mr-4 shrink-0 select-none text-[11px]"
                         style={{ color: "#45475a" }}
                       >
                         {i + 1}
                       </span>
-                      {/* Code */}
                       <span className="whitespace-pre">
                         {highlightLine(line.text, line.type)}
                       </span>
@@ -265,29 +264,30 @@ export default function CodeShowcase() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Feature cards */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            {features.map((f, i) => (
-              <div
+          {/* Feature cards with staggered entrance */}
+          <motion.div
+            className="lg:col-span-2 flex flex-col gap-4"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
+            {features.map((f) => (
+              <motion.div
                 key={f.title}
-                className="p-6 rounded-2xl transition-all duration-500 hover:scale-[1.02]"
+                className="p-6 rounded-2xl"
                 style={{
                   background: "rgba(17,24,39,0.8)",
                   border: "1px solid rgba(255,255,255,0.08)",
                   backdropFilter: "blur(10px)",
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? "translateX(0)" : "translateX(30px)",
-                  transition: `opacity 0.6s ease ${0.3 + i * 0.2}s, transform 0.6s ease ${0.3 + i * 0.2}s`,
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(99,102,241,0.3)";
-                  e.currentTarget.style.boxShadow = "0 0 30px rgba(99,102,241,0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                  e.currentTarget.style.boxShadow = "none";
+                variants={staggerChild}
+                whileHover={{
+                  scale: 1.03,
+                  borderColor: "rgba(99,102,241,0.3)",
+                  boxShadow: "0 0 30px rgba(99,102,241,0.1)",
+                  transition: { duration: 0.3 },
                 }}
               >
                 <div className="text-2xl mb-3" aria-hidden="true">{f.icon}</div>
@@ -300,9 +300,9 @@ export default function CodeShowcase() {
                 <p className="text-sm leading-relaxed" style={{ color: "#94a3b8" }}>
                   {f.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

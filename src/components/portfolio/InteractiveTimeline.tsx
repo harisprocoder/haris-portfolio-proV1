@@ -1,4 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import {
+  staggerContainer,
+  staggerChild,
+  sectionLabelVariants,
+} from "@/hooks/useScrollReveal";
 
 const milestones = [
   {
@@ -29,67 +35,80 @@ const milestones = [
 
 export default function InteractiveTimeline() {
   const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".timeline-item").forEach((el, i) => {
-              setTimeout(() => el.classList.add("visible"), i * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
+  // Scroll-linked line draw
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start center", "end center"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0, 0.8], ["0%", "100%"]);
 
   return (
     <section ref={sectionRef}>
       <div className="max-w-[900px] mx-auto px-6">
         <div className="text-center mb-12">
-          <span className="section-label">
+          <motion.span
+            className="section-label"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={sectionLabelVariants}
+          >
             <i className="fas fa-road" aria-hidden="true" /> MY JOURNEY
-          </span>
-          <h2
+          </motion.span>
+          <motion.h2
             className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            initial={{ opacity: 0, y: 30, clipPath: "inset(100% 0 0 0)" }}
+            animate={isInView ? { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" } : {}}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             From <span className="gradient-text">first line</span> to full stack
-          </h2>
+          </motion.h2>
         </div>
 
         <div className="relative">
-          {/* Vertical line — mobile: left side, desktop: center */}
+          {/* Vertical line — scroll-linked */}
           <div
             className="absolute left-[19px] md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-            style={{ background: "linear-gradient(to bottom, #6366f1, #06b6d4, transparent)" }}
-          />
+            style={{ background: "rgba(99,102,241,0.1)" }}
+          >
+            <motion.div
+              className="w-full rounded-full"
+              style={{
+                height: lineHeight,
+                background: "linear-gradient(to bottom, #6366f1, #06b6d4)",
+              }}
+            />
+          </div>
 
-          <div className="space-y-6 md:space-y-8">
+          <motion.div
+            className="space-y-6 md:space-y-8"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
             {milestones.map((m, i) => (
-              <div
+              <motion.div
                 key={m.year}
-                className={`timeline-item relative opacity-0 translate-y-6 transition-all duration-500 flex items-start gap-4 md:gap-0 ${
+                className={`relative flex items-start gap-4 md:gap-0 ${
                   i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 }`}
+                variants={staggerChild}
               >
                 {/* Dot */}
                 <div className="relative z-10 shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
-                  <div
+                  <motion.div
                     className="w-10 h-10 rounded-full flex items-center justify-center text-base"
                     style={{
                       background: "linear-gradient(135deg, #6366f1, #06b6d4)",
                       boxShadow: "0 0 16px rgba(99,102,241,0.3)",
                     }}
+                    whileHover={{ scale: 1.15, boxShadow: "0 0 24px rgba(99,102,241,0.5)" }}
+                    transition={{ duration: 0.2 }}
                   >
                     {m.icon}
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Content */}
@@ -100,7 +119,14 @@ export default function InteractiveTimeline() {
                       : "md:text-left md:pl-10 md:flex-none"
                   }`}
                 >
-                  <div className="glass-card p-5">
+                  <motion.div
+                    className="glass-card p-5"
+                    whileHover={{
+                      borderColor: "rgba(99,102,241,0.3)",
+                      boxShadow: "0 0 30px rgba(99,102,241,0.08)",
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <span className="font-['Space_Grotesk'] text-xl font-extrabold gradient-text">
                       {m.year}
                     </span>
@@ -113,14 +139,14 @@ export default function InteractiveTimeline() {
                     <p className="text-sm" style={{ color: "#94a3b8" }}>
                       {m.desc}
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Spacer — desktop only for alternating layout */}
                 <div className="hidden md:block md:w-[calc(50%-32px)] md:flex-none" />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
