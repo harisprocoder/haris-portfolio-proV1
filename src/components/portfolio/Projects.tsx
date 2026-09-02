@@ -61,8 +61,8 @@ const projects = [
       "A clean and modern educational platform designed for students to manage their learning experience with an intuitive interface and organized onboarding flow.",
     gradient: "linear-gradient(135deg, #064e3b, #0d1117)",
     previewImage: "/projects/studentos.gif",
-    liveUrl: "https://student-os-green-ten.vercel.app/onboarding",
-    codeUrl: "https://github.com/harisprocoder",
+    liveUrl: "https://student-os-smoky.vercel.app/",
+    codeUrl: "https://github.com/harisprocoder/student-os-smoky",
   },
 ];
 
