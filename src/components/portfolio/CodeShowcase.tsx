@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { staggerContainer, staggerChild, sectionLabelVariants } from "@/hooks/useScrollReveal";
+import { staggerContainer, staggerChild } from "@/hooks/useScrollReveal";
 
 const codeLines = [
   { text: '<!DOCTYPE html>', type: "tag" },
