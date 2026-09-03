@@ -103,7 +103,7 @@ function ProjectCard({
       >
         {/* Card header with preview image */}
         <div
-          className="h-64 md:h-80 relative overflow-hidden"
+          className="h-52 sm:h-64 md:h-80 relative overflow-hidden"
           style={{ background: proj.gradient }}
         >
           {/* Preview screenshot with parallax on hover */}
@@ -179,7 +179,7 @@ function ProjectCard({
         </div>
 
         {/* Card body */}
-        <div className="p-8">
+        <div className="p-5 sm:p-8">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
               <h3

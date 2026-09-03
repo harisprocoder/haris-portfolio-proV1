@@ -70,7 +70,7 @@ export default function InteractiveTimeline() {
         <div className="relative">
           {/* Vertical line — scroll-linked */}
           <div
-            className="absolute left-[19px] md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+            className="absolute left-[17px] md:left-1/2 top-0 bottom-0 w-0.5 md:w-px md:-translate-x-1/2"
             style={{ background: "rgba(99,102,241,0.1)" }}
           >
             <motion.div
@@ -83,7 +83,7 @@ export default function InteractiveTimeline() {
           </div>
 
           <motion.div
-            className="space-y-6 md:space-y-8"
+            className="space-y-4 md:space-y-8"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={staggerContainer}
@@ -99,7 +99,7 @@ export default function InteractiveTimeline() {
                 {/* Dot */}
                 <div className="relative z-10 shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
                   <motion.div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-base"
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm md:text-base"
                     style={{
                       background: "linear-gradient(135deg, #6366f1, #06b6d4)",
                       boxShadow: "0 0 16px rgba(99,102,241,0.3)",
@@ -120,7 +120,7 @@ export default function InteractiveTimeline() {
                   }`}
                 >
                   <motion.div
-                    className="glass-card p-5"
+                    className="glass-card p-4 md:p-5"
                     whileHover={{
                       borderColor: "rgba(99,102,241,0.3)",
                       boxShadow: "0 0 30px rgba(99,102,241,0.08)",

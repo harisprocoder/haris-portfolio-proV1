@@ -101,7 +101,7 @@ export default function Testimonials() {
           onTouchStart={() => setPaused(true)}
           onTouchEnd={() => setPaused(false)}
         >
-          <div className="relative min-h-[300px]">
+          <div className="relative min-h-[260px] sm:min-h-[300px]">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={current}
@@ -166,7 +166,11 @@ export default function Testimonials() {
           {testimonials.map((_, i) => (
             <button
               key={i}
-              className={`carousel-dot ${current === i ? "active" : ""}`}
+              className={`w-2.5 h-2.5 md:w-[10px] md:h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
+                current === i
+                  ? "w-7 md:w-[30px] bg-[#6366f1] shadow-[0_0_10px_rgba(99,102,241,0.5)] rounded-[5px]"
+                  : "bg-white/20"
+              }`}
               onClick={() => setCurrent([i, i > current ? 1 : -1])}
               aria-label={`Go to testimonial ${i + 1}`}
             />

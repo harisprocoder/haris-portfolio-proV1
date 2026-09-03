@@ -179,8 +179,8 @@ html {
 
 /* Standardized section padding */
 section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 @media (min-width: 768px) {
@@ -192,7 +192,13 @@ section {
 
 /* Standardized section heading */
 section h2 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  section h2 {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Standardized card system */
@@ -881,6 +887,37 @@ section h2 {
   box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
 }
 
+/* Mobile timeline */
+@media (max-width: 768px) {
+  .timeline-container {
+    flex-direction: column;
+    gap: 0;
+    padding: 16px 0;
+  }
+
+  .timeline-line {
+    width: 2px;
+    height: calc(100% - 40px);
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-step {
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .timeline-dot {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+}
+
 /* ═══════════════════════════════════════
    TESTIMONIALS
    ═══════════════════════════════════════ */
@@ -1163,17 +1200,5 @@ section h2 {
     font-size: 24px;
     color: #f1f5f9;
     font-weight: 500;
-  }
-
-  .timeline-container {
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .timeline-line {
-    width: 2px;
-    height: 100%;
-    top: 0;
-    left: 50%;
   }
 }
