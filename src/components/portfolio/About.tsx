@@ -66,7 +66,7 @@ export default function About() {
           </motion.h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-10 mt-8">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-10 mt-6 md:mt-8">
           {/* Left: Text + Features */}
           <motion.div
             initial="hidden"
@@ -88,7 +88,7 @@ export default function About() {
             </p>
 
             <motion.div
-              className="grid grid-cols-2 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={staggerContainer}

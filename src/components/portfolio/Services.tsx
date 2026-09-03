@@ -93,7 +93,7 @@ export default function Services() {
 
         {/* Service cards */}
         <motion.div
-          className="grid md:grid-cols-2 gap-5 mb-12"
+          className="grid md:grid-cols-2 gap-4 md:gap-5 mb-10 md:mb-12"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
@@ -188,9 +188,10 @@ export default function Services() {
             <div className="timeline-line">
               <motion.div
                 className="timeline-line-fill"
-                initial={{ width: 0 }}
-                animate={isInView ? { width: "100%" } : { width: 0 }}
+                initial={{ height: 0 }}
+                animate={isInView ? { height: "100%" } : { height: 0 }}
                 transition={{ duration: 1.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                style={{ width: "100%" }}
               />
             </div>
             {processSteps.map((step, i) => (
@@ -199,7 +200,7 @@ export default function Services() {
                 className="timeline-step"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.4 + i * 0.2, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ delay: 0.4 + i * 0.15, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <motion.div
                   className="timeline-dot active"
@@ -208,7 +209,7 @@ export default function Services() {
                   {step.num}
                 </motion.div>
                 <span
-                  className="text-sm font-medium hidden sm:block"
+                  className="text-sm font-medium"
                   style={{ color: "#94a3b8" }}
                 >
                   {step.label}

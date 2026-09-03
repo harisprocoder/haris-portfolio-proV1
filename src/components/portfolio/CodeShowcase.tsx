@@ -192,10 +192,10 @@ export default function CodeShowcase() {
               </button>
             </div>
 
-            <div className="flex" style={{ minHeight: "440px" }}>
+            <div className="flex min-h-[300px] md:min-h-[440px]">
               {/* File explorer sidebar */}
               <div
-                className="hidden md:block w-48 shrink-0 text-xs py-3 overflow-y-auto"
+                className="hidden lg:block w-48 shrink-0 text-xs py-3 overflow-y-auto"
                 style={{
                   background: "#181825",
                   borderRight: "1px solid rgba(255,255,255,0.06)",

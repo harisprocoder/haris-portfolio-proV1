@@ -99,7 +99,7 @@ export default function Skills() {
           </motion.h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-10 mb-10">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-10 mb-8 md:mb-10">
           {/* Skills with progress bars */}
           <motion.div
             className="space-y-1"
