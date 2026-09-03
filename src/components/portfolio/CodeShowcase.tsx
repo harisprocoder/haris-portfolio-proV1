@@ -1,34 +1,41 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
-import { staggerContainer, staggerChild, sectionLabelVariants } from "@/hooks/useScrollReveal";
+import { useRef } from "react";
+import { staggerContainer, staggerChild } from "@/hooks/useScrollReveal";
 
 const codeLines = [
-  { text: '<!DOCTYPE html>', type: "tag" },
-  { text: '<html lang="en">', type: "tag" },
-  { text: "<head>", type: "tag" },
-  { text: '  <meta charset="UTF-8">', type: "tag" },
-  { text: "  <!-- SEO optimized for M. Haris -->", type: "comment" },
-  { text: "  <title>M. Haris — Web Developer</title>", type: "tag" },
-  { text: "</head>", type: "tag" },
-  { text: "<body>", type: "tag" },
+  { text: 'import { useState } from "react";', type: "keyword" },
+  { text: 'import { motion } from "framer-motion";', type: "keyword" },
   { text: "", type: "blank" },
-  { text: '  <section class="hero">', type: "tag" },
-  { text: "    <h1>Building modern web experiences</h1>", type: "tag" },
-  { text: '    <p class="tagline">Clean code. Beautiful design.</p>', type: "tag" },
-  { text: '    <button onclick="hire()">', type: "tag" },
-  { text: "      Hire Me", type: "string" },
-  { text: "    </button>", type: "tag" },
-  { text: "  </section>", type: "tag" },
+  { text: "interface Project {", type: "tag" },
+  { text: "  id: string;", type: "attribute" },
+  { text: "  title: string;", type: "attribute" },
+  { text: "  description: string;", type: "attribute" },
+  { text: "  techStack: string[];", type: "attribute" },
+  { text: "}", type: "tag" },
   { text: "", type: "blank" },
-  { text: "  <script>", type: "tag" },
-  { text: "    const developer = {", type: "keyword" },
-  { text: '      name: "M. Haris",', type: "string" },
-  { text: '      skills: ["HTML", "CSS", "JS"],', type: "string" },
-  { text: '      passion: "∞"', type: "string" },
-  { text: "    };", type: "keyword" },
-  { text: "  </script>", type: "tag" },
-  { text: "</body>", type: "tag" },
-  { text: "</html>", type: "tag" },
+  { text: "export function ProjectCard({ project }) {", type: "keyword" },
+  { text: "  const [hovered, setHovered] = useState(false);", type: "attribute" },
+  { text: "", type: "blank" },
+  { text: "  return (", type: "tag" },
+  { text: '    <motion.div className="card"', type: "tag" },
+  { text: "      whileHover={{ scale: 1.02 }}", type: "attribute" },
+  { text: "      animate={{ opacity: 1 }}", type: "attribute" },
+  { text: "    >", type: "tag" },
+  { text: '      <h3 className="title">', type: "tag" },
+  { text: "        {project.title}", type: "string" },
+  { text: "      </h3>", type: "tag" },
+  { text: '      <p className="desc">', type: "tag" },
+  { text: "        {project.description}", type: "string" },
+  { text: "      </p>", type: "tag" },
+  { text: '      <div className="tags">', type: "tag" },
+  { text: "        {project.techStack.map(tech => (", type: "keyword" },
+  { text: '          <span key={tech}>{tech}</span>', type: "tag" },
+  { text: "        ))}", type: "keyword" },
+  { text: "      </div>", type: "tag" },
+  { text: "    </motion.div>", type: "tag" },
+  { text: "  );", type: "tag" },
+  { text: "}", type: "tag" },
 ];
 
 const syntaxColors: Record<string, string> = {
@@ -42,53 +49,36 @@ const syntaxColors: Record<string, string> = {
 
 const features = [
   {
-    icon: "🎯",
-    title: "Semantic HTML",
-    desc: "Using proper HTML5 tags for better SEO and accessibility",
+    icon: "⚛️",
+    title: "React & TypeScript",
+    desc: "Component-based architecture with full type safety for scalable applications",
   },
   {
-    icon: "⚡",
-    title: "Performance First",
-    desc: "Optimized code that loads fast on all devices",
+    icon: "🎨",
+    title: "Tailwind CSS",
+    desc: "Utility-first styling for rapid, consistent UI development",
   },
   {
-    icon: "🧩",
-    title: "Maintainable",
-    desc: "Clean, organized code that's easy to update and scale",
+    icon: "✨",
+    title: "Framer Motion",
+    desc: "Smooth, performant animations that enhance user experience",
   },
 ];
 
 const fileTree = [
-  { name: "portfolio/", indent: 0, isDir: true },
-  { name: "index.html", indent: 1, isDir: false, active: true },
-  { name: "style.css", indent: 1, isDir: false },
-  { name: "app.js", indent: 1, isDir: false },
-  { name: "assets/", indent: 1, isDir: true },
-  { name: "logo.svg", indent: 2, isDir: false },
+  { name: "src/", indent: 0, isDir: true },
+  { name: "components/", indent: 1, isDir: true },
+  { name: "ProjectCard.tsx", indent: 2, isDir: false, active: true },
+  { name: "Hero.tsx", indent: 2, isDir: false },
+  { name: "Navbar.tsx", indent: 2, isDir: false },
+  { name: "hooks/", indent: 1, isDir: true },
+  { name: "useScrollReveal.ts", indent: 2, isDir: false },
 ];
 
 export default function CodeShowcase() {
-  const [visibleLines, setVisibleLines] = useState(0);
   const [copied, setCopied] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const startedRef = useRef(false);
-  const isInView = useInView(sectionRef, { once: true, margin: "-15% 0px" });
-
-  // Trigger typing animation once in view
-  useEffect(() => {
-    if (isInView && !startedRef.current) {
-      startedRef.current = true;
-    }
-  }, [isInView]);
-
-  // Typing animation — reveal lines one by one
-  useEffect(() => {
-    if (!startedRef.current || visibleLines >= codeLines.length) return;
-    const timeout = setTimeout(() => {
-      setVisibleLines((v) => v + 1);
-    }, codeLines[visibleLines].type === "blank" ? 30 : 50);
-    return () => clearTimeout(timeout);
-  }, [visibleLines]);
+  const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
   const fullCode = codeLines.map((l) => l.text).join("\n");
 
@@ -104,10 +94,8 @@ export default function CodeShowcase() {
     if (type === "comment") return <span style={{ color: syntaxColors.comment }}>{text}</span>;
     if (type === "string") return <span style={{ color: syntaxColors.string }}>{text}</span>;
 
-    // Simple syntax highlighting without complex regex to avoid JSX parsing issues
     const parts: { text: string; color: string }[] = [];
     let remaining = text;
-    // Match tag starts/ends
     const tagMatch = remaining.match(/^\s*\/?\w+/);
     if (tagMatch) {
       parts.push({ text: tagMatch[0], color: syntaxColors.tag });
@@ -137,7 +125,7 @@ export default function CodeShowcase() {
             <i className="fas fa-code" aria-hidden="true" /> CODE SHOWCASE
           </span>
           <h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-4 section-heading"
+            className="font-['Space_Grotesk'] text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
             style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
           >
             Clean, modern <span className="gradient-text">code quality</span>
@@ -159,7 +147,7 @@ export default function CodeShowcase() {
             }}
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.7, delay: 0.2 }}
           >
             {/* Title bar */}
             <div
@@ -175,8 +163,8 @@ export default function CodeShowcase() {
                 className="flex items-center gap-2 px-3 py-1 rounded-md text-xs"
                 style={{ background: "#1e1e2e", color: "#cdd6f4" }}
               >
-                <i className="fab fa-html5" style={{ color: "#e34f26" }} aria-hidden="true" />
-                index.html
+                <i className="fab fa-react" style={{ color: "#61dafb" }} aria-hidden="true" />
+                ProjectCard.tsx
               </div>
               <button
                 onClick={copyCode}
@@ -225,17 +213,17 @@ export default function CodeShowcase() {
                 ))}
               </div>
 
-              {/* Code area */}
+              {/* Code area - shows all lines immediately */}
               <div className="flex-1 overflow-x-auto">
                 <div className="p-4">
                   {codeLines.map((line, i) => (
-                    <div
+                    <motion.div
                       key={i}
-                      className="flex items-start font-mono text-[13px] leading-6 transition-opacity duration-200"
-                      style={{
-                        opacity: i < visibleLines ? 1 : 0,
-                        color: "#cdd6f4",
-                      }}
+                      className="flex items-start font-mono text-[13px] leading-6"
+                      style={{ color: "#cdd6f4" }}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.3, delay: 0.1 + i * 0.02 }}
                     >
                       <span
                         className="w-8 text-right mr-4 shrink-0 select-none text-[11px]"
@@ -246,12 +234,17 @@ export default function CodeShowcase() {
                       <span className="whitespace-pre">
                         {highlightLine(line.text, line.type)}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
 
                   {/* Blinking cursor at end */}
-                  {visibleLines >= codeLines.length && (
-                    <div className="flex items-start font-mono text-[13px] leading-6">
+                  {isInView && (
+                    <motion.div
+                      className="flex items-start font-mono text-[13px] leading-6"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8 }}
+                    >
                       <span className="w-8 text-right mr-4 shrink-0 select-none text-[11px]" style={{ color: "#45475a" }}>
                         {codeLines.length + 1}
                       </span>
@@ -259,7 +252,7 @@ export default function CodeShowcase() {
                         className="inline-block w-[7px] h-[16px] mt-[3px] animate-pulse"
                         style={{ background: "#89b4fa" }}
                       />
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               </div>
