@@ -93,7 +93,7 @@ export default function Services() {
 
         {/* Service cards */}
         <motion.div
-          className="grid md:grid-cols-2 gap-5 mb-12"
+          className="grid md:grid-cols-2 gap-4 md:gap-5 mb-10 md:mb-12"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}

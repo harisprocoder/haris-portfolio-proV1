@@ -179,8 +179,8 @@ html {
 
 /* Standardized section padding */
 section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 @media (min-width: 768px) {
@@ -192,7 +192,13 @@ section {
 
 /* Standardized section heading */
 section h2 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  section h2 {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Standardized card system */

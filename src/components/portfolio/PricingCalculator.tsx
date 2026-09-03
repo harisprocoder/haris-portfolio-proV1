@@ -257,7 +257,7 @@ export default function PricingCalculator() {
               >
                 Optional Features
               </h3>
-              <div className="grid sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {features.map((f) => (
                   <motion.button
                     key={f.id}
@@ -355,7 +355,7 @@ export default function PricingCalculator() {
           {/* Right: Estimate Summary */}
           <div className="lg:col-span-2">
             <motion.div
-              className="rounded-xl p-6 sticky top-24"
+              className="rounded-xl p-6 lg:sticky lg:top-24"
               style={{
                 background: "rgba(17,24,39,0.9)",
                 border: "1px solid rgba(99,102,241,0.15)",
