@@ -142,7 +142,7 @@ export default function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 lg:pt-0"
       aria-label="Hero section"
     >
       {/* Background grid */}
@@ -171,7 +171,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
         {/* Left content */}
         <motion.div
           variants={heroContainerVariants}
@@ -233,7 +233,7 @@ export default function Hero() {
 
           {/* Description */}
           <motion.p
-            className="text-sm md:text-base leading-relaxed mb-8 max-w-md"
+            className="text-[13px] md:text-base leading-relaxed mb-6 md:mb-8 max-w-md"
             style={{ color: "#94a3b8" }}
             variants={descVariants}
           >
@@ -244,7 +244,7 @@ export default function Hero() {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-wrap gap-3 mb-8"
+            className="flex flex-wrap gap-3 mb-6 md:mb-8"
             variants={buttonsVariants}
           >
             <a
@@ -267,7 +267,7 @@ export default function Hero() {
 
           {/* Stats row */}
           <motion.div
-            className="flex flex-wrap gap-5 md:gap-8"
+            className="flex flex-wrap gap-4 md:gap-8"
             variants={statsVariants}
           >
             {[
