@@ -20,7 +20,7 @@ export default function ScrollProgress() {
     <motion.div
       className="fixed top-0 left-0 right-0 h-[3px] z-[9999] origin-left"
       style={{
-        background: "linear-gradient(90deg, #6366f1, #06b6d4)",
+        background: "linear-gradient(90deg, #FF8400, #34BFFF)",
         scaleX,
       }}
       role="progressbar"
