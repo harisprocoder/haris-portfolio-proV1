@@ -28,7 +28,6 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, { from: "user", text }]);
     setInput("");
 
-    // Find matching FAQ or default
     setTimeout(() => {
       const lower = text.toLowerCase();
       const match = faq.find((f) =>
@@ -49,26 +48,25 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating button — orange */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed bottom-6 left-6 z-[998] w-14 h-14 rounded-full flex items-center justify-center text-white text-xl transition-all hover:scale-110"
         style={{
-          background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-          boxShadow: "0 0 30px rgba(99,102,241,0.4)",
+          background: "#FF8400",
+          boxShadow: "0 0 30px rgba(255,132,0,0.4)",
         }}
         aria-label={open ? "Close chat" : "Open chat assistant"}
       >
         {open ? <i className="fas fa-times" /> : <i className="fas fa-comment-dots" />}
       </button>
 
-      {/* Chat window */}
       {open && (
         <div
           className="fixed bottom-24 left-6 z-[998] w-[340px] max-w-[calc(100vw-48px)] rounded-2xl overflow-hidden flex flex-col"
           style={{
-            background: "#111827",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "#1A1612",
+            border: "1px solid #2D2A24",
             boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
             height: "420px",
           }}
@@ -77,40 +75,31 @@ export default function Chatbot() {
           <div
             className="p-4 flex items-center gap-3"
             style={{
-              background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(6,182,212,0.2))",
-              borderBottom: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,132,0,0.1)",
+              borderBottom: "1px solid #2D2A24",
             }}
           >
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm"
-              style={{ background: "linear-gradient(135deg, #6366f1, #06b6d4)" }}
+              style={{ background: "#FF8400" }}
             >
               MH
             </div>
             <div>
-              <p className="font-semibold text-sm" style={{ color: "#f1f5f9" }}>
-                MH Assistant
-              </p>
-              <p className="text-xs" style={{ color: "#22c55e" }}>
-                ● Online
-              </p>
+              <p className="font-semibold text-sm" style={{ color: "#F5EFE6" }}>MH Assistant</p>
+              <p className="text-xs" style={{ color: "#22c55e" }}>● Online</p>
             </div>
           </div>
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}
-              >
+              <div key={i} className={`flex ${m.from === "user" ? "justify-end" : "justify-start"}`}>
                 <div
                   className="max-w-[80%] px-3 py-2 rounded-2xl text-sm"
                   style={{
-                    background: m.from === "user"
-                      ? "linear-gradient(135deg, #6366f1, #06b6d4)"
-                      : "rgba(255,255,255,0.06)",
-                    color: "#f1f5f9",
+                    background: m.from === "user" ? "#FF8400" : "rgba(255,255,255,0.06)",
+                    color: m.from === "user" ? "white" : "#F5EFE6",
                     borderBottomRightRadius: m.from === "user" ? "4px" : undefined,
                     borderBottomLeftRadius: m.from === "bot" ? "4px" : undefined,
                   }}
@@ -130,9 +119,9 @@ export default function Chatbot() {
                 onClick={() => sendMessage(q)}
                 className="text-xs px-2.5 py-1 rounded-full transition-all hover:scale-105"
                 style={{
-                  background: "rgba(99,102,241,0.1)",
-                  color: "#6366f1",
-                  border: "1px solid rgba(99,102,241,0.2)",
+                  background: "rgba(255,132,0,0.08)",
+                  color: "#FF8400",
+                  border: "1px solid rgba(255,132,0,0.2)",
                 }}
               >
                 {q}
@@ -141,10 +130,7 @@ export default function Chatbot() {
           </div>
 
           {/* Input */}
-          <div
-            className="p-3 flex gap-2"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
-          >
+          <div className="p-3 flex gap-2" style={{ borderTop: "1px solid #2D2A24" }}>
             <input
               type="text"
               value={input}
@@ -153,14 +139,14 @@ export default function Chatbot() {
               placeholder="Type a message..."
               className="flex-1 bg-transparent text-sm outline-none px-3 py-2 rounded-lg"
               style={{
-                color: "#f1f5f9",
-                border: "1px solid rgba(255,255,255,0.08)",
+                color: "#F5EFE6",
+                border: "1px solid #2D2A24",
               }}
             />
             <button
               onClick={() => sendMessage(input)}
               className="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0"
-              style={{ background: "linear-gradient(135deg, #6366f1, #06b6d4)" }}
+              style={{ background: "#FF8400" }}
               aria-label="Send message"
             >
               <i className="fas fa-paper-plane text-xs" />
