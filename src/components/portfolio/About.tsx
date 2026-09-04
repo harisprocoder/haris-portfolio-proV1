@@ -45,7 +45,7 @@ export default function About() {
 
   return (
     <section id="about" ref={sectionRef}>
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -55,8 +55,8 @@ export default function About() {
             <i className="fas fa-user" aria-hidden="true" /> ABOUT ME
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-6"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             variants={textMaskReveal}
           >
             Passionate web developer with a vision for{" "}
@@ -66,7 +66,7 @@ export default function About() {
           </motion.h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-10 mt-6 md:mt-8">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 mt-5 sm:mt-8">
           {/* Left: Text + Features */}
           <motion.div
             initial="hidden"
@@ -74,8 +74,8 @@ export default function About() {
             variants={fadeLeft}
           >
             <p
-              className="text-base leading-relaxed mb-8"
-              style={{ color: "#94a3b8" }}
+              className="text-sm sm:text-base leading-relaxed mb-6 sm:mb-8"
+              style={{ color: "#A89F8F" }}
             >
               I'm a young and passionate web developer from Karachi, Pakistan,
               with over 2 years of hands-on experience in building modern,
@@ -96,18 +96,33 @@ export default function About() {
               {features.map((f) => (
                 <motion.div
                   key={f.title}
-                  className="about-feature-box"
+                  className="group rounded-xl p-4 sm:p-5 transition-all duration-300"
+                  style={{
+                    background: "#1A1612",
+                    border: "1px solid #2D2A24",
+                  }}
                   variants={staggerChild}
-                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
+                  whileHover={{
+                    y: -4,
+                    borderColor: "rgba(255,132,0,0.35)",
+                    boxShadow: "0 8px 30px rgba(255,132,0,0.08)",
+                    transition: { duration: 0.25 },
+                  }}
                 >
-                  <div className="text-2xl mb-3" aria-hidden="true">{f.icon}</div>
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center text-xl mb-3"
+                    style={{ background: "rgba(255,132,0,0.08)" }}
+                    aria-hidden="true"
+                  >
+                    {f.icon}
+                  </div>
                   <h3
                     className="font-['Space_Grotesk'] font-bold text-sm mb-1"
-                    style={{ color: "#f1f5f9" }}
+                    style={{ color: "#F5EFE6" }}
                   >
                     {f.title}
                   </h3>
-                  <p className="text-xs" style={{ color: "#94a3b8" }}>
+                  <p className="text-xs leading-relaxed" style={{ color: "#A89F8F" }}>
                     {f.desc}
                   </p>
                 </motion.div>
@@ -117,13 +132,13 @@ export default function About() {
 
           {/* Right: Info pills */}
           <motion.div
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 sm:gap-4"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={fadeRight}
           >
             <motion.div
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-3 sm:gap-4"
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={staggerContainer}
@@ -131,22 +146,33 @@ export default function About() {
               {infoItems.map((item) => (
                 <motion.div
                   key={item.label}
-                  className="info-pill"
+                  className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl transition-all duration-300"
+                  style={{
+                    background: "#1A1612",
+                    border: "1px solid #2D2A24",
+                  }}
                   variants={staggerChild}
                   whileHover={{
-                    borderColor: "rgba(99,102,241,0.4)",
+                    borderColor: "rgba(255,132,0,0.4)",
                     x: 4,
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <span className="text-xl" aria-hidden="true">{item.icon}</span>
-                  <div>
-                    <p className="text-xs" style={{ color: "#475569" }}>
+                  <div
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "rgba(255,132,0,0.08)" }}
+                  >
+                    <span className="text-base sm:text-lg" aria-hidden="true">
+                      {item.icon}
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[11px] sm:text-xs" style={{ color: "#8A8275" }}>
                       {item.label}
                     </p>
                     <p
-                      className="text-sm font-medium"
-                      style={{ color: "#f1f5f9" }}
+                      className="text-sm font-medium truncate"
+                      style={{ color: "#F5EFE6" }}
                     >
                       {item.value}
                     </p>

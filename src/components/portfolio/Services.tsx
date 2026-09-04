@@ -71,8 +71,8 @@ export default function Services() {
   const isInView = useInView(sectionRef, { once: true, margin: "-10% 0px" });
 
   return (
-    <section id="services" ref={sectionRef} style={{ background: "#0d1117" }}>
-      <div className="max-w-[1200px] mx-auto px-6">
+    <section id="services" ref={sectionRef} style={{ background: "#12100C" }}>
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -82,8 +82,8 @@ export default function Services() {
             <i className="fas fa-concierge-bell" aria-hidden="true" /> MY SERVICES
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             variants={textMaskReveal}
           >
             Professional services{" "}
@@ -93,7 +93,7 @@ export default function Services() {
 
         {/* Service cards */}
         <motion.div
-          className="grid md:grid-cols-2 gap-4 md:gap-5 mb-10 md:mb-12"
+          className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-5 mb-8 md:mb-12"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
@@ -101,40 +101,42 @@ export default function Services() {
           {services.map((s) => (
             <motion.div
               key={s.title}
-              className="service-card"
+              className="rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300"
+              style={{
+                background: "#1A1612",
+                border: "1px solid #2D2A24",
+              }}
               variants={staggerChild}
               whileHover={{
                 y: -6,
-                borderColor: "rgba(99,102,241,0.3)",
-                boxShadow: "0 0 40px rgba(99,102,241,0.1)",
+                borderColor: "rgba(255,132,0,0.3)",
+                boxShadow: "0 0 40px rgba(255,132,0,0.08)",
                 transition: { duration: 0.3 },
               }}
             >
-              <div className="flex items-start gap-4 mb-4">
-                <motion.div
-                  className="service-card-icon shrink-0"
-                  whileHover={{
-                    background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                    borderColor: "transparent",
-                    boxShadow: "0 0 20px rgba(99,102,241,0.4)",
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div
+                  className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl shrink-0"
+                  style={{
+                    background: "rgba(255,132,0,0.08)",
+                    border: "1px solid rgba(255,132,0,0.15)",
                   }}
-                  transition={{ duration: 0.3 }}
                 >
                   <span>{s.icon}</span>
-                </motion.div>
-                <div>
+                </div>
+                <div className="min-w-0">
                   <h3
-                    className="font-['Space_Grotesk'] font-bold text-lg mb-1"
-                    style={{ color: "#f1f5f9" }}
+                    className="font-['Space_Grotesk'] font-bold text-base sm:text-lg mb-1"
+                    style={{ color: "#F5EFE6" }}
                   >
                     {s.title}
                   </h3>
                   <span
-                    className="text-xs font-medium px-3 py-1 rounded-full inline-block"
+                    className="text-[11px] sm:text-xs font-medium px-2.5 sm:px-3 py-1 rounded-full inline-block"
                     style={{
-                      background: "rgba(6,182,212,0.1)",
-                      color: "#06b6d4",
-                      border: "1px solid rgba(6,182,212,0.3)",
+                      background: "rgba(255,132,0,0.08)",
+                      color: "#FF8400",
+                      border: "1px solid rgba(255,132,0,0.2)",
                     }}
                   >
                     Timeline: {s.timeline}
@@ -142,10 +144,10 @@ export default function Services() {
                 </div>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-3 sm:mt-4">
                 <p
-                  className="text-xs font-semibold mb-2 uppercase tracking-wider"
-                  style={{ color: "#475569" }}
+                  className="text-[11px] sm:text-xs font-semibold mb-2 uppercase tracking-wider"
+                  style={{ color: "#8A8275" }}
                 >
                   Deliverables
                 </p>
@@ -153,12 +155,12 @@ export default function Services() {
                   {s.deliverables.map((d) => (
                     <li
                       key={d}
-                      className="flex items-center gap-2 text-sm"
-                      style={{ color: "#94a3b8" }}
+                      className="flex items-center gap-2 text-xs sm:text-sm"
+                      style={{ color: "#A89F8F" }}
                     >
                       <i
                         className="fas fa-check-circle text-xs"
-                        style={{ color: "#6366f1" }}
+                        style={{ color: "#FF8400" }}
                         aria-hidden="true"
                       />
                       {d}
@@ -177,8 +179,8 @@ export default function Services() {
           variants={staggerContainer}
         >
           <motion.h3
-            className="font-['Space_Grotesk'] text-2xl font-bold mb-8 text-center"
-            style={{ color: "#f1f5f9" }}
+            className="font-['Space_Grotesk'] text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-center"
+            style={{ color: "#F5EFE6" }}
             variants={staggerChild}
           >
             Work Process
@@ -209,8 +211,8 @@ export default function Services() {
                   {step.num}
                 </motion.div>
                 <span
-                  className="text-sm font-medium"
-                  style={{ color: "#94a3b8" }}
+                  className="text-xs sm:text-sm font-medium"
+                  style={{ color: "#A89F8F" }}
                 >
                   {step.label}
                 </span>

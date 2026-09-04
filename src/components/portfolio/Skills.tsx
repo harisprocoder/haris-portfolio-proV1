@@ -48,9 +48,9 @@ function SkillBar({
       <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-2">
           <i className={`${icon} text-sm`} style={{ color }} aria-hidden="true" />
-          <span className="text-sm font-medium" style={{ color: "#e2e8f0" }}>{name}</span>
+          <span className="text-sm font-medium" style={{ color: "#F5EFE6" }}>{name}</span>
         </div>
-        <span className="text-xs font-semibold" style={{ color }}>{pct}%</span>
+        <span className="text-xs font-semibold" style={{ color: "#FF8400" }}>{pct}%</span>
       </div>
       <div
         className="h-1.5 rounded-full overflow-hidden"
@@ -59,7 +59,7 @@ function SkillBar({
         <motion.div
           className="h-full rounded-full"
           style={{
-            background: `linear-gradient(90deg, ${color}, ${color}88)`,
+            background: "linear-gradient(90deg, #FF8400, #34BFFF)",
           }}
           initial={{ width: 0 }}
           animate={isInView ? { width: `${pct}%` } : { width: 0 }}
@@ -80,7 +80,7 @@ export default function Skills() {
 
   return (
     <section id="skills" ref={sectionRef}>
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -90,8 +90,8 @@ export default function Skills() {
             <i className="fas fa-code" aria-hidden="true" /> TECHNICAL SKILLS
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             variants={textMaskReveal}
           >
             Specialized expertise in{" "}
@@ -99,7 +99,7 @@ export default function Skills() {
           </motion.h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-10 mb-8 md:mb-10">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 mb-8 md:mb-10">
           {/* Skills with progress bars */}
           <motion.div
             className="space-y-1"
@@ -108,8 +108,8 @@ export default function Skills() {
             variants={staggerContainer}
           >
             <h3
-              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
-              style={{ color: "#64748b" }}
+              className="font-['Space_Grotesk'] text-xs sm:text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#8A8275" }}
             >
               Frontend & Tools
             </h3>
@@ -121,8 +121,8 @@ export default function Skills() {
           {/* Competencies + Tech icons */}
           <div>
             <h3
-              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
-              style={{ color: "#64748b" }}
+              className="font-['Space_Grotesk'] text-xs sm:text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#8A8275" }}
             >
               Core Competencies
             </h3>
@@ -137,14 +137,15 @@ export default function Skills() {
                   key={c}
                   className="px-3 py-1.5 rounded-full text-xs font-medium"
                   style={{
-                    background: "rgba(99,102,241,0.08)",
-                    border: "1px solid rgba(99,102,241,0.2)",
-                    color: "#818cf8",
+                    background: "rgba(255,132,0,0.08)",
+                    border: "1px solid rgba(255,132,0,0.2)",
+                    color: "#FF8400",
                   }}
                   variants={staggerChild}
                   whileHover={{
                     scale: 1.08,
-                    borderColor: "rgba(99,102,241,0.5)",
+                    borderColor: "rgba(255,132,0,0.5)",
+                    background: "rgba(255,132,0,0.12)",
                     transition: { duration: 0.2 },
                   }}
                 >
@@ -154,13 +155,13 @@ export default function Skills() {
             </motion.div>
 
             <h3
-              className="font-['Space_Grotesk'] text-sm font-bold mb-4 uppercase tracking-wider"
-              style={{ color: "#64748b" }}
+              className="font-['Space_Grotesk'] text-xs sm:text-sm font-bold mb-4 uppercase tracking-wider"
+              style={{ color: "#8A8275" }}
             >
               Tech Stack
             </h3>
             <motion.div
-              className="grid grid-cols-4 gap-3"
+              className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 sm:gap-3"
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={staggerContainer}
@@ -170,19 +171,19 @@ export default function Skills() {
                   key={t.name}
                   className="flex flex-col items-center gap-1.5 p-3 rounded-xl"
                   style={{
-                    background: "rgba(17,24,39,0.6)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "#1A1612",
+                    border: "1px solid #2D2A24",
                   }}
                   variants={staggerChild}
                   whileHover={{
                     y: -6,
-                    borderColor: "rgba(99,102,241,0.3)",
-                    boxShadow: "0 10px 30px rgba(99,102,241,0.15)",
+                    borderColor: "rgba(255,132,0,0.3)",
+                    boxShadow: "0 10px 30px rgba(255,132,0,0.1)",
                     transition: { duration: 0.25 },
                   }}
                 >
                   <i className={`${t.icon} text-xl`} style={{ color: t.color }} aria-hidden="true" />
-                  <span className="text-[10px]" style={{ color: "#94a3b8" }}>
+                  <span className="text-[10px]" style={{ color: "#A89F8F" }}>
                     {t.name.split(" ")[0]}
                   </span>
                 </motion.div>
@@ -193,7 +194,7 @@ export default function Skills() {
 
         {/* Stats row */}
         <motion.div
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-3 gap-3 sm:gap-4"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
@@ -205,22 +206,23 @@ export default function Skills() {
           ].map((s) => (
             <motion.div
               key={s.label}
-              className="text-center p-4 rounded-xl"
+              className="text-center p-3 sm:p-4 rounded-xl"
               style={{
-                background: "rgba(17,24,39,0.6)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#1A1612",
+                border: "1px solid #2D2A24",
               }}
               variants={staggerChild}
               whileHover={{
                 y: -3,
-                borderColor: "rgba(99,102,241,0.3)",
+                borderColor: "rgba(255,132,0,0.3)",
+                boxShadow: "0 0 20px rgba(255,132,0,0.06)",
                 transition: { duration: 0.2 },
               }}
             >
-              <p className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] gradient-text">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold font-['Space_Grotesk'] gradient-text">
                 {s.value}
               </p>
-              <p className="text-xs mt-1" style={{ color: "#64748b" }}>
+              <p className="text-[10px] sm:text-xs mt-1" style={{ color: "#8A8275" }}>
                 {s.label}
               </p>
             </motion.div>

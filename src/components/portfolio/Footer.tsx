@@ -38,23 +38,23 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="portfolio-footer py-10"
+      className="portfolio-footer py-8 sm:py-10"
       role="contentinfo"
       aria-label="Site footer"
     >
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         <motion.div
-          className="grid md:grid-cols-3 gap-8 mb-8"
+          className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={staggerContainer}
         >
           {/* Logo + tagline */}
           <motion.div variants={staggerChild}>
-            <p className="font-['Space_Grotesk'] text-3xl font-extrabold gradient-text mb-3">
+            <p className="font-['Space_Grotesk'] text-2xl sm:text-3xl font-extrabold gradient-text mb-2 sm:mb-3">
               MH
             </p>
-            <p className="text-sm leading-relaxed" style={{ color: "#94a3b8" }}>
+            <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#A89F8F" }}>
               Crafting modern, clean, and user-focused web interfaces from
               Karachi, Pakistan.
             </p>
@@ -63,20 +63,20 @@ export default function Footer() {
           {/* Quick links */}
           <motion.div variants={staggerChild}>
             <h4
-              className="font-['Space_Grotesk'] font-bold text-sm uppercase tracking-wider mb-4"
-              style={{ color: "#f1f5f9" }}
+              className="font-['Space_Grotesk'] font-bold text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4"
+              style={{ color: "#F5EFE6" }}
             >
               Quick Links
             </h4>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5 sm:gap-2">
               {links.map((link) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNav(e, link.href)}
-                  className="text-sm inline-block"
-                  style={{ color: "#94a3b8" }}
-                  whileHover={{ x: 4, color: "#f1f5f9" }}
+                  className="text-xs sm:text-sm inline-block"
+                  style={{ color: "#A89F8F" }}
+                  whileHover={{ x: 4, color: "#FF8400" }}
                   transition={{ duration: 0.2 }}
                 >
                   {link.label}
@@ -88,24 +88,24 @@ export default function Footer() {
           {/* Connect */}
           <motion.div variants={staggerChild}>
             <h4
-              className="font-['Space_Grotesk'] font-bold text-sm uppercase tracking-wider mb-4"
-              style={{ color: "#f1f5f9" }}
+              className="font-['Space_Grotesk'] font-bold text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4"
+              style={{ color: "#F5EFE6" }}
             >
               Connect
             </h4>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5 sm:gap-2">
               {socials.map((s) => (
                 <motion.a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm flex items-center gap-2"
-                  style={{ color: "#94a3b8" }}
-                  whileHover={{ x: 4, color: "#f1f5f9" }}
+                  className="text-xs sm:text-sm flex items-center gap-2"
+                  style={{ color: "#A89F8F" }}
+                  whileHover={{ x: 4, color: "#FF8400" }}
                   transition={{ duration: 0.2 }}
                 >
-                  <i className={s.icon} style={{ color: "#6366f1" }} aria-hidden="true" />
+                  <i className={s.icon} style={{ color: "#FF8400" }} aria-hidden="true" />
                   {s.value}
                 </motion.a>
               ))}
@@ -115,13 +115,13 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+          className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4"
+          style={{ borderTop: "1px solid #2D2A24" }}
         >
-          <p className="text-sm" style={{ color: "#475569" }}>
+          <p className="text-xs sm:text-sm" style={{ color: "#8A8275" }}>
             © 2026 M. Haris. All rights reserved.
           </p>
-          <p className="text-sm" style={{ color: "#475569" }}>
+          <p className="text-xs sm:text-sm" style={{ color: "#8A8275" }}>
             Made with <span style={{ color: "#ef4444" }}>❤️</span> in Karachi, Pakistan
           </p>
         </div>

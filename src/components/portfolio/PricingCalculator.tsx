@@ -134,7 +134,7 @@ export default function PricingCalculator() {
 
   return (
     <section ref={sectionRef}>
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         {/* Header */}
         <motion.div
           initial="hidden"
@@ -145,21 +145,21 @@ export default function PricingCalculator() {
             <i className="fas fa-calculator" aria-hidden="true" /> PRICING
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-3"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             variants={textMaskReveal}
           >
             Interactive{" "}
             <span className="gradient-text">cost calculator</span>
           </motion.h2>
-          <motion.p className="text-sm mb-8 max-w-lg" style={{ color: "#94a3b8" }} variants={staggerChild}>
+          <motion.p className="text-xs sm:text-sm mb-6 sm:mb-8 max-w-lg" style={{ color: "#A89F8F" }} variants={staggerChild}>
             Select features to get an instant estimate. Every project starts with a base package.
           </motion.p>
         </motion.div>
 
         {/* Region Selector */}
         <motion.div
-          className="flex gap-2 mb-8"
+          className="flex gap-2 mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -168,11 +168,11 @@ export default function PricingCalculator() {
             <motion.button
               key={key}
               onClick={() => setRegion(key)}
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              className="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200"
               style={{
-                background: region === key ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.04)",
-                border: `1px solid ${region === key ? "rgba(99,102,241,0.4)" : "rgba(255,255,255,0.08)"}`,
-                color: region === key ? "#818cf8" : "#94a3b8",
+                background: region === key ? "rgba(255,132,0,0.12)" : "rgba(255,255,255,0.04)",
+                border: `1px solid ${region === key ? "rgba(255,132,0,0.4)" : "rgba(255,255,255,0.08)"}`,
+                color: region === key ? "#FF8400" : "#A89F8F",
               }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -183,21 +183,20 @@ export default function PricingCalculator() {
           ))}
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div className="grid lg:grid-cols-5 gap-5 sm:gap-6">
           {/* Left: Packages + Features */}
           <div className="lg:col-span-3">
             {/* Base packages */}
             <div
-              className="rounded-xl p-5 mb-5"
+              className="rounded-xl p-4 sm:p-5 mb-4 sm:mb-5"
               style={{
-                background: "rgba(17,24,39,0.8)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                backdropFilter: "blur(10px)",
+                background: "#1A1612",
+                border: "1px solid #2D2A24",
               }}
             >
               <h3
-                className="font-['Space_Grotesk'] text-sm font-bold uppercase tracking-wider mb-4"
-                style={{ color: "#64748b" }}
+                className="font-['Space_Grotesk'] text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 sm:mb-4"
+                style={{ color: "#8A8275" }}
               >
                 Choose a Package
               </h3>
@@ -206,33 +205,33 @@ export default function PricingCalculator() {
                   <motion.button
                     key={pkg.id}
                     onClick={() => setSelectedPkg(pkg.id)}
-                    className="w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-200 text-left"
+                    className="w-full flex items-center justify-between p-3 sm:p-4 rounded-xl border transition-all duration-200 text-left"
                     style={{
                       background: selectedPkg === pkg.id
-                        ? "rgba(99,102,241,0.08)"
-                        : "rgba(10,10,15,0.5)",
+                        ? "rgba(255,132,0,0.08)"
+                        : "#12100C",
                       borderColor: selectedPkg === pkg.id
-                        ? "rgba(99,102,241,0.4)"
-                        : "rgba(255,255,255,0.06)",
+                        ? "rgba(255,132,0,0.4)"
+                        : "#2D2A24",
                     }}
                     whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                     whileTap={{ scale: 0.99 }}
                   >
                     <div className="flex-1 min-w-0">
                       <p
-                        className="text-sm font-semibold"
-                        style={{ color: selectedPkg === pkg.id ? "#f1f5f9" : "#c8d6e5" }}
+                        className="text-xs sm:text-sm font-semibold"
+                        style={{ color: selectedPkg === pkg.id ? "#F5EFE6" : "#A89F8F" }}
                       >
                         {pkg.name}
                       </p>
-                      <p className="text-xs mt-0.5" style={{ color: "#64748b" }}>
+                      <p className="text-[11px] sm:text-xs mt-0.5" style={{ color: "#8A8275" }}>
                         {pkg.desc}
                       </p>
                     </div>
-                    <div className="text-right shrink-0 ml-4">
+                    <div className="text-right shrink-0 ml-3 sm:ml-4">
                       <p
-                        className="text-sm font-bold font-['Space_Grotesk']"
-                        style={{ color: selectedPkg === pkg.id ? "#818cf8" : "#94a3b8" }}
+                        className="text-xs sm:text-sm font-bold font-['Space_Grotesk']"
+                        style={{ color: selectedPkg === pkg.id ? "#FF8400" : "#A89F8F" }}
                       >
                         {formatPrice(pkg.price, region)}
                       </p>
@@ -244,16 +243,15 @@ export default function PricingCalculator() {
 
             {/* Optional features */}
             <div
-              className="rounded-xl p-5 mb-5"
+              className="rounded-xl p-4 sm:p-5 mb-4 sm:mb-5"
               style={{
-                background: "rgba(17,24,39,0.8)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                backdropFilter: "blur(10px)",
+                background: "#1A1612",
+                border: "1px solid #2D2A24",
               }}
             >
               <h3
-                className="font-['Space_Grotesk'] text-sm font-bold uppercase tracking-wider mb-4"
-                style={{ color: "#64748b" }}
+                className="font-['Space_Grotesk'] text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 sm:mb-4"
+                style={{ color: "#8A8275" }}
               >
                 Optional Features
               </h3>
@@ -262,14 +260,14 @@ export default function PricingCalculator() {
                   <motion.button
                     key={f.id}
                     onClick={() => toggleFeature(f.id)}
-                    className="flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 text-left"
+                    className="flex items-center gap-2.5 sm:gap-3 p-3 rounded-lg border transition-all duration-200 text-left"
                     style={{
                       background: selectedFeatures.has(f.id)
-                        ? "rgba(6,182,212,0.08)"
-                        : "rgba(10,10,15,0.4)",
+                        ? "rgba(255,132,0,0.06)"
+                        : "#12100C",
                       borderColor: selectedFeatures.has(f.id)
-                        ? "rgba(6,182,212,0.3)"
-                        : "rgba(255,255,255,0.05)",
+                        ? "rgba(255,132,0,0.3)"
+                        : "#2D2A24",
                     }}
                     whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                     whileTap={{ scale: 0.98 }}
@@ -277,8 +275,8 @@ export default function PricingCalculator() {
                     <motion.div
                       className="w-4 h-4 rounded shrink-0 flex items-center justify-center"
                       animate={{
-                        background: selectedFeatures.has(f.id) ? "#06b6d4" : "transparent",
-                        borderColor: selectedFeatures.has(f.id) ? "#06b6d4" : "rgba(255,255,255,0.2)",
+                        background: selectedFeatures.has(f.id) ? "#FF8400" : "transparent",
+                        borderColor: selectedFeatures.has(f.id) ? "#FF8400" : "rgba(255,255,255,0.15)",
                       }}
                       style={{ border: "1.5px solid" }}
                       transition={{ duration: 0.2 }}
@@ -297,13 +295,13 @@ export default function PricingCalculator() {
                       </AnimatePresence>
                     </motion.div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium" style={{ color: "#e2e8f0" }}>
+                      <p className="text-[11px] sm:text-xs font-medium" style={{ color: "#F5EFE6" }}>
                         {f.name}
                       </p>
                     </div>
                     <span
-                      className="text-[11px] font-semibold shrink-0"
-                      style={{ color: selectedFeatures.has(f.id) ? "#06b6d4" : "#64748b" }}
+                      className="text-[10px] sm:text-[11px] font-semibold shrink-0"
+                      style={{ color: selectedFeatures.has(f.id) ? "#FF8400" : "#8A8275" }}
                     >
                       +{formatPrice(f.price, region)}
                     </span>
@@ -314,30 +312,29 @@ export default function PricingCalculator() {
 
             {/* Maintenance toggle */}
             <motion.div
-              className="rounded-xl p-4 flex items-center justify-between"
+              className="rounded-xl p-3 sm:p-4 flex items-center justify-between"
               style={{
-                background: "rgba(17,24,39,0.8)",
-                border: `1px solid ${maintenance ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.08)"}`,
-                backdropFilter: "blur(10px)",
+                background: "#1A1612",
+                border: `1px solid ${maintenance ? "rgba(255,132,0,0.3)" : "#2D2A24"}`,
               }}
               animate={{
-                borderColor: maintenance ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.08)",
+                borderColor: maintenance ? "rgba(255,132,0,0.3)" : "#2D2A24",
               }}
               transition={{ duration: 0.3 }}
             >
-              <div>
-                <p className="text-sm font-medium" style={{ color: "#f1f5f9" }}>
+              <div className="min-w-0">
+                <p className="text-xs sm:text-sm font-medium" style={{ color: "#F5EFE6" }}>
                   Monthly Maintenance
                 </p>
-                <p className="text-xs" style={{ color: "#64748b" }}>
+                <p className="text-[11px] sm:text-xs" style={{ color: "#8A8275" }}>
                   Ongoing support, updates & monitoring
                 </p>
               </div>
               <button
                 onClick={() => setMaintenance(!maintenance)}
-                className="relative w-10 h-5 rounded-full transition-all duration-200 shrink-0 ml-4"
+                className="relative w-10 h-5 rounded-full transition-all duration-200 shrink-0 ml-3"
                 style={{
-                  background: maintenance ? "#f59e0b" : "rgba(255,255,255,0.12)",
+                  background: maintenance ? "#FF8400" : "rgba(255,255,255,0.1)",
                 }}
                 role="switch"
                 aria-checked={maintenance}
@@ -355,23 +352,22 @@ export default function PricingCalculator() {
           {/* Right: Estimate Summary */}
           <div className="lg:col-span-2">
             <motion.div
-              className="rounded-xl p-6 lg:sticky lg:top-24"
+              className="rounded-xl p-5 sm:p-6 lg:sticky lg:top-24"
               style={{
-                background: "rgba(17,24,39,0.9)",
-                border: "1px solid rgba(99,102,241,0.15)",
-                backdropFilter: "blur(10px)",
+                background: "#1A1612",
+                border: "1px solid rgba(255,132,0,0.12)",
               }}
               initial={{ opacity: 0, x: 30 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               {/* Large total */}
-              <div className="text-center mb-6">
-                <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#64748b" }}>
+              <div className="text-center mb-5 sm:mb-6">
+                <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#8A8275" }}>
                   Estimated Project Cost
                 </p>
                 <motion.p
-                  className="font-['Space_Grotesk'] font-extrabold text-4xl gradient-text leading-none"
+                  className="font-['Space_Grotesk'] font-extrabold text-3xl sm:text-4xl gradient-text leading-none"
                   key={total}
                   initial={{ scale: 0.95, opacity: 0.7 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -383,29 +379,29 @@ export default function PricingCalculator() {
 
               {/* Breakdown */}
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span style={{ color: "#94a3b8" }}>Base Package</span>
-                  <span className="font-medium" style={{ color: "#f1f5f9" }}>
+                <div className="flex justify-between text-xs sm:text-sm">
+                  <span style={{ color: "#A89F8F" }}>Base Package</span>
+                  <span className="font-medium" style={{ color: "#F5EFE6" }}>
                     {formatPrice(basePrice, region)}
                   </span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span style={{ color: "#94a3b8" }}>Additional Features</span>
-                  <span className="font-medium" style={{ color: "#f1f5f9" }}>
+                <div className="flex justify-between text-xs sm:text-sm">
+                  <span style={{ color: "#A89F8F" }}>Additional Features</span>
+                  <span className="font-medium" style={{ color: "#F5EFE6" }}>
                     {formatPrice(featuresTotal, region)}
                   </span>
                 </div>
                 <AnimatePresence>
                   {maintenance && (
                     <motion.div
-                      className="flex justify-between text-sm"
+                      className="flex justify-between text-xs sm:text-sm"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <span style={{ color: "#94a3b8" }}>Monthly Maintenance</span>
-                      <span className="font-medium" style={{ color: "#f59e0b" }}>
+                      <span style={{ color: "#A89F8F" }}>Monthly Maintenance</span>
+                      <span className="font-medium" style={{ color: "#FF8400" }}>
                         {formatPrice(maintenancePrice[region], region)}/mo
                       </span>
                     </motion.div>
@@ -414,21 +410,21 @@ export default function PricingCalculator() {
               </div>
 
               <div
-                className="border-t pt-3 mb-5 flex justify-between items-center"
-                style={{ borderColor: "rgba(255,255,255,0.08)" }}
+                className="border-t pt-3 mb-4 sm:mb-5 flex justify-between items-center"
+                style={{ borderColor: "#2D2A24" }}
               >
                 <span
-                  className="font-['Space_Grotesk'] font-bold text-base"
-                  style={{ color: "#f1f5f9" }}
+                  className="font-['Space_Grotesk'] font-bold text-sm sm:text-base"
+                  style={{ color: "#F5EFE6" }}
                 >
                   Estimated Total
                 </span>
-                <span className="font-['Space_Grotesk'] font-extrabold text-2xl gradient-text">
+                <span className="font-['Space_Grotesk'] font-extrabold text-xl sm:text-2xl gradient-text">
                   <AnimatedPrice value={total} region={region} />
                 </span>
               </div>
 
-              <p className="text-[11px] mb-5 leading-relaxed" style={{ color: "#475569" }}>
+              <p className="text-[10px] sm:text-[11px] mb-4 sm:mb-5 leading-relaxed" style={{ color: "#8A8275" }}>
                 Indicative estimate based on selected services. Final pricing may vary depending on project scope and requirements.
               </p>
 
@@ -436,11 +432,11 @@ export default function PricingCalculator() {
                 onClick={handleRequestQuote}
                 className="w-full py-3 rounded-xl text-sm font-semibold transition-all duration-200"
                 style={{
-                  background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                  background: "#FF8400",
                   color: "white",
-                  boxShadow: "0 4px 20px rgba(99,102,241,0.3)",
+                  boxShadow: "0 4px 20px rgba(255,132,0,0.3)",
                 }}
-                whileHover={{ scale: 1.02, boxShadow: "0 6px 30px rgba(99,102,241,0.4)" }}
+                whileHover={{ scale: 1.02, boxShadow: "0 6px 30px rgba(255,132,0,0.4)" }}
                 whileTap={{ scale: 0.98 }}
               >
                 <i className="fas fa-paper-plane mr-2" aria-hidden="true" />
