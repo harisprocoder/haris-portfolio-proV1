@@ -1141,6 +1141,140 @@ section h2 {
    MOBILE RESPONSIVE
    ═══════════════════════════════════════ */
 
+/* ═══════════════════════════════════════
+   UNIQUE SECTION TREATMENTS
+   ═══════════════════════════════════════ */
+
+/* Asymmetric section — left-heavy with decorative element */
+.section-asymmetric {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-asymmetric::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,132,0,0.03), transparent 70%);
+  pointer-events: none;
+}
+
+/* Section with accent border-left */
+.section-bordered-left {
+  border-left: 1px solid rgba(255,132,0,0.15);
+  margin-left: 0;
+  padding-left: 2rem;
+}
+
+/* Section with subtle horizontal rule accent */
+.section-accent-line {
+  position: relative;
+}
+
+.section-accent-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #FF8400, transparent);
+}
+
+/* Premium heading styles */
+.heading-display {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.heading-section {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* Accent number decoration */
+.accent-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 120px;
+  line-height: 1;
+  color: rgba(255,132,0,0.04);
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Diagonal accent stripe */
+.accent-stripe {
+  position: absolute;
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF8400, transparent);
+  transform: rotate(-45deg);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Card with accent top border */
+.card-accent-top {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-accent-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FF8400, #34BFFF);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-accent-top:hover::before {
+  opacity: 1;
+}
+
+/* Card with left accent border */
+.card-accent-left {
+  border-left: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.card-accent-left:hover {
+  border-left-color: #FF8400;
+}
+
+/* Premium divider */
+.divider-premium {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2D2A24, transparent);
+  margin: 0 auto;
+  max-width: 200px;
+}
+
+/* Stat counter with large accent number */
+.stat-accent {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  color: #FF8400;
+  line-height: 1;
+}
+
 @media (max-width: 768px) {
   .hero-name {
     font-size: 40px !important;
@@ -1170,6 +1304,10 @@ section h2 {
 
   .glass-card {
     backdrop-filter: blur(8px);
+  }
+
+  .accent-number {
+    font-size: 80px;
   }
 
   .mobile-menu {

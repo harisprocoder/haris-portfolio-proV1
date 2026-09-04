@@ -6,89 +6,6 @@ const typingWords = ["Web Developer", "UI/UX Designer", "Problem Solver"];
 
 const nameWords = ["M.", "Haris"];
 
-const heroContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
-  },
-};
-
-const badgeVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 15 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE_OUT },
-  },
-};
-
-const greetingVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE_OUT },
-  },
-};
-
-const nameWordVariants = {
-  hidden: { opacity: 0, y: 40, clipPath: "inset(100% 0 0 0)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    clipPath: "inset(0% 0 0 0)",
-    transition: { duration: 0.8, ease: EASE_OUT },
-  },
-};
-
-const descVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, delay: 0.2, ease: EASE_OUT },
-  },
-};
-
-const buttonsVariants = {
-  hidden: { opacity: 0, y: 25 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE_OUT },
-  },
-};
-
-const statsVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.4 },
-  },
-};
-
-const statChildVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: EASE_OUT },
-  },
-};
-
-const codeBlockVariants = {
-  hidden: { opacity: 0, x: 60, rotateY: -8 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    rotateY: 0,
-    transition: { duration: 1, delay: 0.8, ease: EASE_OUT },
-  },
-};
-
 export default function Hero() {
   const [typedText, setTypedText] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
@@ -102,7 +19,6 @@ export default function Hero() {
   const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
   const orb2Y = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const orb3Y = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const codeBlockY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   const typeTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -141,7 +57,7 @@ export default function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden pt-20 lg:pt-0"
+      className="relative min-h-screen flex items-center overflow-hidden"
       aria-label="Hero section"
     >
       <div className="hero-grid-bg" />
@@ -150,7 +66,7 @@ export default function Hero() {
       <motion.div className="floating-orb floating-orb-2" style={{ y: orb2Y }} />
       <motion.div className="floating-orb floating-orb-3" style={{ y: orb3Y }} />
 
-      {/* Ambient gradient pulse — warm orange */}
+      {/* Ambient warm glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -159,171 +75,228 @@ export default function Hero() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
-        <motion.div variants={heroContainerVariants} initial="hidden" animate="visible">
-          {/* Badge — orange */}
+      {/* Content */}
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 w-full relative z-10 pt-24 pb-16 lg:pt-0 lg:pb-0">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+          {/* Left: Text content — takes 7 cols */}
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide mb-6"
-            style={{
-              border: "1px solid rgba(255,132,0,0.3)",
-              background: "rgba(255,132,0,0.08)",
-              color: "#FF8400",
-            }}
-            variants={badgeVariants}
+            className="lg:col-span-7"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#FF8400" }} />
-              <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "#FF8400" }} />
-            </span>
-            Available for Freelance Projects
-          </motion.div>
+            {/* Top accent line */}
+            <motion.div
+              className="w-12 h-[2px] mb-8"
+              style={{ background: "#FF8400" }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: EASE_OUT }}
+            />
 
-          <motion.p className="text-lg md:text-xl mb-1" style={{ color: "#A89F8F" }} variants={greetingVariants}>
-            Hello, I'm
-          </motion.p>
-
-          <div
-            className="flex flex-wrap gap-x-3 md:gap-x-4 hero-name mb-3"
-            style={{ fontSize: "clamp(42px, 8vw, 80px)", letterSpacing: "-0.03em", lineHeight: 1.1 }}
-          >
-            {nameWords.map((word) => (
-              <motion.span
-                key={word}
-                className="font-['Space_Grotesk'] font-extrabold gradient-text inline-block"
-                variants={nameWordVariants}
-                style={{ perspective: 600 }}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </div>
-
-          <motion.h2
-            className="font-['Space_Grotesk'] text-xl md:text-2xl font-semibold mb-5"
-            style={{ color: "#F5EFE6", minHeight: "36px" }}
-            variants={greetingVariants}
-          >
-            {typedText}
-            <span className="typing-cursor" />
-          </motion.h2>
-
-          <motion.p
-            className="text-[13px] md:text-base leading-relaxed mb-6 md:mb-8 max-w-md"
-            style={{ color: "#A89F8F" }}
-            variants={descVariants}
-          >
-            Crafting modern, clean, and user-focused web interfaces from
-            Karachi, Pakistan. Specializing in responsive design with 2+ years
-            of experience.
-          </motion.p>
-
-          <motion.div className="flex flex-wrap gap-3 mb-6 md:mb-8" variants={buttonsVariants}>
-            <a
-              href="#projects"
-              onClick={(e) => handleNav(e, "#projects")}
-              className="glow-btn inline-flex items-center gap-2 text-sm shimmer-btn"
+            {/* Badge — minimal */}
+            <motion.div
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: EASE_OUT }}
             >
-              View My Work
-              <i className="fas fa-arrow-down text-xs" aria-hidden="true" />
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => handleNav(e, "#contact")}
-              className="outline-btn inline-flex items-center gap-2 text-sm"
-            >
-              Contact Me
-              <i className="fas fa-envelope text-xs" aria-hidden="true" />
-            </a>
-          </motion.div>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: "#FF8400" }} />
+                <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "#FF8400" }} />
+              </span>
+              <span className="text-xs font-medium tracking-widest uppercase" style={{ color: "#A89F8F" }}>
+                Available for Freelance
+              </span>
+            </motion.div>
 
-          <motion.div className="flex flex-wrap gap-4 md:gap-8" variants={statsVariants}>
-            {[
-              { value: "35+", label: "Projects" },
-              { value: "25+", label: "Happy Clients" },
-              { value: "2+", label: "Years Experience" },
-            ].map((stat, i) => (
-              <motion.div key={stat.label} className="flex items-center gap-5 md:gap-8" variants={statChildVariants}>
-                <div className="text-center">
-                  <p className="text-xl md:text-2xl font-bold font-['Space_Grotesk'] gradient-text">{stat.value}</p>
-                  <p className="text-xs" style={{ color: "#8A8275" }}>{stat.label}</p>
-                </div>
-                {i < 2 && (
-                  <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.06)" }} />
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Right: Code visual — orange border */}
-        <motion.div
-          className="hidden lg:flex justify-center"
-          variants={codeBlockVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ y: codeBlockY, perspective: 1000 }}
-        >
-          <div
-            className="w-full max-w-md rounded-xl overflow-hidden"
-            style={{
-              background: "#1e1e2e",
-              border: "1px solid rgba(255,132,0,0.12)",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(255,132,0,0.04)",
-            }}
-          >
-            <div
-              className="flex items-center gap-2 px-4 py-2.5"
-              style={{ background: "#181825", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-            >
-              <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-              <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-              <span className="ml-2 text-[11px] font-mono" style={{ color: "#6c7086" }}>portfolio.html</span>
-            </div>
-
-            <div className="p-4 font-mono text-[12px] leading-6" style={{ color: "#cdd6f4" }}>
-              {[
-                { num: 1, parts: [{ t: "<!-- Portfolio Section -->", c: "#585b70" }] },
-                { num: 2, parts: [{ t: "<", c: "#ff79c6" }, { t: "section", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-                { num: 3, parts: [{ t: "  <", c: "#ff79c6" }, { t: "h1", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }, { t: "M. Haris", c: "#f1fa8c" }, { t: "</", c: "#ff79c6" }, { t: "h1", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-                { num: 4, parts: [{ t: "  <", c: "#ff79c6" }, { t: "p", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-                { num: 5, parts: [{ t: "    ", c: "#cdd6f4" }, { t: "Web Developer", c: "#f1fa8c" }] },
-                { num: 6, parts: [{ t: "  </", c: "#ff79c6" }, { t: "p", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-                { num: 7, parts: [{ t: "  <", c: "#ff79c6" }, { t: "div", c: "#50fa7b" }, { t: " class", c: "#bd93f9" }, { t: "=", c: "#ff79c6" }, { t: "\"skills\"", c: "#f1fa8c" }, { t: ">", c: "#ff79c6" }] },
-                { num: 8, parts: [{ t: "    ", c: "#cdd6f4" }, { t: "HTML5", c: "#bd93f9" }, { t: " · ", c: "#585b70" }, { t: "CSS3", c: "#bd93f9" }, { t: " · ", c: "#585b70" }, { t: "JS", c: "#bd93f9" }, { t: " · ", c: "#585b70" }, { t: "React", c: "#bd93f9" }] },
-                { num: 9, parts: [{ t: "  </", c: "#ff79c6" }, { t: "div", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-                { num: 10, parts: [{ t: "</", c: "#ff79c6" }, { t: "section", c: "#50fa7b" }, { t: ">", c: "#ff79c6" }] },
-              ].map((line) => (
-                <div key={line.num} className="flex items-start">
-                  <span className="w-6 text-right mr-4 shrink-0 select-none text-[11px]" style={{ color: "#45475a" }}>{line.num}</span>
-                  <span>
-                    {line.parts.map((p, i) => (
-                      <span key={i} style={{ color: p.c }}>{p.t}</span>
-                    ))}
-                  </span>
-                </div>
+            {/* Name — large, dramatic */}
+            <div className="mb-4">
+              {nameWords.map((word, i) => (
+                <motion.span
+                  key={word}
+                  className="heading-display inline-block mr-3 md:mr-4"
+                  style={{
+                    fontSize: "clamp(48px, 9vw, 96px)",
+                    background: i === 1 ? "linear-gradient(135deg, #FF8400, #e67600)" : "linear-gradient(135deg, #F5EFE6, #A89F8F)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                  initial={{ opacity: 0, y: 50, clipPath: "inset(100% 0 0 0)" }}
+                  animate={{ opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" }}
+                  transition={{ duration: 0.9, delay: 0.3 + i * 0.15, ease: EASE_OUT }}
+                >
+                  {word}
+                </motion.span>
               ))}
             </div>
-          </div>
-        </motion.div>
+
+            {/* Typing subtitle */}
+            <motion.h2
+              className="font-['Space_Grotesk'] text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 lg:mb-6"
+              style={{ color: "#F5EFE6", minHeight: "40px" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7, ease: EASE_OUT }}
+            >
+              {typedText}
+              <span className="typing-cursor" />
+            </motion.h2>
+
+            {/* Description — wider, better line height */}
+            <motion.p
+              className="text-sm sm:text-base leading-[1.8] mb-8 lg:mb-10 max-w-lg"
+              style={{ color: "#A89F8F" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.9, ease: EASE_OUT }}
+            >
+              Crafting modern, clean, and user-focused web interfaces from
+              Karachi, Pakistan. Specializing in responsive design with 2+ years
+              of hands-on experience.
+            </motion.p>
+
+            {/* CTA Buttons — asymmetric sizing */}
+            <motion.div
+              className="flex flex-wrap items-center gap-4 mb-10 lg:mb-14"
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.1, ease: EASE_OUT }}
+            >
+              <a
+                href="#projects"
+                onClick={(e) => handleNav(e, "#projects")}
+                className="glow-btn inline-flex items-center gap-3 text-sm shimmer-btn"
+              >
+                View My Work
+                <i className="fas fa-arrow-right text-xs" aria-hidden="true" />
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => handleNav(e, "#contact")}
+                className="inline-flex items-center gap-3 text-sm font-medium transition-colors duration-300"
+                style={{ color: "#A89F8F" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#FF8400")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#A89F8F")}
+              >
+                <span className="w-10 h-10 rounded-full flex items-center justify-center" style={{ border: "1px solid #2D2A24" }}>
+                  <i className="fas fa-envelope text-xs" style={{ color: "#FF8400" }} aria-hidden="true" />
+                </span>
+                Get in touch
+              </a>
+            </motion.div>
+
+            {/* Stats — inline, refined */}
+            <motion.div
+              className="flex items-center gap-8 lg:gap-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.3, ease: EASE_OUT }}
+            >
+              {[
+                { value: "35+", label: "Projects" },
+                { value: "25+", label: "Clients" },
+                { value: "2+", label: "Years" },
+              ].map((stat, i) => (
+                <div key={stat.label} className="flex items-center gap-4">
+                  <div>
+                    <p className="stat-accent">{stat.value}</p>
+                    <p className="text-[11px] font-medium tracking-wider uppercase" style={{ color: "#8A8275" }}>{stat.label}</p>
+                  </div>
+                  {i < 2 && <div className="w-px h-8" style={{ background: "#2D2A24" }} />}
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Visual element — takes 5 cols */}
+          <motion.div
+            className="lg:col-span-5 hidden lg:flex items-center justify-center relative"
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.8, ease: EASE_OUT }}
+          >
+            {/* Abstract visual — not a code block, more like a design element */}
+            <div className="relative w-full max-w-sm">
+              {/* Large decorative ring */}
+              <motion.div
+                className="absolute -top-8 -right-8 w-64 h-64 rounded-full"
+                style={{
+                  border: "1px solid rgba(255,132,0,0.08)",
+                  background: "transparent",
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Card with stacked content */}
+              <div
+                className="relative rounded-2xl p-6 lg:p-8"
+                style={{
+                  background: "#1A1612",
+                  border: "1px solid #2D2A24",
+                }}
+              >
+                {/* Top accent */}
+                <div className="w-8 h-[2px] mb-6" style={{ background: "#FF8400" }} />
+
+                <p className="text-xs font-medium tracking-widest uppercase mb-3" style={{ color: "#8A8275" }}>
+                  Currently building
+                </p>
+                <h3 className="font-['Space_Grotesk'] font-bold text-lg mb-1" style={{ color: "#F5EFE6" }}>
+                  Modern Web Experiences
+                </h3>
+                <p className="text-sm mb-6" style={{ color: "#A89F8F" }}>
+                  HTML5 · CSS3 · JavaScript · React · Tailwind
+                </p>
+
+                {/* Mini stats */}
+                <div className="flex gap-4 pt-4" style={{ borderTop: "1px solid #2D2A24" }}>
+                  <div>
+                    <p className="text-lg font-bold font-['Space_Grotesk']" style={{ color: "#FF8400" }}>98%</p>
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8A8275" }}>Satisfaction</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold font-['Space_Grotesk']" style={{ color: "#FF8400" }}>24h</p>
+                    <p className="text-[10px] uppercase tracking-wider" style={{ color: "#8A8275" }}>Response</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating tag */}
+              <motion.div
+                className="absolute -bottom-4 -left-4 px-4 py-2 rounded-lg text-xs font-medium"
+                style={{
+                  background: "#12100C",
+                  border: "1px solid #2D2A24",
+                  color: "#F5EFE6",
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.3)",
+                }}
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <span className="mr-2">🎯</span>Open to work
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Scroll indicator — orange dot */}
+      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 0.6 }}
       >
-        <span className="text-xs font-medium" style={{ color: "#8A8275" }}>Scroll to explore</span>
+        <span className="text-[10px] font-medium tracking-widest uppercase" style={{ color: "#8A8275" }}>Scroll</span>
         <motion.div
-          className="w-5 h-8 rounded-full flex justify-center pt-1.5"
-          style={{ border: "1px solid rgba(255,255,255,0.15)" }}
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-1 h-1.5 rounded-full" style={{ background: "#FF8400" }} />
-        </motion.div>
+          className="w-px h-8"
+          style={{ background: "linear-gradient(to bottom, #FF8400, transparent)" }}
+          animate={{ scaleY: [1, 0.5, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
       </motion.div>
     </section>
   );

@@ -19,7 +19,7 @@ import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen" style={{ background: "#0a0a0f" }}>
+    <div className="min-h-screen" style={{ background: "#0A0702" }}>
       <Preloader />
       <CursorGlow />
       <ScrollProgress />
