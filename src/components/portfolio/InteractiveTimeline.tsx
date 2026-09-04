@@ -46,8 +46,8 @@ export default function InteractiveTimeline() {
 
   return (
     <section ref={sectionRef}>
-      <div className="max-w-[900px] mx-auto px-6">
-        <div className="text-center mb-12">
+      <div className="max-w-[900px] mx-auto px-5 sm:px-6">
+        <div className="text-center mb-10 sm:mb-12">
           <motion.span
             className="section-label"
             initial="hidden"
@@ -57,8 +57,8 @@ export default function InteractiveTimeline() {
             <i className="fas fa-road" aria-hidden="true" /> MY JOURNEY
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             initial={{ opacity: 0, y: 30, clipPath: "inset(100% 0 0 0)" }}
             animate={isInView ? { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" } : {}}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -71,19 +71,19 @@ export default function InteractiveTimeline() {
           {/* Vertical line — scroll-linked */}
           <div
             className="absolute left-[17px] md:left-1/2 top-0 bottom-0 w-0.5 md:w-px md:-translate-x-1/2"
-            style={{ background: "rgba(99,102,241,0.1)" }}
+            style={{ background: "rgba(255,132,0,0.1)" }}
           >
             <motion.div
               className="w-full rounded-full"
               style={{
                 height: lineHeight,
-                background: "linear-gradient(to bottom, #6366f1, #06b6d4)",
+                background: "linear-gradient(to bottom, #FF8400, #34BFFF)",
               }}
             />
           </div>
 
           <motion.div
-            className="space-y-4 md:space-y-8"
+            className="space-y-3 sm:space-y-4 md:space-y-8"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={staggerContainer}
@@ -101,10 +101,10 @@ export default function InteractiveTimeline() {
                   <motion.div
                     className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm md:text-base"
                     style={{
-                      background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                      boxShadow: "0 0 16px rgba(99,102,241,0.3)",
+                      background: "linear-gradient(135deg, #FF8400, #34BFFF)",
+                      boxShadow: "0 0 16px rgba(255,132,0,0.3)",
                     }}
-                    whileHover={{ scale: 1.15, boxShadow: "0 0 24px rgba(99,102,241,0.5)" }}
+                    whileHover={{ scale: 1.15, boxShadow: "0 0 24px rgba(255,132,0,0.5)" }}
                     transition={{ duration: 0.2 }}
                   >
                     {m.icon}
@@ -120,10 +120,15 @@ export default function InteractiveTimeline() {
                   }`}
                 >
                   <motion.div
-                    className="glass-card p-4 md:p-5"
+                    className="rounded-xl p-4 sm:p-5 transition-all duration-300"
+                    style={{
+                      background: "rgba(26, 22, 18, 0.8)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      backdropFilter: "blur(10px)",
+                    }}
                     whileHover={{
-                      borderColor: "rgba(99,102,241,0.3)",
-                      boxShadow: "0 0 30px rgba(99,102,241,0.08)",
+                      borderColor: "rgba(255,132,0,0.3)",
+                      boxShadow: "0 0 30px rgba(255,132,0,0.08)",
                     }}
                     transition={{ duration: 0.3 }}
                   >
@@ -132,11 +137,11 @@ export default function InteractiveTimeline() {
                     </span>
                     <h3
                       className="font-['Space_Grotesk'] font-bold text-base mt-1 mb-1"
-                      style={{ color: "#f1f5f9" }}
+                      style={{ color: "#F5EFE6" }}
                     >
                       {m.title}
                     </h3>
-                    <p className="text-sm" style={{ color: "#94a3b8" }}>
+                    <p className="text-sm" style={{ color: "#A89F8F" }}>
                       {m.desc}
                     </p>
                   </motion.div>

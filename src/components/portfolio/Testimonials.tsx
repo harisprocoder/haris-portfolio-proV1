@@ -10,7 +10,7 @@ const testimonials = [
     project: "Business Website",
     date: "October 2025",
     initials: "SA",
-    color: "#6366f1",
+    color: "#FF8400",
   },
   {
     text: "Working with Haris was a pleasure. He transformed my ideas into a beautiful, functional portfolio. His communication throughout was excellent.",
@@ -19,7 +19,7 @@ const testimonials = [
     project: "Portfolio Website",
     date: "September 2025",
     initials: "AK",
-    color: "#06b6d4",
+    color: "#34BFFF",
   },
   {
     text: "The landing page significantly improved our conversion rates. His understanding of user experience is impressive for someone so young. Highly recommended!",
@@ -28,7 +28,7 @@ const testimonials = [
     project: "Landing Page",
     date: "August 2025",
     initials: "DM",
-    color: "#8b5cf6",
+    color: "#e67600",
   },
 ];
 
@@ -72,7 +72,7 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" ref={sectionRef}>
-      <div className="max-w-[1200px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6">
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -82,8 +82,8 @@ export default function Testimonials() {
             <i className="fas fa-star" aria-hidden="true" /> CLIENT TESTIMONIALS
           </motion.span>
           <motion.h2
-            className="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-8"
-            style={{ color: "#f1f5f9", letterSpacing: "-0.02em" }}
+            className="font-['Space_Grotesk'] text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8"
+            style={{ color: "#F5EFE6", letterSpacing: "-0.02em" }}
             variants={staggerChild}
           >
             What my <span className="gradient-text">clients say</span>
@@ -101,11 +101,15 @@ export default function Testimonials() {
           onTouchStart={() => setPaused(true)}
           onTouchEnd={() => setPaused(false)}
         >
-          <div className="relative min-h-[260px] sm:min-h-[300px]">
+          <div className="relative min-h-[280px] sm:min-h-[300px]">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={current}
-                className="testimonial-card absolute inset-0"
+                className="absolute inset-0 rounded-2xl p-5 sm:p-8"
+                style={{
+                  background: "#1A1612",
+                  border: "1px solid #2D2A24",
+                }}
                 custom={direction}
                 variants={slideVariants}
                 initial="enter"
@@ -113,10 +117,18 @@ export default function Testimonials() {
                 exit="exit"
                 transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <div className="testimonial-quote" aria-hidden="true">"</div>
-                <div className="flex items-start gap-4 mb-6">
+                {/* Decorative quote */}
+                <div
+                  className="absolute top-2 right-5 sm:right-8 pointer-events-none select-none"
+                  style={{ color: "rgba(255,132,0,0.06)", fontFamily: "Georgia, serif", fontSize: "100px", lineHeight: 1 }}
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </div>
+
+                <div className="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-6">
                   <motion.div
-                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-bold text-white text-sm"
+                    className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0 font-bold text-white text-sm"
                     style={{ background: testimonials[current].color }}
                     initial={{ scale: 0.8 }}
                     animate={{ scale: 1 }}
@@ -124,30 +136,30 @@ export default function Testimonials() {
                   >
                     {testimonials[current].initials}
                   </motion.div>
-                  <div>
+                  <div className="min-w-0">
                     <p
-                      className="font-semibold text-base"
-                      style={{ color: "#f1f5f9" }}
+                      className="font-semibold text-sm sm:text-base"
+                      style={{ color: "#F5EFE6" }}
                     >
                       {testimonials[current].name}
                     </p>
-                    <p className="text-sm" style={{ color: "#94a3b8" }}>
+                    <p className="text-xs sm:text-sm" style={{ color: "#A89F8F" }}>
                       {testimonials[current].role} · {testimonials[current].project}
                     </p>
                   </div>
                 </div>
                 <p
-                  className="text-lg leading-relaxed mb-5 italic"
-                  style={{ color: "#c8d6e5" }}
+                  className="text-base sm:text-lg leading-relaxed mb-4 sm:mb-5 italic"
+                  style={{ color: "#A89F8F" }}
                 >
-                  "{testimonials[current].text}"
+                  &ldquo;{testimonials[current].text}&rdquo;
                 </p>
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
                     <i
                       key={i}
                       className="fas fa-star text-sm"
-                      style={{ color: "#f59e0b" }}
+                      style={{ color: "#FF8400" }}
                     />
                   ))}
                 </div>
@@ -158,7 +170,7 @@ export default function Testimonials() {
 
         {/* Navigation dots */}
         <motion.div
-          className="flex justify-center gap-3 mt-6"
+          className="flex justify-center gap-2.5 sm:gap-3 mt-5 sm:mt-6"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -166,13 +178,16 @@ export default function Testimonials() {
           {testimonials.map((_, i) => (
             <button
               key={i}
-              className={`w-2.5 h-2.5 md:w-[10px] md:h-[10px] rounded-full transition-all duration-300 cursor-pointer ${
-                current === i
-                  ? "w-7 md:w-[30px] bg-[#6366f1] shadow-[0_0_10px_rgba(99,102,241,0.5)] rounded-[5px]"
-                  : "bg-white/20"
-              }`}
               onClick={() => setCurrent([i, i > current ? 1 : -1])}
+              className="rounded-full transition-all duration-300 cursor-pointer"
               aria-label={`Go to testimonial ${i + 1}`}
+              style={{
+                width: current === i ? "28px" : "10px",
+                height: "10px",
+                borderRadius: current === i ? "5px" : "50%",
+                background: current === i ? "#FF8400" : "rgba(255,255,255,0.15)",
+                boxShadow: current === i ? "0 0 10px rgba(255,132,0,0.5)" : "none",
+              }}
             />
           ))}
         </motion.div>
