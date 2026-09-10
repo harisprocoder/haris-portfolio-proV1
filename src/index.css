@@ -313,6 +313,58 @@ section h2 {
   transform: translateY(0);
 }
 
+/* Site-wide viewport choreography. Existing section animations remain the
+   source of truth for complex interactions; these styles add a consistent
+   reveal rhythm to sections and their cards. */
+main section {
+  --section-shift: 0px;
+  position: relative;
+  isolation: isolate;
+}
+
+body.motion-ready main section {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 700ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: opacity, transform;
+}
+
+body.motion-ready main section.is-visible {
+  opacity: 1;
+  transform: translate3d(0, var(--section-shift), 0);
+}
+
+body.motion-ready main section .glass-card,
+body.motion-ready main section [data-scroll-card] {
+  transition: opacity 650ms cubic-bezier(0.23, 1, 0.32, 1) var(--scroll-delay, 0ms),
+    transform 650ms cubic-bezier(0.23, 1, 0.32, 1) var(--scroll-delay, 0ms),
+    border-color 220ms ease, box-shadow 220ms ease;
+}
+
+body.motion-ready main section:not(.is-visible) .glass-card,
+body.motion-ready main section:not(.is-visible) [data-scroll-card] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(0.985);
+}
+
+body.motion-ready main section.is-visible .glass-card:hover,
+body.motion-ready main section.is-visible [data-scroll-card]:hover {
+  transform: translate3d(0, -6px, 0) scale(1.01);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22), 0 0 28px rgba(255, 132, 0, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body.motion-ready main section,
+  body.motion-ready main section .glass-card,
+  body.motion-ready main section [data-scroll-card] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 .scroll-reveal-left {
   opacity: 0;
   transform: translateX(-40px);

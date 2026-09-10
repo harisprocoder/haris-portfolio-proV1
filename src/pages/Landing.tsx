@@ -16,6 +16,7 @@ import CodeShowcase from "@/components/portfolio/CodeShowcase";
 import PricingCalculator from "@/components/portfolio/PricingCalculator";
 import Chatbot from "@/components/portfolio/Chatbot";
 import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
+import ScrollAnimations from "@/components/portfolio/ScrollAnimations";
 
 export default function Landing() {
   return (
@@ -23,6 +24,7 @@ export default function Landing() {
       <Preloader />
       <CursorGlow />
       <ScrollProgress />
+      <ScrollAnimations />
       <Navbar />
       <main id="main-content">
         <Hero />
