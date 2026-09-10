@@ -151,6 +151,7 @@ export default function Hero() {
         muted
         loop
         playsInline
+        preload="metadata"
         aria-hidden="true"
       />
       <div className="hero-grid-bg" />

@@ -4,6 +4,7 @@ import { VlyToolbar } from "../vly-toolbar-readonly.tsx";
 import React, { StrictMode, useEffect, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router";
+import { AnimatePresence, motion } from "framer-motion";
 import "./index.css";
 
 // Lazy load route components for better code splitting
@@ -98,6 +99,30 @@ function RouteSyncer() {
   return null;
 }
 
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        className="page-transition"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.32, ease: [0.23, 1, 0.32, 1] }}
+      >
+        <Suspense fallback={<RouteLoading />}>
+          <Routes location={location}>
+            <Route path="/" element={<Landing />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RootErrorBoundary>
@@ -106,12 +131,7 @@ createRoot(document.getElementById("root")!).render(
       </ToolbarErrorBoundary>
       <BrowserRouter>
         <RouteSyncer />
-        <Suspense fallback={<RouteLoading />}>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <AnimatedRoutes />
       </BrowserRouter>
       <Toaster />
     </RootErrorBoundary>
