@@ -76,7 +76,7 @@ function ProjectCard({
 
   return (
     <motion.div
-      className="max-w-4xl mx-auto"
+      className="max-w-4xl mx-auto project-editorial-item"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -87,7 +87,7 @@ function ProjectCard({
     >
       <motion.div
         ref={cardRef}
-        className="relative overflow-hidden rounded-2xl"
+        className="relative overflow-hidden rounded-2xl project-editorial-card"
         style={{
           background: "#1A1612",
           border: "1px solid #2D2A24",
@@ -296,7 +296,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Premium project cards — stacked full-width */}
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-6 sm:space-y-8 project-editorial-grid">
           {projects.map((proj, i) => (
             <ProjectCard key={proj.id} project={proj} index={i} isInView={isInView} />
           ))}

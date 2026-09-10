@@ -144,6 +144,15 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden pt-20 lg:pt-0"
       aria-label="Hero section"
     >
+      <video
+        className="hero-cinematic-video"
+        src="/hero-bg.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
       <div className="hero-grid-bg" />
 
       <motion.div className="floating-orb floating-orb-1" style={{ y: orb1Y }} />
@@ -159,8 +168,14 @@ export default function Hero() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
-        <motion.div variants={heroContainerVariants} initial="hidden" animate="visible">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-6 w-full grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10 hero-editorial-shell">
+        <div className="hero-editorial-meta" aria-hidden="true">
+          <span>Independent web developer</span>
+          <span className="hero-meta-accent">Available for select projects</span>
+          <span>Karachi · Pakistan</span>
+        </div>
+        <div className="hero-editorial-title" aria-hidden="true">M. <em>Haris</em></div>
+        <motion.div className="hero-editorial-copy" variants={heroContainerVariants} initial="hidden" animate="visible">
           {/* Badge — orange */}
           <motion.div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide mb-6"
@@ -257,7 +272,7 @@ export default function Hero() {
 
         {/* Right: Code visual — orange border */}
         <motion.div
-          className="hidden lg:flex justify-center"
+          className="hidden lg:flex justify-center hero-editorial-code"
           variants={codeBlockVariants}
           initial="hidden"
           animate="visible"
@@ -306,6 +321,11 @@ export default function Hero() {
             </div>
           </div>
         </motion.div>
+        <div className="hero-editorial-strip" aria-hidden="true">
+          <span>Selected work · 2022—2026</span>
+          <span>35+ shipped experiences</span>
+          <span>Scroll to explore ↓</span>
+        </div>
       </div>
 
       {/* Scroll indicator — orange dot */}
